@@ -8,15 +8,19 @@ import android.service.quicksettings.TileService
 /**
  * @author Sasuke on 2019-6-24 0024.
  */
-class MyScreenShotTile: TileService() {
+class MyScreenShotTileService: TileService() {
 
     override fun onClick() {
         super.onClick()
-        startActivityAndCollapse(Intent(this,BridgeAct::class.java).apply {
+        //收起通知栏
+        sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+
+        startService(Intent(this, SasukeAccessibilityService::class.java).apply {
             putExtra(StaticVar.KEY_IS_FROM_SCRSHOT_TILE,true)
-            setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         })
     }
+
+
 
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -45,4 +49,6 @@ class MyScreenShotTile: TileService() {
     override fun onDestroy() {
         super.onDestroy()
     }
+
+
 }

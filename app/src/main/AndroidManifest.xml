@@ -17,6 +17,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
+                <!--长按Tile瓷贴时跳转到该Activity-->
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
@@ -30,6 +32,15 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.ASSIST"/>
                 <action android:name="android.intent.action.SEARCH_LONG_PRESS"/>
+
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".TileLongPressAct"
+                android:theme="@style/BridgeAct"
+                android:screenOrientation="portrait">
+            <intent-filter>
             </intent-filter>
         </activity>
 
@@ -47,13 +58,14 @@
                     android:resource="@xml/accessibility_service_config"/>
         </service>
 
+        <!--截屏瓷贴-->
         <service
-                android:name=".MyScreenShotTile"
+                android:name=".MyScreenShotTileService"
                 android:label="スクショ"
                 android:icon="@mipmap/ic_stat_name"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
-                <action android:name="android.service.quicksettings.action.QS_TILE" />
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
     </application>
