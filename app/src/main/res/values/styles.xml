@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="HomeLongPressAct" parent="Theme.AppCompat.NoActionBar">
+    <style name="BridgeAct" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@color/transparent</item>

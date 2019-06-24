@@ -23,8 +23,8 @@
         </activity>
 
         <activity
-                android:name=".HomeLongPressAct"
-                android:theme="@style/HomeLongPressAct"
+                android:name=".BridgeAct"
+                android:theme="@style/BridgeAct"
                 android:screenOrientation="portrait">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -45,6 +45,16 @@
             <meta-data
                     android:name="android.accessibilityservice"
                     android:resource="@xml/accessibility_service_config"/>
+        </service>
+
+        <service
+                android:name=".MyScreenShotTile"
+                android:label="スクショ"
+                android:icon="@mipmap/ic_stat_name"
+                android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
         </service>
     </application>
 

@@ -10,5 +10,8 @@ class StaticVar {
 
         /**用于Preference的键值*/
         const val KEY_SELECTED_ITEM = "KEY_SELECTED_ITEM"
+
+        /**启动Service时传Intent的传值 */
+        const val KEY_IS_FROM_SCRSHOT_TILE = "KEY_IS_FROM_SCRSHOT_TILE"
     }
 }
