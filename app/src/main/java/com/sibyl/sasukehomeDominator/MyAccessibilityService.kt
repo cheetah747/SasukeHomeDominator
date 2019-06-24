@@ -25,7 +25,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         //是否从通知栏瓷贴点击过来的（默认false）
 
         if (intent.getBooleanExtra(StaticVar.KEY_IS_FROM_SCRSHOT_TILE,false)){//是从瓷贴截屏按钮点击过来的
-            Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },500)
+            Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },600)
         }else{//常规长按HOME键过来的
             when (selected) {
                 StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)

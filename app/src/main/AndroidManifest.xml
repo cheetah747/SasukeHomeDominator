@@ -40,8 +40,6 @@
                 android:name=".TileLongPressAct"
                 android:theme="@style/BridgeAct"
                 android:screenOrientation="portrait">
-            <intent-filter>
-            </intent-filter>
         </activity>
 
         <service
