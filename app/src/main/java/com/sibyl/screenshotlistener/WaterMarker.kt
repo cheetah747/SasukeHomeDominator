@@ -2,17 +2,16 @@ package com.sibyl.screenshotlistener
 
 import android.content.Context
 import android.graphics.*
-import com.sibyl.sasukehomeDominator.R
 import java.io.*
 
 
+
 /**
- * @author Sasuke on 2018/8/11.
+ * @author Sasuke on 2019-6-25 0025.
  */
-class FeedbackCardMaker(val context: Context) {
+class WaterMarker(val context: Context) {
 
-
-    val TEXT_PAINT_SIZE = 45.0f
+    val TEXT_PAINT_SIZE = 25.0f
 //    val bottomCard by lazy {
 //        BitmapFactory.decodeResource(context.resources, R.mipmap.feedback_card)
 //    }
@@ -20,35 +19,51 @@ class FeedbackCardMaker(val context: Context) {
     /**
      * 用于自定义card背景图片资源ID
      */
-    var defaultCardResId = R.drawable.ic_launcher_background
+    var defaultCardResId = com.sibyl.sasukehomeDominator.R.drawable.ic_launcher_background
 
     /**
      * 把需要显示的信息画到底部卡片上
      */
-    fun drawInfo2BottomCard(vararg infos: String): Bitmap {
-        val bottomCard = readBitmapRes(context, defaultCardResId)
-        val newBitmap = Bitmap.createBitmap(bottomCard.width, bottomCard.height, Bitmap.Config.RGB_565)
+    fun drawWaterMark(scrShotPath: String?, vararg infos: String): Bitmap {
+//        val bottomCard = readBitmapRes(context, defaultCardResId)
+        var shotBmp: Bitmap? = BitmapFactory.decodeFile(scrShotPath, BitmapFactory.Options().apply {
+            val opt = BitmapFactory.Options().apply {
+                inJustDecodeBounds = true
+            }
+            BitmapFactory.decodeFile(scrShotPath, opt)
+            //前面都是铺垫，这个才是目的
+            this.inJustDecodeBounds = false
+            this.inSampleSize = if (Math.min(opt.outWidth ,opt.outHeight) > 1080) 2 else 1//凡是大于1080的全特么给我缩小！
+            inPreferredConfig = Bitmap.Config.RGB_565
+        })
+
+        val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.RGB_565)
         val canvas = Canvas(newBitmap)
         val bitmapPaint = Paint().apply {
             isDither = true
             isFilterBitmap = true
         }
-        val src = Rect(0, 0, bottomCard.width, bottomCard.height)
-        val dst = Rect(0, 0, bottomCard.width, bottomCard.height)
-        canvas.drawBitmap(bottomCard, src, dst, bitmapPaint)
+        val src = Rect(0, 0, shotBmp?.width ?:0, shotBmp?.height ?:0)
+        val dst = Rect(0, 0, shotBmp?.width ?:0, shotBmp?.height ?:0)
+        canvas.drawBitmap(shotBmp, src, dst, bitmapPaint)
 
+        //好，截图已经画上画布了，接下来把字写上去。
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG)
         textPaint.apply {
             textSize = TEXT_PAINT_SIZE
             typeface = Typeface.SANS_SERIF
             color = Color.WHITE
+            setShadowLayer(5f, 3f, 3f,Color.BLACK)
         }
 
-        val heightUnit = newBitmap.height / infos.size.toFloat()//每行字的高度
+        val heightUnit = TEXT_PAINT_SIZE * 1.5 //newBitmap.height / infos.size.toFloat()//每行字的高度
 //        var startLine = ((heightUnit -TEXT_PAINT_SIZE)/2) + TEXT_PAINT_SIZE //绘制文字的起始水平线高度
-        var startLine = ((bottomCard.height - infos.size * TEXT_PAINT_SIZE * 1.5) / 2 + TEXT_PAINT_SIZE).toFloat()
+        var startLine = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size - 1)* heightUnit
+        var maxText = infos.maxBy { it.length } ?: ""
+
+        val maxLength = Rect().apply { textPaint.getTextBounds(maxText, 0, maxText?.length, this) }.width()
         infos.forEach {
-            canvas.drawText(it, newBitmap.width / 4.toFloat(), startLine, textPaint)
+            canvas.drawText(it, newBitmap.width - maxLength.toFloat(), startLine.toFloat(), textPaint)
             startLine += TEXT_PAINT_SIZE * 1.5f
         }
         canvas.save()
@@ -69,7 +84,7 @@ class FeedbackCardMaker(val context: Context) {
             BitmapFactory.decodeFile(scrShotPath, opt)
             //前面都是铺垫，这个才是目的
             this.inJustDecodeBounds = false
-            this.inSampleSize = if (opt.outWidth > bottomCard.width ) 2 else 1//凡是大于1080的全特么给我缩小！
+            this.inSampleSize = if (opt.outWidth > bottomCard.width) 2 else 1//凡是大于1080的全特么给我缩小！
             inPreferredConfig = Bitmap.Config.RGB_565
         })
 
@@ -87,19 +102,21 @@ class FeedbackCardMaker(val context: Context) {
         if (shotBmp == null) return false
         //如果截图宽 小于 底卡宽，那就缩小底卡
         if (shotBmp?.width < bottomCard.width) {
-            var newbottomCard = resizeBitmap(bottomCard, shotBmp?.width, bottomCard.height * shotBmp?.width / bottomCard.width)
-            resultBmp = Bitmap.createBitmap(newbottomCard.width, shotBmp.height + newbottomCard.height, Bitmap.Config.RGB_565)
+            var newbottomCard =
+                resizeBitmap(bottomCard, shotBmp?.width, bottomCard.height * shotBmp?.width / bottomCard.width)
+            resultBmp =
+                Bitmap.createBitmap(newbottomCard.width, shotBmp.height + newbottomCard.height, Bitmap.Config.RGB_565)
             val canvas = Canvas(resultBmp)
             canvas.drawBitmap(shotBmp, 0.toFloat(), 0.toFloat(), null)
             canvas.drawBitmap(newbottomCard, 0.toFloat(), shotBmp.height.toFloat(), null)
-        //如果截图宽 大于 底卡宽，那就缩小截图
-        } else if(shotBmp?.width > bottomCard.width){
+            //如果截图宽 大于 底卡宽，那就缩小截图
+        } else if (shotBmp?.width > bottomCard.width) {
             shotBmp = resizeBitmap(shotBmp, bottomCard.width, shotBmp.height * bottomCard.width / shotBmp.width)
             resultBmp = Bitmap.createBitmap(shotBmp?.width, shotBmp.height + bottomCard.height, Bitmap.Config.RGB_565)
             val canvas = Canvas(resultBmp)
             canvas.drawBitmap(shotBmp, 0.toFloat(), 0.toFloat(), null)
             canvas.drawBitmap(bottomCard, 0.toFloat(), shotBmp.height.toFloat(), null)
-        } else{
+        } else {
             //两张图片宽度相等，则直接拼接。
             resultBmp = Bitmap.createBitmap(bottomCard.width, shotBmp.height + bottomCard.height, Bitmap.Config.RGB_565)
             val canvas = Canvas(resultBmp)

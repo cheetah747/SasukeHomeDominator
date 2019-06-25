@@ -5,7 +5,11 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Handler
+import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import com.sibyl.screenshotlistener.ScreenShotListenManager
+import com.sibyl.screenshotlistener.WaterMarker
+import org.jetbrains.anko.doAsync
 
 
 /**
@@ -14,13 +18,47 @@ import android.view.accessibility.AccessibilityEvent
 class SasukeAccessibilityService : AccessibilityService() {
     private var mContext: Context? = null
 
+    val manager: ScreenShotListenManager by lazy {
+        ScreenShotListenManager.newInstance(this).apply {
+            setListener { imagePath: String? ->
+                doAsync {
+                    Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
+                    WaterMarker(this@SasukeAccessibilityService).apply {
+                        val bottomCard = drawWaterMark(imagePath, "Pixel 3XL @ WANGHAO", "2019-06-25 16:58")
+                        var a = 1
+//                        imagePath?.let {
+//                            mergeScrShot2BottomCard(imagePath, bottomCard)
+//                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         mContext = applicationContext
+        //挂截图监听，然后添加水印
+//        manager = ScreenShotListenManager.newInstance(mContext).apply {
+//            setListener { imagePath: String? ->
+//                doAsync {
+//                    Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
+//                    WaterMarker(this@SasukeAccessibilityService).apply {
+//                        val bottomCard = drawWaterMark(imagePath, "Pixel 3XL @ WANGHAO", "2019-06-25 16:58")
+////                        imagePath?.let {
+////                            mergeScrShot2BottomCard(imagePath, bottomCard)
+////                        }
+//                    }
+//                }
+//            }
+//        }
+//        manager?.startListen()
 //        EventBus.getDefault().register(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        Log.i("SasukeLog","onStartCommand")
+//        manager?.startListen()
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         //是否从通知栏瓷贴点击过来的（默认false）
 
@@ -62,7 +100,7 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {
     }
 
-    class LockScreenMsg
+//    class LockScreenMsg
 
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
