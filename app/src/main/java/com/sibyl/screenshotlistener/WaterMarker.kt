@@ -11,7 +11,11 @@ import java.io.*
  */
 class WaterMarker(val context: Context) {
 
-    val TEXT_PAINT_SIZE = 25.0f
+    var TEXT_PAINT_SIZE = 25.0f
+
+    //行距
+    var LINE_SPACE = 1.4f
+
 //    val bottomCard by lazy {
 //        BitmapFactory.decodeResource(context.resources, R.mipmap.feedback_card)
 //    }
@@ -34,10 +38,13 @@ class WaterMarker(val context: Context) {
             //前面都是铺垫，这个才是目的
             this.inJustDecodeBounds = false
             this.inSampleSize = if (Math.min(opt.outWidth ,opt.outHeight) > 1080) 2 else 1//凡是大于1080的全特么给我缩小！
-            inPreferredConfig = Bitmap.Config.RGB_565
+            inPreferredConfig = Bitmap.Config.ARGB_8888
         })
 
-        val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.RGB_565)
+        //字的大小，改成图片最高高度的60分之一
+        shotBmp?.let { TEXT_PAINT_SIZE = Math.max(it.width,it.height).toFloat() / 60 }
+
+        val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(newBitmap)
         val bitmapPaint = Paint().apply {
             isDither = true
@@ -47,24 +54,24 @@ class WaterMarker(val context: Context) {
         val dst = Rect(0, 0, shotBmp?.width ?:0, shotBmp?.height ?:0)
         canvas.drawBitmap(shotBmp, src, dst, bitmapPaint)
 
-        //好，截图已经画上画布了，接下来把字写上去。
+        //截图已经画上画布了，接下来把字写上去。
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG)
         textPaint.apply {
             textSize = TEXT_PAINT_SIZE
-            typeface = Typeface.SANS_SERIF
+            typeface = Typeface.DEFAULT
             color = Color.WHITE
-            setShadowLayer(5f, 3f, 3f,Color.BLACK)
+            setShadowLayer(4f, 1f, 1f,Color.BLACK)
         }
 
-        val heightUnit = TEXT_PAINT_SIZE * 1.5 //newBitmap.height / infos.size.toFloat()//每行字的高度
-//        var startLine = ((heightUnit -TEXT_PAINT_SIZE)/2) + TEXT_PAINT_SIZE //绘制文字的起始水平线高度
-        var startLine = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size - 1)* heightUnit
-        var maxText = infos.maxBy { it.length } ?: ""
+        val heightUnit = TEXT_PAINT_SIZE * LINE_SPACE //newBitmap.height / infos.size.toFloat()//每行字的高度
+        //绘制文字的起始水平线高度
+        var textStartY = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size - 0.6)* heightUnit
 
-        val maxLength = Rect().apply { textPaint.getTextBounds(maxText, 0, maxText?.length, this) }.width()
         infos.forEach {
-            canvas.drawText(it, newBitmap.width - maxLength.toFloat(), startLine.toFloat(), textPaint)
-            startLine += TEXT_PAINT_SIZE * 1.5f
+            val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
+            val textStartX = newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 0.4
+            canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
+            textStartY += TEXT_PAINT_SIZE * LINE_SPACE
         }
         canvas.save()
         canvas.restore()
@@ -176,14 +183,22 @@ class WaterMarker(val context: Context) {
         try {
             os = BufferedOutputStream(FileOutputStream(file))
             ret = src.compress(format, 100, os)
-//            if (recycle && !src.isRecycled)
-//                src.recycle()
+            if ( !src.isRecycled)
+                src.recycle()
         } catch (e: IOException) {
             e.printStackTrace()
             return false
         } finally {
             os?.close()
         }
+        //文件格式重命名。
+//        file.run {
+//            renameTo(File(name.replace(".png",when(format){
+//                Bitmap.CompressFormat.JPEG -> ".jpg"
+//                else -> ".png"
+//            })))
+//        }
+
         return ret
     }
 

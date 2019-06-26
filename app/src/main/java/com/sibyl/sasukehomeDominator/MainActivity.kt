@@ -1,11 +1,12 @@
 package com.sibyl.sasukehomeDominator
 
+import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -14,16 +15,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
-import com.sibyl.screenshotlistener.ScreenShotListenManager
-import com.sibyl.screenshotlistener.WaterMarker
+import com.hjq.permissions.OnPermission
+import com.hjq.permissions.XXPermissions
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.doAsync
 
 
 class MainActivity : AppCompatActivity() {
     var checkDialog: AlertDialog? = null
-
-    var manager: ScreenShotListenManager ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,27 +29,8 @@ class MainActivity : AppCompatActivity() {
 
         initUI()
         setListeners()
+        grantPermissions()
 
-        manager = ScreenShotListenManager.newInstance(applicationContext).apply {
-            setListener(object : ScreenShotListenManager.OnScreenShotListener {
-                override fun onShot(imagePath: String?) {
-                    Log.i("SasukeLog","onShot")
-                    doAsync {
-                        Log.i("SasukeLog","doAsync")
-                        Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
-                        WaterMarker(this@MainActivity).apply {
-                            val bottomCard = drawWaterMark(imagePath, "Pixel 3XL @ WANGHAO", "2019-06-25 16:58")
-                            var a = 1
-//                        imagePath?.let {
-//                            mergeScrShot2BottomCard(imagePath, bottomCard)
-//                        }
-                        }
-                    }
-                }
-            })
-        }
-
-        manager?.startListen()
     }
 
     fun initUI() {
@@ -115,6 +94,49 @@ class MainActivity : AppCompatActivity() {
 
         if (!CheckAccessibility.isAccessibilitySettingsOn(this) && !checkDialog!!.isShowing) {
             checkDialog?.show()
+        }
+    }
+
+    /**6.0的权限*/
+    fun grantPermissions(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            XXPermissions.with(this)
+                .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
+                //                    .permission(Permission.Group.STORAGE, Permission.Group.CALENDAR) //不指定权限则自动获取清单中的危险权限
+                .permission(//存储
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+//                    //电话
+//                    Manifest.permission.CALL_PHONE,
+//                    Manifest.permission.READ_PHONE_STATE,
+//                    //短信
+//                    Manifest.permission.SEND_SMS,
+//                    //通讯录
+//                    Manifest.permission.READ_PHONE_NUMBERS,
+//                    Manifest.permission.GET_ACCOUNTS,
+//                    //定位
+//                    Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    //相机
+//                    Manifest.permission.CAMERA
+
+//                                Manifest.permission.CHANGE_NETWORK_STATE,
+//                                Manifest.permission.WRITE_SETTINGS
+                    //安装APK
+                    /*Manifest.permission.REQUEST_INSTALL_PACKAGES*/)
+                .request(object : OnPermission {
+                    override fun hasPermission(granted: List<String>, isAll: Boolean) {}
+
+                    override fun noPermission(denied: List<String>, quick: Boolean) {
+                        if (quick) {
+                            android.app.AlertDialog.Builder(this@MainActivity)
+                                .setMessage("パーミッションを許可してください！")
+                                .setPositiveButton("今行く") { dialog, which -> XXPermissions.gotoPermissionSettings(this@MainActivity) }
+                                .show()
+                        }
+                    }
+                })
         }
     }
 }

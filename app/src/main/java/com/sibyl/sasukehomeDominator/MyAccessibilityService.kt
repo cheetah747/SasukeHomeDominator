@@ -4,12 +4,13 @@ import android.accessibilityservice.AccessibilityService
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Handler
-import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.sibyl.screenshotlistener.ScreenShotListenManager
 import com.sibyl.screenshotlistener.WaterMarker
 import org.jetbrains.anko.doAsync
+import java.io.File
 
 
 /**
@@ -24,8 +25,8 @@ class SasukeAccessibilityService : AccessibilityService() {
                 doAsync {
                     Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
                     WaterMarker(this@SasukeAccessibilityService).apply {
-                        val bottomCard = drawWaterMark(imagePath, "Pixel 3XL @ WANGHAO", "2019-06-25 16:58")
-                        var a = 1
+                        val psResultShot = drawWaterMark(imagePath, "WANGHAO@Pixel 3XL", "2019-06-25 16:58:21")
+                        saveBmp2File(psResultShot, File(imagePath), Bitmap.CompressFormat.JPEG)
 //                        imagePath?.let {
 //                            mergeScrShot2BottomCard(imagePath, bottomCard)
 //                        }
@@ -38,32 +39,16 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onCreate() {
         super.onCreate()
         mContext = applicationContext
-        //挂截图监听，然后添加水印
-//        manager = ScreenShotListenManager.newInstance(mContext).apply {
-//            setListener { imagePath: String? ->
-//                doAsync {
-//                    Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
-//                    WaterMarker(this@SasukeAccessibilityService).apply {
-//                        val bottomCard = drawWaterMark(imagePath, "Pixel 3XL @ WANGHAO", "2019-06-25 16:58")
-////                        imagePath?.let {
-////                            mergeScrShot2BottomCard(imagePath, bottomCard)
-////                        }
-//                    }
-//                }
-//            }
-//        }
-//        manager?.startListen()
+        manager.startListen()
 //        EventBus.getDefault().register(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        Log.i("SasukeLog","onStartCommand")
-//        manager?.startListen()
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         //是否从通知栏瓷贴点击过来的（默认false）
 
         if (intent.getBooleanExtra(StaticVar.KEY_IS_FROM_SCRSHOT_TILE,false)){//是从瓷贴截屏按钮点击过来的
-            Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },600)
+            Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },550)
         }else{//常规长按HOME键过来的
             when (selected) {
                 StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
