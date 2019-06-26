@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.sasukescreenshot"
+        applicationId "com.sibyl.sasukehomeDominator"
         minSdkVersion 28
         targetSdkVersion 28
         versionCode 1
@@ -38,7 +38,6 @@ dependencies {
     implementation 'org.jetbrains.anko:anko-common:0.10.1'
 
     //安卓6.0动态权限适配
-
     //    api 'com.github.dfqin:grantor:2.5'
     api 'com.hjq:xxpermissions:5.5'
 

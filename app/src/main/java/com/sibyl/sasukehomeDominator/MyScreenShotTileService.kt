@@ -16,7 +16,7 @@ class MyScreenShotTileService: TileService() {
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
 
         startService(Intent(this, SasukeAccessibilityService::class.java).apply {
-            putExtra(StaticVar.KEY_IS_FROM_SCRSHOT_TILE,true)
+            putExtra(StaticVar.STRONG_SCRSHOT,true)
         })
     }
 

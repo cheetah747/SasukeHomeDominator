@@ -40,9 +40,13 @@ class MainActivity : AppCompatActivity() {
         (screenShotCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
         (screenShotCard.findViewById<CardView>(R.id.cardText) as TextView).setText("スクリーンショット")
 
+        (powerLongPressCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.power_longpress_30dp)
+        (powerLongPressCard.findViewById<CardView>(R.id.cardText) as TextView).setText("パワー長押し")
+
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         changeBtnState(screenShotCard, selected == StaticVar.SCREEN_SHOT)
         changeBtnState(lockScreenCard, selected == StaticVar.LOCK_SCREEN)
+        changeBtnState(powerLongPressCard, selected == StaticVar.POWER_LONGPRESS)
     }
 
     /**根据选中状态不同，来显示不同颜色*/
@@ -58,13 +62,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setListeners() {
-        arrayOf(lockScreenCard, screenShotCard).forEach {
+        arrayOf(lockScreenCard, screenShotCard,powerLongPressCard).forEach {
             it.setOnClickListener {
                 PreferHelper.getInstance().setString(
                     StaticVar.KEY_SELECTED_ITEM,
                     when (it) {
                         lockScreenCard -> StaticVar.LOCK_SCREEN
                         screenShotCard -> StaticVar.SCREEN_SHOT
+                        powerLongPressCard ->StaticVar.POWER_LONGPRESS
                         else -> ""
                     }
                 )

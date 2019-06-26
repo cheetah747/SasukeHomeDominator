@@ -45,15 +45,19 @@ class SasukeAccessibilityService : AccessibilityService() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
-        //是否从通知栏瓷贴点击过来的（默认false）
+        //从通知栏瓷贴点击过来的（默认false）
+        when(true){
+            //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
+            intent.getBooleanExtra(StaticVar.STRONG_SCRSHOT,false) -> {Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },550);return Service.START_STICKY}
+            intent.getBooleanExtra(StaticVar.STRONG_LOCKSCREEN,false) -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);return Service.START_STICKY}
+            intent.getBooleanExtra(StaticVar.STRONG_POWER_LONGPRESS,false) -> {performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY}
+        }
 
-        if (intent.getBooleanExtra(StaticVar.KEY_IS_FROM_SCRSHOT_TILE,false)){//是从瓷贴截屏按钮点击过来的
-            Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },550)
-        }else{//常规长按HOME键过来的
-            when (selected) {
-                StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
-                StaticVar.SCREEN_SHOT -> Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },1500)
-            }
+        //常规长按HOME键过来的
+        when (selected) {
+            StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
+            StaticVar.SCREEN_SHOT -> Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) }, 1500)
+            StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
         }
 
         return Service.START_STICKY

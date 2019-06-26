@@ -6,21 +6,44 @@
               android:layout_height="match_parent"
               android:layout_width="match_parent">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/container"
-            android:translationZ="55dp"
-            android:layout_gravity="top"
+    <ScrollView
+            android:fillViewport="true"
+            android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <include
-                android:id="@+id/lockScreenCard"
-                layout="@layout/card_unit_big"/>
+        <LinearLayout
+                android:paddingTop="10dp"
+                android:orientation="vertical"
+                android:id="@+id/container"
+                android:translationZ="55dp"
+                android:layout_gravity="top"
+                android:paddingBottom="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <include
-                android:id="@+id/screenShotCard"
-                layout="@layout/card_unit_big"/>
+            <include
+                    android:id="@+id/lockScreenCard"
+                    layout="@layout/card_unit_big"/>
 
-    </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <include
+                        android:id="@+id/screenShotCard"
+                        layout="@layout/card_unit_big_weight3"/>
+
+                <include
+                        android:id="@+id/screenShotSettingCard"
+                        android:visibility="gone"
+                        layout="@layout/card_unit_big_weight1"/>
+            </LinearLayout>
+
+            <include
+                    android:id="@+id/powerLongPressCard"
+                    layout="@layout/card_unit_big"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
