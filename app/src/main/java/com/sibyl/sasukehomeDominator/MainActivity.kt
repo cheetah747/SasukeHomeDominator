@@ -1,7 +1,6 @@
 package com.sibyl.sasukehomeDominator
 
 import android.Manifest
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -17,6 +16,9 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
+import com.sibyl.sasukehomeDominator.util.CheckAccessibility
+import com.sibyl.sasukehomeDominator.util.PreferHelper
+import com.sibyl.sasukehomeDominator.util.StaticVar
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -34,18 +36,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initUI() {
+        //锁屏卡片
         (lockScreenCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.lock_screen_30dp)
         (lockScreenCard.findViewById<CardView>(R.id.cardText) as TextView).setText("スクリーンロック")
 
+        //截屏卡片
         (screenShotCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
         (screenShotCard.findViewById<CardView>(R.id.cardText) as TextView).setText("スクリーンショット")
 
+        //截屏设置卡片
+        (screenShotSettingCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
+        (screenShotSettingCard.findViewById<CardView>(R.id.cardText) as TextView).run { setText("設定") ;setTextColor(Color.WHITE)}
+        (screenShotSettingCard.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red,null))
+
+        //电源键长按卡片
         (powerLongPressCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.power_longpress_30dp)
         (powerLongPressCard.findViewById<CardView>(R.id.cardText) as TextView).setText("パワー長押し")
 
+        //刷新卡片激活状态
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         changeBtnState(screenShotCard, selected == StaticVar.SCREEN_SHOT)
         changeBtnState(lockScreenCard, selected == StaticVar.LOCK_SCREEN)
+        screenShotSettingCard.visibility = if (selected == StaticVar.SCREEN_SHOT) View.VISIBLE else View.GONE
         changeBtnState(powerLongPressCard, selected == StaticVar.POWER_LONGPRESS)
     }
 
@@ -69,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     when (it) {
                         lockScreenCard -> StaticVar.LOCK_SCREEN
                         screenShotCard -> StaticVar.SCREEN_SHOT
-                        powerLongPressCard ->StaticVar.POWER_LONGPRESS
+                        powerLongPressCard -> StaticVar.POWER_LONGPRESS
                         else -> ""
                     }
                 )
@@ -79,6 +91,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //截屏设置按钮
+        screenShotSettingCard.setOnClickListener {
+            val settingDialog = AlertDialog.Builder(this)
+                .setPositiveButton("確認",  { dialogInterface, i ->
+
+                })
+                .setView(R.layout.scrshot_setting_dialog)
+                .create()
+        }
     }
 
     override fun onResume() {
@@ -90,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     fun checkAccessibility() {
         if (checkDialog == null) {
             checkDialog = AlertDialog.Builder(this).setMessage("本アプリは無障害の特性を利用するため、スイッチをONにして下さい")
-                .setPositiveButton("今行く", DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton("今行く",  { dialog, which ->
                     startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
                 })
                 .setCancelable(false)

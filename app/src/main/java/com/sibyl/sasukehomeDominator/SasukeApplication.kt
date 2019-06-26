@@ -1,6 +1,7 @@
 package com.sibyl.sasukehomeDominator
 
 import android.app.Application
+import com.sibyl.sasukehomeDominator.util.PreferHelper
 
 /**
  * @author Sasuke on 2019/6/23.

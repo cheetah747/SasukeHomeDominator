@@ -1,4 +1,4 @@
-package com.sibyl.sasukehomeDominator;
+package com.sibyl.sasukehomeDominator.util;
 
 import android.annotation.SuppressLint;
 import android.app.Application;

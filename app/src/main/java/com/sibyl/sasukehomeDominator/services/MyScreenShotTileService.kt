@@ -1,9 +1,10 @@
-package com.sibyl.sasukehomeDominator
+package com.sibyl.sasukehomeDominator.services
 
 import android.content.Intent
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import com.sibyl.sasukehomeDominator.util.StaticVar
 
 /**
  * @author Sasuke on 2019-6-24 0024.

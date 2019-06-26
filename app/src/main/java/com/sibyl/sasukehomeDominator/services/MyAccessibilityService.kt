@@ -1,12 +1,13 @@
-package com.sibyl.sasukehomeDominator
+package com.sibyl.sasukehomeDominator.services
 
 import android.accessibilityservice.AccessibilityService
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Handler
 import android.view.accessibility.AccessibilityEvent
+import com.sibyl.sasukehomeDominator.util.PreferHelper
+import com.sibyl.sasukehomeDominator.util.StaticVar
 import com.sibyl.screenshotlistener.ScreenShotListenManager
 import com.sibyl.screenshotlistener.WaterMarker
 import org.jetbrains.anko.doAsync
@@ -17,7 +18,7 @@ import java.io.File
  * @author Sasuke on 2019/6/22.
  */
 class SasukeAccessibilityService : AccessibilityService() {
-    private var mContext: Context? = null
+//    private var mContext: Context? = null
 
     val manager: ScreenShotListenManager by lazy {
         ScreenShotListenManager.newInstance(this).apply {
@@ -38,13 +39,12 @@ class SasukeAccessibilityService : AccessibilityService() {
 
     override fun onCreate() {
         super.onCreate()
-        mContext = applicationContext
+//        mContext = applicationContext
         manager.startListen()
 //        EventBus.getDefault().register(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         //从通知栏瓷贴点击过来的（默认false）
         when(true){
             //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
@@ -53,6 +53,7 @@ class SasukeAccessibilityService : AccessibilityService() {
             intent.getBooleanExtra(StaticVar.STRONG_POWER_LONGPRESS,false) -> {performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY}
         }
 
+        var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         //常规长按HOME键过来的
         when (selected) {
             StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)

@@ -27,6 +27,7 @@
                     layout="@layout/card_unit_big"/>
 
             <LinearLayout
+                    android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

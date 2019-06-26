@@ -1,4 +1,4 @@
-package com.sibyl.sasukehomeDominator
+package com.sibyl.sasukehomeDominator.util
 
 /**
  * @author Sasuke on 2019/6/23.

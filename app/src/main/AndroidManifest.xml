@@ -46,7 +46,7 @@
         </activity>
 
         <service
-                android:name="com.sibyl.sasukehomeDominator.SasukeAccessibilityService"
+                android:name="com.sibyl.sasukehomeDominator.services.SasukeAccessibilityService"
                 android:enabled="true"
                 android:exported="true"
                 android:label="HOMEドミネーター用のサービス(SasukeAccessibilityService)"
@@ -61,7 +61,7 @@
 
         <!--截屏瓷贴-->
         <service
-                android:name=".MyScreenShotTileService"
+                android:name=".services.MyScreenShotTileService"
                 android:label="スクショ"
                 android:icon="@mipmap/ic_stat_name"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
