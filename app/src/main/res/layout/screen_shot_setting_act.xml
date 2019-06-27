@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+            android:layout_marginBottom="5dp"
+            android:elevation="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <View
+                android:id="@+id/toolbarBackView"
+                android:background="@color/red"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"/>
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:background="@color/red"
+                android:elevation="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+            <ImageView
+                    android:id="@+id/toolbarIcon"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/screen_shot_setting_30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:id="@+id/toolbarText"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="設定"/>
+        </androidx.appcompat.widget.Toolbar>
+    </RelativeLayout>
+
+    <ScrollView
+            android:fillViewport="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:animateLayoutChanges="true"
+                android:padding="15dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:text="ウォーターマーク"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/waterMarkCheck"
+                    android:text="有効"
+                    android:layout_marginBottom="15dp"
+                    android:buttonTint="@color/zi"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/waterMarkInputLayout"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:hint="ユーザーネーム"
+                        app:counterEnabled="true"
+                        app:boxBackgroundColor="@color/red"
+                        android:layout_weight="1"
+                        app:hintAnimationEnabled="true"
+                        android:layout_height="wrap_content">
+
+                    <EditText
+                            android:id="@+id/userName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                        android:text=" @ "
+                        android:layout_gravity="center"
+                        android:paddingBottom="10dp"
+                        android:textColor="@color/black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:hint="ブランド"
+                        app:counterEnabled="true"
+                        app:hintAnimationEnabled="true"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+
+                    <EditText
+                            android:id="@+id/phoneInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_height="1px"
+                    android:background="@color/lighter_gray"/>
+
+            <TextView
+                    android:text="遅延"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/seconds0"
+                        android:layout_alignParentLeft="true"
+                        android:text="0秒"
+                        android:buttonTint="@color/zi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/seconds3"
+                        android:buttonTint="@color/zi"
+                        android:layout_centerHorizontal="true"
+                        android:text="3秒"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/seconds5"
+                        android:layout_alignParentRight="true"
+                        android:buttonTint="@color/zi"
+                        android:text="5秒"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+
+            <Button
+                    android:id="@+id/okBtn"
+                    android:clickable="true"
+                    android:elevation="5dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/red"
+                    android:textColor="@color/white"
+                    android:text="保存"
+                    android:padding="14dp"
+                    android:textSize="16sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

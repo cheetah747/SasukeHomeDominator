@@ -8,10 +8,14 @@ import android.os.Handler
 import android.view.accessibility.AccessibilityEvent
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
+import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_IS_SHOW_WATERMARK
+import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_TIME_TO_SCRSHOT
 import com.sibyl.screenshotlistener.ScreenShotListenManager
 import com.sibyl.screenshotlistener.WaterMarker
 import org.jetbrains.anko.doAsync
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 /**
@@ -23,10 +27,15 @@ class SasukeAccessibilityService : AccessibilityService() {
     val manager: ScreenShotListenManager by lazy {
         ScreenShotListenManager.newInstance(this).apply {
             setListener { imagePath: String? ->
+                //如果水印开关关掉了，那就不画水印
+                if (! PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK,false)) return@setListener
                 doAsync {
                     Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
                     WaterMarker(this@SasukeAccessibilityService).apply {
-                        val psResultShot = drawWaterMark(imagePath, "WANGHAO@Pixel 3XL", "2019-06-25 16:58:21")
+                        val phoneInfo = PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME,"").run { if(isNotBlank()) "${this}@" else "" } +
+                                                                PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL,android.os.Build.MODEL)
+                        //开始把水印画上去
+                        val psResultShot = drawWaterMark(imagePath,phoneInfo,SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
                         saveBmp2File(psResultShot, File(imagePath), Bitmap.CompressFormat.JPEG)
 //                        imagePath?.let {
 //                            mergeScrShot2BottomCard(imagePath, bottomCard)
@@ -45,10 +54,13 @@ class SasukeAccessibilityService : AccessibilityService() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        //截图延时
+        val scrShotDelay = PreferHelper.getInstance().getInt(KEY_TIME_TO_SCRSHOT,0).toLong()
+
         //从通知栏瓷贴点击过来的（默认false）
         when(true){
             //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
-            intent.getBooleanExtra(StaticVar.STRONG_SCRSHOT,false) -> {Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },550);return Service.START_STICKY}
+            intent.getBooleanExtra(StaticVar.STRONG_SCRSHOT,false) -> {Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },550 + scrShotDelay);return Service.START_STICKY}
             intent.getBooleanExtra(StaticVar.STRONG_LOCKSCREEN,false) -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);return Service.START_STICKY}
             intent.getBooleanExtra(StaticVar.STRONG_POWER_LONGPRESS,false) -> {performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY}
         }
@@ -57,7 +69,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         //常规长按HOME键过来的
         when (selected) {
             StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
-            StaticVar.SCREEN_SHOT -> Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) }, 1500)
+            StaticVar.SCREEN_SHOT -> Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) }, 1500 + scrShotDelay)
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
         }
 

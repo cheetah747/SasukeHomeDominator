@@ -69,7 +69,7 @@ class WaterMarker(val context: Context) {
 
         infos.forEach {
             val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
-            val textStartX = newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 0.4
+            val textStartX = newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 0.8
             canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
             textStartY += TEXT_PAINT_SIZE * LINE_SPACE
         }

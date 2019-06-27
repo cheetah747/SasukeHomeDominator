@@ -9,6 +9,18 @@ class StaticVar {
         const val LOCK_SCREEN = "LOCK_SCREEN"
         const val POWER_LONGPRESS = "POWER_LONGPRESS"
 
+        /**手机型号*/
+        const val KEY_PHONE_MODEL = "KEY_PHONE_MODEL"
+
+        /**用户名*/
+        const val KEY_USER_NAME = "KEY_USER_NAME"
+
+        /**水印开关*/
+        const val KEY_IS_SHOW_WATERMARK = "KEY_IS_SHOW_WATERMARK"
+
+        /**截图延时时长*/
+        const val KEY_TIME_TO_SCRSHOT = "KEY_TIME_TO_SCRSHOT"
+
         /**用于Preference的键值*/
         const val KEY_SELECTED_ITEM = "KEY_SELECTED_ITEM"
 

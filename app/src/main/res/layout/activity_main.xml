@@ -13,7 +13,6 @@
             android:layout_height="match_parent">
 
         <LinearLayout
-                android:paddingTop="10dp"
                 android:orientation="vertical"
                 android:id="@+id/container"
                 android:translationZ="55dp"
@@ -21,10 +20,6 @@
                 android:paddingBottom="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-            <include
-                    android:id="@+id/lockScreenCard"
-                    layout="@layout/card_unit_big"/>
 
             <LinearLayout
                     android:animateLayoutChanges="true"
@@ -41,6 +36,14 @@
                         android:visibility="gone"
                         layout="@layout/card_unit_big_weight1"/>
             </LinearLayout>
+
+            <include
+                    android:id="@+id/lockScreenCard"
+                    layout="@layout/card_unit_big"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
 
             <include
                     android:id="@+id/powerLongPressCard"

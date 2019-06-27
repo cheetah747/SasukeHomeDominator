@@ -5,6 +5,8 @@
     <!--android:roundIcon="@mipmap/ic_launcher_round"-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
             android:name=".SasukeApplication"
@@ -44,6 +46,13 @@
                 android:theme="@style/BridgeAct"
                 android:screenOrientation="portrait">
         </activity>
+
+        <activity
+                android:name=".ScrShotSettingAct"
+                android:theme="@style/NoActionBarAct"
+                android:screenOrientation="portrait">
+        </activity>
+
 
         <service
                 android:name="com.sibyl.sasukehomeDominator.services.SasukeAccessibilityService"
