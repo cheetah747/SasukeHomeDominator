@@ -22,8 +22,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
-                <!--长按Tile瓷贴时跳转到该Activity-->
-                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
@@ -51,6 +49,10 @@
                 android:name=".ScrShotSettingAct"
                 android:theme="@style/NoActionBarAct"
                 android:screenOrientation="portrait">
+            <intent-filter>
+                <!--长按Tile瓷贴时跳转到该Activity-->
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
+            </intent-filter>
         </activity>
 
 
