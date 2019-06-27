@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+            android:enabled="true"
+            android:icon="@mipmap/lock_screen_shotcut"
+            android:shortcutDisabledMessage="@string/unavailable"
+            android:shortcutId="lockscreen"
+            android:shortcutLongLabel="@string/lock"
+            android:shortcutShortLabel="@string/lock">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.sibyl.sasukehomeDominator.shortcutactivity.LockScreenShortCutAct"
+                android:targetPackage="com.sibyl.sasukehomeDominator" />
+        <!--<categories android:name="android.shortcut.conversation" />-->
+    </shortcut>
+
+    <shortcut
+            android:enabled="true"
+            android:icon="@mipmap/power_longpress_shotcut"
+            android:shortcutDisabledMessage="@string/unavailable"
+            android:shortcutId="powerlongpress"
+            android:shortcutLongLabel="@string/power_long_press"
+            android:shortcutShortLabel="@string/power_long_press">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.sibyl.sasukehomeDominator.shortcutactivity.PowerLongPressAct"
+                android:targetPackage="com.sibyl.sasukehomeDominator" />
+        <!--<categories android:name="android.shortcut.conversation" />-->
+    </shortcut>
+</shortcuts>

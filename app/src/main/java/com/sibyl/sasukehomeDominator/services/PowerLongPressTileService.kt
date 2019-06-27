@@ -44,7 +44,7 @@ class PowerLongPressTileService: TileService() {
 
     override fun onTileRemoved() {
         super.onTileRemoved()
-        qsTile.state = Tile.STATE_INACTIVE
+        qsTile.state = Tile.STATE_UNAVAILABLE
         qsTile.updateTile()
     }
 

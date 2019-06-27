@@ -3,9 +3,9 @@
           package="com.sibyl.sasukehomeDominator">
 
     <!--android:roundIcon="@mipmap/ic_launcher_round"-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
 
     <application
@@ -25,6 +25,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <meta-data
+                    android:name="android.app.shortcuts"
+                    android:resource="@xml/shortcuts"/>
         </activity>
 
         <activity
@@ -55,6 +58,17 @@
             </intent-filter>
         </activity>
 
+
+        <activity
+                android:name=".shortcutactivity.LockScreenShortCutAct"
+                android:theme="@style/BridgeAct"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".shortcutactivity.PowerLongPressAct"
+                android:theme="@style/BridgeAct"
+                android:screenOrientation="portrait">
+        </activity>
 
         <service
                 android:name="com.sibyl.sasukehomeDominator.services.SasukeAccessibilityService"
