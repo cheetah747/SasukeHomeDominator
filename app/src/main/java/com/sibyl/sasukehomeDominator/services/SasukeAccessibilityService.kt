@@ -58,11 +58,11 @@ class SasukeAccessibilityService : AccessibilityService() {
         val scrShotDelay = PreferHelper.getInstance().getInt(KEY_TIME_TO_SCRSHOT,0).toLong()
 
         //从通知栏瓷贴点击过来的（默认false）
-        when(true){
+        when(intent.getStringExtra(StaticVar.KEY_ACCESSIBILITY_TYPE)){
             //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
-            intent.getBooleanExtra(StaticVar.STRONG_SCRSHOT,false) -> {Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },550 + scrShotDelay);return Service.START_STICKY}
-            intent.getBooleanExtra(StaticVar.STRONG_LOCKSCREEN,false) -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);return Service.START_STICKY}
-            intent.getBooleanExtra(StaticVar.STRONG_POWER_LONGPRESS,false) -> {performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY}
+            StaticVar.STRONG_SCRSHOT -> {Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },550 + scrShotDelay);return Service.START_STICKY}
+            StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);return Service.START_STICKY}
+            StaticVar.STRONG_POWER_LONGPRESS -> {performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY}
         }
 
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)

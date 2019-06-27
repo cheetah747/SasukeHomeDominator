@@ -24,6 +24,9 @@ class StaticVar {
         /**用于Preference的键值*/
         const val KEY_SELECTED_ITEM = "KEY_SELECTED_ITEM"
 
+        /**跳转到Accessibility时的type*/
+        const val KEY_ACCESSIBILITY_TYPE = "KEY_ACCESSIBILITY"
+
         /**【瓷贴截屏】启动Service时传Intent的传值 */
         const val STRONG_SCRSHOT = "STRONG_SCRSHOT"
 

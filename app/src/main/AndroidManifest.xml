@@ -70,7 +70,7 @@
 
         <!--截屏瓷贴-->
         <service
-                android:name=".services.MyScreenShotTileService"
+                android:name=".services.ScreenShotTileService"
                 android:label="スクショ"
                 android:icon="@mipmap/ic_stat_name"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -78,6 +78,27 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
         </service>
+
+        <service
+                android:name=".services.LockScreenTileService"
+                android:label="ロック"
+                android:icon="@mipmap/ic_lock_screen"
+                android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
+        <service
+                android:name=".services.PowerLongPressTileService"
+                android:label="パワー長押し"
+                android:icon="@mipmap/ic_power_long_press"
+                android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@ import com.sibyl.sasukehomeDominator.util.StaticVar
 /**
  * @author Sasuke on 2019-6-24 0024.
  */
-class MyScreenShotTileService: TileService() {
+class ScreenShotTileService: TileService() {
 
     override fun onClick() {
         super.onClick()
@@ -17,7 +17,7 @@ class MyScreenShotTileService: TileService() {
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
 
         startService(Intent(this, SasukeAccessibilityService::class.java).apply {
-            putExtra(StaticVar.STRONG_SCRSHOT,true)
+            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SCRSHOT)
         })
     }
 
@@ -45,6 +45,8 @@ class MyScreenShotTileService: TileService() {
 
     override fun onTileRemoved() {
         super.onTileRemoved()
+        qsTile.state = Tile.STATE_INACTIVE
+        qsTile.updateTile()
     }
 
     override fun onDestroy() {
