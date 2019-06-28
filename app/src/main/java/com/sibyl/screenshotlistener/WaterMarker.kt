@@ -14,7 +14,7 @@ class WaterMarker(val context: Context) {
     var TEXT_PAINT_SIZE = 25.0f
 
     //行距
-    var LINE_SPACE = 1.2f
+    var LINE_SPACE = 1.4f
 
 //    val bottomCard by lazy {
 //        BitmapFactory.decodeResource(context.resources, R.mipmap.feedback_card)
