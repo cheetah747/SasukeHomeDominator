@@ -37,6 +37,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                         //开始把水印画上去
                         val psResultShot = drawWaterMark(imagePath,phoneInfo,SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
                         saveBmp2File(psResultShot, File(imagePath), Bitmap.CompressFormat.JPEG)
+                        File(imagePath).renameTo(File(imagePath?.replace(".png",".jpg")))
 //                        imagePath?.let {
 //                            mergeScrShot2BottomCard(imagePath, bottomCard)
 //                        }
