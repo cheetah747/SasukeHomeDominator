@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityEvent
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_IS_SHOW_WATERMARK
+import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_TIME_TO_SCRSHOT
 import com.sibyl.screenshotlistener.ScreenShotListenManager
 import com.sibyl.screenshotlistener.WaterMarker
@@ -27,6 +28,8 @@ class SasukeAccessibilityService : AccessibilityService() {
     val manager: ScreenShotListenManager by lazy {
         ScreenShotListenManager.newInstance(this).apply {
             setListener { imagePath: String? ->
+                //记录下当前手机的截图目录
+                PreferHelper.getInstance().setString(KEY_SCREEN_SHOT_DIR, File(imagePath).parent)
                 //如果水印开关关掉了，那就不画水印
                 if (! PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK,false)) return@setListener
                 doAsync {
@@ -37,7 +40,8 @@ class SasukeAccessibilityService : AccessibilityService() {
                         //开始把水印画上去
                         val psResultShot = drawWaterMark(imagePath,phoneInfo,SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
                         saveBmp2File(psResultShot, File(imagePath), Bitmap.CompressFormat.JPEG)
-                        File(imagePath).renameTo(File(imagePath?.replace(".png",".jpg")))
+//                        File(imagePath).renameTo(File(imagePath?.replace(".png",".jpg")))//改文件名，png改成jpg
+
 //                        imagePath?.let {
 //                            mergeScrShot2BottomCard(imagePath, bottomCard)
 //                        }

@@ -69,6 +69,13 @@
                 android:theme="@style/BridgeAct"
                 android:screenOrientation="portrait">
         </activity>
+        <activity
+                android:name=".shortcutactivity.ChangeFileNameAct"
+                android:theme="@style/BridgeAct"
+                android:screenOrientation="portrait">
+        </activity>
+
+
 
         <service
                 android:name="com.sibyl.sasukehomeDominator.services.SasukeAccessibilityService"

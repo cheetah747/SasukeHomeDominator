@@ -35,5 +35,8 @@ class StaticVar {
 
         /**【瓷贴长按电源键】启动Service时传Intent的传值 */
         const val STRONG_POWER_LONGPRESS = "STRONG_POWER_LONGPRESS"
+
+        /**根据监听到的截屏，来获取截图目录，因为很多手机不一样*/
+        const val KEY_SCREEN_SHOT_DIR = "KEY_SCREEN_SHOT_DIR"
     }
 }
