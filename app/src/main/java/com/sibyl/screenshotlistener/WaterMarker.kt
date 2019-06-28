@@ -2,6 +2,7 @@ package com.sibyl.screenshotlistener
 
 import android.content.Context
 import android.graphics.*
+import com.sibyl.sasukehomeDominator.R
 import java.io.*
 
 
@@ -58,7 +59,7 @@ class WaterMarker(val context: Context) {
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG)
         textPaint.apply {
             textSize = TEXT_PAINT_SIZE
-            typeface = Typeface.DEFAULT
+            typeface = context.resources.getFont(R.font.google_product_sans)
             color = Color.WHITE
             setShadowLayer(4f, 1f, 1f,Color.BLACK)
         }

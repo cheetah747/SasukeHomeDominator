@@ -38,7 +38,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                         val phoneInfo = PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME,"").run { if(isNotBlank()) "${this}@" else "" } +
                                                                 PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL,android.os.Build.MODEL)
                         //开始把水印画上去
-                        val psResultShot = drawWaterMark(imagePath,phoneInfo,SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
+                        val psResultShot = drawWaterMark(imagePath,phoneInfo,SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(Date()))
                         saveBmp2File(psResultShot, File(imagePath), Bitmap.CompressFormat.JPEG)
 //                        File(imagePath).renameTo(File(imagePath?.replace(".png",".jpg")))//改文件名，png改成jpg
 
