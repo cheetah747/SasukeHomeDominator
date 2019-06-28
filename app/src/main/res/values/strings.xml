@@ -4,5 +4,5 @@
     <string name="unavailable">無効</string>
     <string name="lock">ロック</string>
     <string name="power_long_press">パワー長押し</string>
-    <string name="change_file_name">スクショjpgに変換</string>
+    <string name="change_file_name">JPG変換</string>
 </resources>
