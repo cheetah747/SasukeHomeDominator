@@ -32,8 +32,7 @@
 
         <activity
                 android:name=".BridgeAct"
-                android:theme="@style/BridgeAct"
-                android:screenOrientation="portrait">
+                android:theme="@style/BridgeAct">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <action android:name="android.intent.action.ASSIST"/>
@@ -61,20 +60,16 @@
 
         <activity
                 android:name=".shortcutactivity.LockScreenShortCutAct"
-                android:theme="@style/BridgeAct"
-                android:screenOrientation="portrait">
+                android:theme="@style/BridgeAct">
         </activity>
         <activity
                 android:name=".shortcutactivity.PowerLongPressAct"
-                android:theme="@style/BridgeAct"
-                android:screenOrientation="portrait">
+                android:theme="@style/BridgeAct">
         </activity>
         <activity
                 android:name=".shortcutactivity.ChangeFileNameAct"
-                android:theme="@style/BridgeAct"
-                android:screenOrientation="portrait">
+                android:theme="@style/BridgeAct">
         </activity>
-
 
 
         <service
