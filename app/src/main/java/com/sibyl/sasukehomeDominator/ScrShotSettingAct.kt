@@ -57,7 +57,7 @@ class ScrShotSettingAct : AppCompatActivity() {
             }
         }
         //保存
-        okBtn.setOnClickListener {
+        fab.setOnClickListener {
             PreferHelper.getInstance().run {
                 //保存水印
                 setBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, waterMarkCheck.isChecked)
