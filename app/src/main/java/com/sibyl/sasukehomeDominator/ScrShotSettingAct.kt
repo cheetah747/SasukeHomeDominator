@@ -64,7 +64,7 @@ class ScrShotSettingAct : AppCompatActivity() {
                 //保存用户名
                 setStringCommit(StaticVar.KEY_USER_NAME,userName.text.toString().trim())
                 //保存手机型号
-                setStringCommit(StaticVar.KEY_PHONE_MODEL,phoneInfo.text.toString().trim())
+                setStringCommit(StaticVar.KEY_PHONE_MODEL,phoneInfo.text.toString().trim().run { if (isNotBlank()) this else android.os.Build.MODEL  })
                 //保存截屏延迟
                 setIntCommit(StaticVar.KEY_TIME_TO_SCRSHOT,when(true){
                     seconds0.isChecked -> SECONDS_0
