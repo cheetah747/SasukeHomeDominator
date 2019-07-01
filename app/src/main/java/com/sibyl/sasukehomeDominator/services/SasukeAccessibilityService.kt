@@ -65,7 +65,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         //从通知栏瓷贴点击过来的（默认false）
         when(intent.getStringExtra(StaticVar.KEY_ACCESSIBILITY_TYPE)){
             //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
-            StaticVar.STRONG_SCRSHOT -> {Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },600 + scrShotDelay);return Service.START_STICKY}
+            StaticVar.STRONG_SCRSHOT -> {Handler().postDelayed({ performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },600 + (if (scrShotDelay != 0L) scrShotDelay - 600 else 0) );return Service.START_STICKY}
             StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);return Service.START_STICKY}
             StaticVar.STRONG_POWER_LONGPRESS -> {performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY}
         }
