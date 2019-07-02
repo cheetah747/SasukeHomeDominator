@@ -17,7 +17,6 @@
             android:theme="@style/AppTheme">
 
         <activity
-                android:screenOrientation="portrait"
                 android:name="com.sibyl.sasukehomeDominator.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -35,6 +34,7 @@
                 android:theme="@style/BridgeAct">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT"/>
+
                 <action android:name="android.intent.action.ASSIST"/>
                 <action android:name="android.intent.action.SEARCH_LONG_PRESS"/>
 
@@ -43,14 +43,12 @@
 
         <activity
                 android:name=".TileLongPressAct"
-                android:theme="@style/BridgeAct"
-                android:screenOrientation="portrait">
+                android:theme="@style/BridgeAct">
         </activity>
 
         <activity
                 android:name=".ScrShotSettingAct"
-                android:theme="@style/NoActionBarAct"
-                android:screenOrientation="portrait">
+                android:theme="@style/NoActionBarAct">
             <intent-filter>
                 <!--长按Tile瓷贴时跳转到该Activity-->
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
