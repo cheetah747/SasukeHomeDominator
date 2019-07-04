@@ -89,7 +89,7 @@ class ScrShotSettingAct : AppCompatActivity() {
             })
         }
         //水印开关
-        waterMarkCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, false)
+        waterMarkCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, true)
 
         //初始化秒数选择
         refreshSecondsChecks(

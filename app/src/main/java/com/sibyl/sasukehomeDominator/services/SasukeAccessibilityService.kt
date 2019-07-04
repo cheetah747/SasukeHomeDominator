@@ -31,7 +31,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                 //记录下当前手机的截图目录
                 PreferHelper.getInstance().setString(KEY_SCREEN_SHOT_DIR, File(imagePath).parent)
                 //如果水印开关关掉了，那就不画水印
-                if (! PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK,false)) return@setListener
+                if (! PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK,true)) return@setListener
                 doAsync {
                     Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
                     WaterMarker(this@SasukeAccessibilityService).apply {
