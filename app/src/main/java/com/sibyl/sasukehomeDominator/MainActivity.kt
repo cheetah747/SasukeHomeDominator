@@ -123,8 +123,8 @@ class MainActivity : AppCompatActivity() {
         if (checkDialog == null) {
             checkDialog = AlertDialog.Builder(this).setMessage("本アプリは無障害の特性を利用するため、スイッチをONにして下さい")
                 .setPositiveButton("今行く",  { dialog, which ->
-                    startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
                     startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                    startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
                 })
                 .setCancelable(false)
                 .create()
