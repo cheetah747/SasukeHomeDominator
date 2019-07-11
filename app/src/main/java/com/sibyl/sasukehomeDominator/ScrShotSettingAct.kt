@@ -100,6 +100,8 @@ class ScrShotSettingAct : AppCompatActivity() {
                 else -> seconds0
             }
         )
+
+
     }
 
     /**刷新秒数选择的单选框状态*/

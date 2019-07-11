@@ -44,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <ScrollView
+        <com.sibyl.sasukehomeDominator.util.VerticalScrollView
+                android:id="@+id/scrollView"
                 android:fillViewport="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -92,6 +93,8 @@
 
                         <EditText
                                 android:id="@+id/userName"
+                                android:lines="1"
+                                android:inputType="text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
@@ -117,6 +120,8 @@
 
                         <EditText
                                 android:id="@+id/phoneInfo"
+                                android:lines="1"
+                                android:inputType="text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
@@ -187,13 +192,13 @@
                         android:textSize="16sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                
+
                 <View
                         android:id="@+id/blank"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"/>
             </LinearLayout>
-        </ScrollView>
+        </com.sibyl.sasukehomeDominator.util.VerticalScrollView>
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -209,17 +214,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         <!--<com.melnykov.fab.FloatingActionButton-->
-                <!--android:id="@+id/fab"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_gravity="bottom|right"-->
-                <!--android:layout_margin="16dp"-->
-                <!--android:src="@mipmap/ic_launcher"-->
-                <!--fab:elevation="5dp"-->
-                <!--fab:fab_colorNormal="#123"-->
-                <!--fab:fab_colorPressed="#123"-->
-                <!--fab:fab_colorRipple="#123"/>-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:src="@mipmap/ic_launcher"-->
+        <!--fab:elevation="5dp"-->
+        <!--fab:fab_colorNormal="#123"-->
+        <!--fab:fab_colorPressed="#123"-->
+        <!--fab:fab_colorRipple="#123"/>-->
     </RelativeLayout>
 </LinearLayout>
