@@ -38,7 +38,7 @@ class WaterMarker(val context: Context) {
             BitmapFactory.decodeFile(scrShotPath, opt)
             //前面都是铺垫，这个才是目的
             this.inJustDecodeBounds = false
-            this.inSampleSize = if (Math.min(opt.outWidth ,opt.outHeight)>  2160) 2 else 1//凡是大于1080的全特么给我缩小！
+            this.inSampleSize = if (Math.min(opt.outWidth ,opt.outHeight)>  2160) 1 else 1//凡是大于1080的全特么给我缩小！(新：缩你麻痹，有时候给老子莫名其妙缩成一半模糊小图是怎么回事)
             inPreferredConfig = Bitmap.Config.ARGB_8888
         })
 

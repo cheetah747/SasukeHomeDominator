@@ -35,7 +35,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                 doAsync {
                     Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
                     WaterMarker(this@SasukeAccessibilityService).apply {
-                        val phoneInfo = PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME,"").run { if(isNotBlank()) "${this}@" else "" } +
+                        val phoneInfo = PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME,"Android ${android.os.Build.VERSION.RELEASE}").run { if(isNotBlank()) "${this}@" else "" } +
                                                                 PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL,android.os.Build.MODEL)
                         //开始把水印画上去
                         val psResultShot = drawWaterMark(imagePath,phoneInfo,SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(Date()))

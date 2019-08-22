@@ -80,7 +80,7 @@ class ScrShotSettingAct : AppCompatActivity() {
 
     fun initUI() {
         //用户名
-        userName.setText(PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME, ""))
+        userName.setText(PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME, "Android ${android.os.Build.VERSION.RELEASE}"))
         //手机型号
         phoneInfo.hint = android.os.Build.MODEL
         PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, "").run {

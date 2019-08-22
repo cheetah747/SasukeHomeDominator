@@ -84,7 +84,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
-                            android:hint="ユーザーネーム"
+                            android:hint="ネーム"
                             app:counterEnabled="true"
                             app:boxBackgroundColor="@color/red"
                             android:layout_weight="1"
