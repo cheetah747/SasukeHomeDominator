@@ -62,7 +62,7 @@ class ScrShotSettingAct : AppCompatActivity() {
                 //保存水印
                 setBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, waterMarkCheck.isChecked)
                 //保存用户名
-                setStringCommit(StaticVar.KEY_USER_NAME,userName.text.toString().trim())
+                setStringCommit(StaticVar.KEY_USER_NAME,userName.text.toString().trim().run { if (isNotBlank()) this else "Android ${android.os.Build.VERSION.RELEASE}"  } )
                 //保存手机型号
                 setStringCommit(StaticVar.KEY_PHONE_MODEL,phoneInfo.text.toString().trim().run { if (isNotBlank()) this else android.os.Build.MODEL  })
                 //保存截屏延迟
