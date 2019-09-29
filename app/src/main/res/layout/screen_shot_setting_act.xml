@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -164,7 +165,7 @@
                             android:id="@+id/seconds3"
                             android:buttonTint="@color/zi"
                             android:layout_centerHorizontal="true"
-                            android:text="3秒"
+                            android:text="2秒"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
@@ -192,6 +193,43 @@
                         android:textSize="16sp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                        android:id="@+id/dirSelectLayout"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="35dp"
+                            android:layout_marginBottom="35dp"
+                            android:layout_height="1px"
+                            android:background="@color/lighter_gray"/>
+
+                    <TextView
+                            android:text="フォルダ"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="18sp"
+                            android:textColor="@color/red"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <TextView
+                            android:id="@+id/dirSelectTv"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:textSize="18sp"
+                            android:text="/..."
+                            tools:text="/Pictures/ScreenShots/"
+                            android:textColor="@color/black"
+                            android:ellipsize="start"
+                            android:drawablePadding="15dp"
+                            android:drawableLeft="@drawable/ic_folder_black_24dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
 
                 <View
                         android:id="@+id/blank"

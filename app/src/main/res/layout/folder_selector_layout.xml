@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:padding="8dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/currDirTv"
+            android:textSize="18sp"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            tools:text="ディレクトリ："/>
+
+    <TextView
+            android:id="@+id/goPre"
+            android:textSize="18sp"
+            android:text="..."
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <ListView
+            android:padding="5dp"
+            android:divider="@null"
+            android:id="@+id/fileLv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+</LinearLayout>
