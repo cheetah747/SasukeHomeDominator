@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     fun initUI() {
         //锁屏卡片
         (lockScreenCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.lock_screen_30dp)
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         //截屏设置卡片
         (screenShotSettingCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
         (screenShotSettingCard.findViewById<CardView>(R.id.cardText) as TextView).run { setText("設定");setTextColor(Color.WHITE) }
-        (screenShotSettingCard.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null))
+        (screenShotSettingCard.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
 
         //电源键长按卡片
         (powerLongPressCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.power_longpress_30dp)
@@ -69,10 +70,10 @@ class MainActivity : AppCompatActivity() {
         (cardView.findViewById<CardView>(R.id.cardIcon) as ImageView).setColorFilter(if (isSelected) Color.WHITE else Color.BLACK)
         (cardView.findViewById<CardView>(R.id.cardText) as TextView).setTextColor(if (isSelected) Color.WHITE else Color.BLACK)
         (cardView.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(
-                if (isSelected) resources.getColor(
-                        R.color.colorPrimary,
-                        null
-                ) else Color.WHITE
+            if (isSelected) resources.getColor(
+                R.color.colorPrimary,
+                null
+            ) else Color.WHITE
         )
     }
 
@@ -80,16 +81,16 @@ class MainActivity : AppCompatActivity() {
         arrayOf(lockScreenCard, screenShotCard, powerLongPressCard).forEach {
             it.setOnClickListener {
                 PreferHelper.getInstance().setStringCommit(
-                        StaticVar.KEY_SELECTED_ITEM,
-                        when (it) {
-                            lockScreenCard -> StaticVar.LOCK_SCREEN
-                            screenShotCard -> StaticVar.SCREEN_SHOT
-                            powerLongPressCard -> StaticVar.POWER_LONGPRESS
-                            else -> ""
-                        }
+                    StaticVar.KEY_SELECTED_ITEM,
+                    when (it) {
+                        lockScreenCard -> StaticVar.LOCK_SCREEN
+                        screenShotCard -> StaticVar.SCREEN_SHOT
+                        powerLongPressCard -> StaticVar.POWER_LONGPRESS
+                        else -> ""
+                    }
                 )
                 Snackbar.make(root, "【${it.findViewById<TextView>(R.id.cardText).text}】に設定しました", Snackbar.LENGTH_SHORT)
-                        .show()
+                    .show()
                 initUI()//再刷新一下页面
             }
         }
@@ -101,8 +102,10 @@ class MainActivity : AppCompatActivity() {
             val cardText: Pair<View, String> = Pair.create(screenShotSettingCard.find(R.id.cardText), "cardText")
 
 
-            startActivity(Intent(this, ScrShotSettingAct::class.java),
-                    ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, cardView, cardIcon, cardText).toBundle())
+            startActivity(
+                Intent(this, ScrShotSettingAct::class.java),
+                ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, cardView, cardIcon, cardText).toBundle()
+            )
 
 //            val settingDialog = AlertDialog.Builder(this)
 //                .setView(R.layout.scrshot_setting_dialog)
@@ -122,12 +125,12 @@ class MainActivity : AppCompatActivity() {
     fun checkAccessibility() {
         if (checkDialog == null) {
             checkDialog = AlertDialog.Builder(this).setMessage("本アプリは無障害の特性を利用するため、スイッチをONにして下さい")
-                    .setPositiveButton("今行く", { dialog, which ->
-                        startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-                        startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
-                    })
-                    .setCancelable(false)
-                    .create()
+                .setPositiveButton("今行く", { dialog, which ->
+                    startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+                    startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
+                })
+                .setCancelable(false)
+                .create()
         }
 
         if (!CheckAccessibility.isAccessibilitySettingsOn(this) && !checkDialog!!.isShowing) {
@@ -139,15 +142,15 @@ class MainActivity : AppCompatActivity() {
     fun grantPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             XXPermissions.with(this)
-                    .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                    //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
-                    //                    .permission(Permission.Group.STORAGE, Permission.Group.CALENDAR) //不指定权限则自动获取清单中的危险权限
-                    .permission(//存储
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                .constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
+                //                    .permission(Permission.Group.STORAGE, Permission.Group.CALENDAR) //不指定权限则自动获取清单中的危险权限
+                .permission(//存储
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
 //                    //电话
 //                    Manifest.permission.CALL_PHONE,
-                            Manifest.permission.READ_PHONE_STATE
+                    Manifest.permission.READ_PHONE_STATE
 //                    //短信
 //                    Manifest.permission.SEND_SMS,
 //                    //通讯录
@@ -161,20 +164,21 @@ class MainActivity : AppCompatActivity() {
 
 //                                Manifest.permission.CHANGE_NETWORK_STATE,
 //                                Manifest.permission.WRITE_SETTINGS
-                            //安装APK
-                            /*Manifest.permission.REQUEST_INSTALL_PACKAGES*/)
-                    .request(object : OnPermission {
-                        override fun hasPermission(granted: List<String>, isAll: Boolean) {}
+                    //安装APK
+                    /*Manifest.permission.REQUEST_INSTALL_PACKAGES*/
+                )
+                .request(object : OnPermission {
+                    override fun hasPermission(granted: List<String>, isAll: Boolean) {}
 
-                        override fun noPermission(denied: List<String>, quick: Boolean) {
-                            if (quick) {
-                                android.app.AlertDialog.Builder(this@MainActivity)
-                                        .setMessage("パーミッションを許可してください！")
-                                        .setPositiveButton("今行く") { dialog, which -> XXPermissions.gotoPermissionSettings(this@MainActivity) }
-                                        .show()
-                            }
+                    override fun noPermission(denied: List<String>, quick: Boolean) {
+                        if (quick) {
+                            android.app.AlertDialog.Builder(this@MainActivity)
+                                .setMessage("パーミッションを許可してください！")
+                                .setPositiveButton("今行く") { dialog, which -> XXPermissions.gotoPermissionSettings(this@MainActivity) }
+                                .show()
                         }
-                    })
+                    }
+                })
         }
     }
 }

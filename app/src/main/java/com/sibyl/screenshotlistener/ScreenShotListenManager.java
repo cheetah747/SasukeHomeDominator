@@ -414,6 +414,7 @@ public class ScreenShotListenManager {
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
+            //日了你妈的狗好像安卓10并不会走这里
             handleMediaContentChange(mContentUri);
         }
     }

@@ -37,16 +37,16 @@ class FolderSelectorDialog {
             listView.adapter = ArrayAdapter(
                 context,
                 android.R.layout.simple_expandable_list_item_1,
-                currFileDir.list { file, str -> file.isDirectory })
+                currFileDir.list { file, str ->  !("." in str )&&file.isDirectory })
 
             //点击监听
             listView.setOnItemClickListener { adapterView, view, pos, id ->
-                currFileDir = currFileDir.listFiles { file, str -> file.isDirectory }[pos]
+                currFileDir = currFileDir.listFiles { file, str ->!("." in str )&&file.isDirectory }[pos]
                 currDirTv.text = "ディレクトリ：${currFileDir.canonicalPath}"
                 listView.adapter = ArrayAdapter(//妈的懒得抽出来了，直接复制粘贴，烦死了
                     context,
                     android.R.layout.simple_expandable_list_item_1,
-                    currFileDir.list { file, str -> file.isDirectory })
+                    currFileDir.list { file, str ->  !("." in str )&&file.isDirectory })
             }
             //上一级
             goPre.setOnClickListener {
@@ -55,7 +55,7 @@ class FolderSelectorDialog {
                 listView.adapter = ArrayAdapter(//妈的懒得抽出来了，直接复制粘贴，烦死了
                     context,
                     android.R.layout.simple_expandable_list_item_1,
-                    currFileDir.list { file, str -> file.isDirectory })
+                    currFileDir.list { file, str -> !("." in str )&&file.isDirectory })
             }
 
             androidx.appcompat.app.AlertDialog.Builder(context)

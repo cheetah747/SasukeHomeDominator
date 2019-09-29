@@ -119,7 +119,7 @@ class ScrShotSettingAct : AppCompatActivity() {
 
 
         //针对安卓10，新增手动指定截屏路径（安卓10老子操你妈。。。。）
-        dirSelectLayout.visibility = if (android.os.Build.VERSION.RELEASE.toDouble() < 10) View.GONE else View.VISIBLE
+        dirSelectLayout.visibility = View.GONE/*if (android.os.Build.VERSION.RELEASE.toDouble() < 10) View.GONE else View.VISIBLE*/
         dirSelectTv.text = PreferHelper.getInstance().getString(
             KEY_SCREEN_SHOT_DIR,
             Environment.getExternalStorageDirectory().path + "/Pictures/Screenshots/"
