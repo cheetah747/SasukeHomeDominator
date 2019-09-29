@@ -19,8 +19,9 @@ class NewPhotoGetter(val context: Context,val dealWork: (String) -> Unit) {
 
     /**循环检查*/
     fun checkAndDeal() {
+        if (counter == 0) return
         val latestPath = getLatest(context)
-        if (counter != 0 && latestPath != lastPathHistory && lastPathHistory.isNotBlank()) {//表示收到新图
+        if (latestPath != lastPathHistory && lastPathHistory.isNotBlank()) {//表示收到新图
             dealWork.invoke(latestPath)
             return
         }
