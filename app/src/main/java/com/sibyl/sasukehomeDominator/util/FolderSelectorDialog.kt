@@ -31,7 +31,7 @@ class FolderSelectorDialog {
                 )
             )
             //显示当前位置标题：
-            currDirTv.text = "ディレクトリ：${currFileDir.canonicalPath}"
+            currDirTv.text = "${context.resources.getString(R.string.directory)}${currFileDir.canonicalPath}"
 
             //再填充列表
             listView.adapter = ArrayAdapter(
@@ -42,7 +42,7 @@ class FolderSelectorDialog {
             //点击监听
             listView.setOnItemClickListener { adapterView, view, pos, id ->
                 currFileDir = currFileDir.listFiles { file, str ->!("." in str )&&file.isDirectory }[pos]
-                currDirTv.text = "ディレクトリ：${currFileDir.canonicalPath}"
+                currDirTv.text = "${context.resources.getString(R.string.directory)}${currFileDir.canonicalPath}"
                 listView.adapter = ArrayAdapter(//妈的懒得抽出来了，直接复制粘贴，烦死了
                     context,
                     android.R.layout.simple_expandable_list_item_1,
@@ -51,7 +51,7 @@ class FolderSelectorDialog {
             //上一级
             goPre.setOnClickListener {
                 currFileDir = currFileDir.parentFile
-                currDirTv.text = "ディレクトリ：${currFileDir.canonicalPath}"
+                currDirTv.text = "${context.resources.getString(R.string.directory)}${currFileDir.canonicalPath}"
                 listView.adapter = ArrayAdapter(//妈的懒得抽出来了，直接复制粘贴，烦死了
                     context,
                     android.R.layout.simple_expandable_list_item_1,

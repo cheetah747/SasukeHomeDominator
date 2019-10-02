@@ -3,7 +3,7 @@ package com.sibyl.sasukehomeDominator.shortcutactivity
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import com.sibyl.sasukehomeDominator.R
 import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
@@ -31,8 +31,8 @@ class ChangeFileNameAct: BaseActivity() {
                     count++
                     it.renameTo(File(it.path?.replace(".png",".jpg")))
                 }
-                uiThread { Toast.makeText(this@ChangeFileNameAct,if (count == 0) "変換するファイルはありません"
-                                            else "${count} 個ファイル変換完了" ,Toast.LENGTH_LONG).show() }
+                uiThread { Toast.makeText(this@ChangeFileNameAct,if (count == 0) resources.getString(R.string.no_file_can_change)
+                                            else "${count}${resources.getString(R.string.file_changed_success)}" ,Toast.LENGTH_LONG).show() }
             }catch (e: FileNotFoundException){
                 e.printStackTrace()
                 uiThread { Toast.makeText(this@ChangeFileNameAct,e.toString(),Toast.LENGTH_LONG).show() }

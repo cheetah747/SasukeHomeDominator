@@ -1,8 +1,15 @@
-<resources>
+<resources
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
     <string name="app_name">HOME支配者</string>
     <string name="accessibility_service_description">Sasuke的accessibility辅助APP、利用这个服务、可以实现长按HOME键来执行一些事先设定的操作</string>
     <string name="unavailable">无效</string>
     <string name="lock">锁屏</string>
     <string name="power_long_press">长按电源键</string>
     <string name="change_file_name">JPG转换</string>
+    <string name="file_changed_success">个文件转换完成</string>
+    <string name="no_file_can_change">没有可转换的文件</string>
+    <string name="directory">目录</string>
+
+
 </resources>
