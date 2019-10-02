@@ -13,11 +13,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
+import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.CheckAccessibility
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     var checkDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

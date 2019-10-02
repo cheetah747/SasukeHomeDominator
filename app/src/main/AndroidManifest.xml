@@ -16,6 +16,9 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
+
+        <activity android:name=".util.BaseActivity"/>
+
         <activity
                 android:name="com.sibyl.sasukehomeDominator.MainActivity">
             <intent-filter>

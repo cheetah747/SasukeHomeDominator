@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HOMEドミネーター</string>
+    <string name="accessibility_service_description">Sasukeのaccessibility補助APP、このサービスによって、HOMEを長押しすると事前設定済みの動作が便利に実行できます</string>
+    <string name="unavailable">無効</string>
+    <string name="lock">ロック</string>
+    <string name="power_long_press">パワー長押し</string>
+    <string name="change_file_name">JPG変換</string>
+</resources>

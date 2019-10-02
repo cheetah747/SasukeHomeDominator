@@ -2,13 +2,13 @@ package com.sibyl.sasukehomeDominator
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.sibyl.sasukehomeDominator.services.SasukeAccessibilityService
+import com.sibyl.sasukehomeDominator.util.BaseActivity
 
 /**
  * @author Sasuke on 2019/6/23.
  */
-class BridgeAct : AppCompatActivity() {
+class BridgeAct : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //把服务跑起来

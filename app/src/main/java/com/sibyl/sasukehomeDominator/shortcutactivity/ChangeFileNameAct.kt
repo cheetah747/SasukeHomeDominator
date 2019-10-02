@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
 import org.jetbrains.anko.doAsync
@@ -15,7 +16,7 @@ import java.io.FileNotFoundException
  * @author Sasuke on 2019-6-28 0028.
  * 修改文件名，*.png --->*.jpg
  */
-class ChangeFileNameAct: AppCompatActivity() {
+class ChangeFileNameAct: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

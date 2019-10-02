@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.Toolbar
+import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.FolderSelectorDialog
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
@@ -18,7 +19,7 @@ import org.jetbrains.anko.find
 /**
  * @author Sasuke on 2019-6-27 0027.
  */
-class ScrShotSettingAct : AppCompatActivity() {
+class ScrShotSettingAct : BaseActivity() {
     companion object {
         const val SECONDS_0 = 0
         const val SECONDS_2 = 2000
