@@ -37,7 +37,7 @@
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="設定"/>
+                    android:text="@string/settings"/>
         </androidx.appcompat.widget.Toolbar>
     </RelativeLayout>
 
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content">
 
                 <TextView
-                        android:text="ウォーターマーク"
+                        android:text="@string/water_mark"
                         android:layout_marginBottom="15dp"
                         android:textSize="18sp"
                         android:textColor="@color/red"
@@ -69,7 +69,7 @@
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/waterMarkCheck"
-                        android:text="有効"
+                        android:text="@string/available"
                         android:layout_marginBottom="15dp"
                         android:buttonTint="@color/zi"
                         android:textColor="@color/black"
@@ -84,8 +84,8 @@
                         android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/userNameLayout"
                             android:layout_width="0dp"
-                            android:hint="ネーム"
                             app:counterEnabled="true"
                             app:boxBackgroundColor="@color/red"
                             android:layout_weight="1"
@@ -112,8 +112,8 @@
                             android:layout_height="wrap_content"/>
 
                     <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/phoneInfoLayout"
                             android:layout_width="0dp"
-                            android:hint="ブランド"
                             app:counterEnabled="true"
                             app:hintAnimationEnabled="true"
                             android:layout_weight="1"
@@ -137,7 +137,7 @@
                         android:background="@color/lighter_gray"/>
 
                 <TextView
-                        android:text="遅延"
+                        android:text="@string/timeout"
                         android:layout_marginBottom="15dp"
                         android:textSize="18sp"
                         android:textColor="@color/red"

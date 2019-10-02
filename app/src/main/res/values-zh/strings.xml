@@ -1,0 +1,31 @@
+<resources
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:ignore="MissingTranslation">
+    <string name="app_name">HOME支配者</string>
+    <string name="accessibility_service_description">Sasuke的accessibility辅助APP、利用这个服务、可以实现长按HOME键来执行一些事先设定的操作</string>
+    <string name="unavailable">无效</string>
+    <string name="available">有效</string>
+    <string name="lock">锁屏</string>
+    <string name="power_long_press">长按电源键</string>
+    <string name="change_file_name">JPG转换</string>
+    <string name="file_changed_success">个文件转换完成</string>
+    <string name="no_file_can_change">没有可转换的文件</string>
+    <string name="directory">目录</string>
+    <string name="screen_lock">锁屏</string>
+    <string name="screen_shot">截屏</string>
+    <string name="settings">设置</string>
+    <string name="power_menu">电源菜单</string>
+    <string name="setting_success">设置成功</string>
+    <string name="turn_on_dialog_alert">本应用需利用辅助功能特性、请前往打开服务</string>
+    <string name="go_now">现在就去</string>
+    <string name="permission_allow">请允许权限</string>
+    <string name="water_mark">截屏水印</string>
+    <string name="timeout">截屏延时</string>
+    <string name="home_dominator_service">HOME支配者服务(SasukeAccessibilityService)</string>
+    <string name="scr_shot_tile">截他妈的</string>
+    <string name="lock_scr_tile">锁他妈的</string>
+    <string name="power_long_tile">电他妈的</string>
+    <string name="setting_success_toast">设置保存成功</string>
+    <string name="water_mark_front">前缀</string>
+    <string name="water_mark_end">后缀</string>
+</resources>

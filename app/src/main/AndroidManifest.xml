@@ -77,7 +77,7 @@
                 android:name="com.sibyl.sasukehomeDominator.services.SasukeAccessibilityService"
                 android:enabled="true"
                 android:exported="true"
-                android:label="HOMEドミネーター用のサービス(SasukeAccessibilityService)"
+                android:label="@string/home_dominator_service"
                 android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
@@ -90,7 +90,7 @@
         <!--截屏瓷贴-->
         <service
                 android:name=".services.ScreenShotTileService"
-                android:label="スクショ"
+                android:label="@string/scr_shot_tile"
                 android:icon="@mipmap/ic_stat_name"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
@@ -100,7 +100,7 @@
 
         <service
                 android:name=".services.LockScreenTileService"
-                android:label="ロック"
+                android:label="@string/lock_scr_tile"
                 android:icon="@mipmap/ic_lock_screen"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
@@ -110,7 +110,7 @@
 
         <service
                 android:name=".services.PowerLongPressTileService"
-                android:label="パワー長押し"
+                android:label="@string/power_long_tile"
                 android:icon="@mipmap/ic_power_long_press"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>

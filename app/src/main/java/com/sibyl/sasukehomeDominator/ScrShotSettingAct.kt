@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.Toolbar
 import com.sibyl.sasukehomeDominator.util.BaseActivity
@@ -83,7 +82,7 @@ class ScrShotSettingAct : BaseActivity() {
                     }
                 )
             }
-            Toast.makeText(this, "設定が保存されました", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, resources.getString(R.string.setting_success_toast), Toast.LENGTH_SHORT).show()
             onBackPressed()
         }
     }
@@ -91,7 +90,8 @@ class ScrShotSettingAct : BaseActivity() {
     fun initUI() {
         //用户名
 //        userName.setText(PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME, "Android ${android.os.Build.VERSION.RELEASE}"))
-        userName.hint = "Android ${android.os.Build.VERSION.RELEASE}"
+//        userName.hint = "Android ${android.os.Build.VERSION.RELEASE}"
+        userNameLayout.hint = "${resources.getString(R.string.water_mark_front)}(Android ${android.os.Build.VERSION.RELEASE})"
         PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME, "").run {
             userName.setText(if (isNotBlank()) this else "Android ${android.os.Build.VERSION.RELEASE}".apply {
                 PreferHelper.getInstance()
@@ -99,7 +99,8 @@ class ScrShotSettingAct : BaseActivity() {
             })
         }
         //手机型号
-        phoneInfo.hint = android.os.Build.MODEL
+        phoneInfoLayout.hint = "${resources.getString(R.string.water_mark_end)}(${android.os.Build.MODEL})"
+//        phoneInfo.hint = android.os.Build.MODEL
         PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, "").run {
             phoneInfo.setText(if (isNotBlank()) this else android.os.Build.MODEL.apply {
                 PreferHelper.getInstance().setStringCommit(StaticVar.KEY_PHONE_MODEL, android.os.Build.MODEL)

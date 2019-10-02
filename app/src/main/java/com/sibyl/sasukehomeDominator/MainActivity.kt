@@ -42,20 +42,20 @@ class MainActivity : BaseActivity() {
     fun initUI() {
         //锁屏卡片
         (lockScreenCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.lock_screen_30dp)
-        (lockScreenCard.findViewById<CardView>(R.id.cardText) as TextView).setText("スクリーンロック")
+        (lockScreenCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_lock))
 
         //截屏卡片
         (screenShotCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
-        (screenShotCard.findViewById<CardView>(R.id.cardText) as TextView).setText("スクリーンショット")
+        (screenShotCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_shot))
 
         //截屏设置卡片
         (screenShotSettingCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
-        (screenShotSettingCard.findViewById<CardView>(R.id.cardText) as TextView).run { setText("設定");setTextColor(Color.WHITE) }
+        (screenShotSettingCard.findViewById<CardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(Color.WHITE) }
         (screenShotSettingCard.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
 
         //电源键长按卡片
         (powerLongPressCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.power_longpress_30dp)
-        (powerLongPressCard.findViewById<CardView>(R.id.cardText) as TextView).setText("パワー長押し")
+        (powerLongPressCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.power_menu))
 
         //刷新卡片激活状态
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
@@ -89,7 +89,7 @@ class MainActivity : BaseActivity() {
                         else -> ""
                     }
                 )
-                Snackbar.make(root, "【${it.findViewById<TextView>(R.id.cardText).text}】に設定しました", Snackbar.LENGTH_SHORT)
+                Snackbar.make(root, "【${it.findViewById<TextView>(R.id.cardText).text}】${resources.getString(R.string.setting_success)}", Snackbar.LENGTH_SHORT)
                     .show()
                 initUI()//再刷新一下页面
             }
@@ -124,8 +124,8 @@ class MainActivity : BaseActivity() {
 
     fun checkAccessibility() {
         if (checkDialog == null) {
-            checkDialog = AlertDialog.Builder(this).setMessage("本アプリは無障害の特性を利用するため、スイッチをONにして下さい")
-                .setPositiveButton("今行く", { dialog, which ->
+            checkDialog = AlertDialog.Builder(this).setMessage(resources.getString(R.string.turn_on_dialog_alert))
+                .setPositiveButton(resources.getString(R.string.go_now), { dialog, which ->
                     startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
                     startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
                 })
@@ -173,8 +173,8 @@ class MainActivity : BaseActivity() {
                     override fun noPermission(denied: List<String>, quick: Boolean) {
                         if (quick) {
                             android.app.AlertDialog.Builder(this@MainActivity)
-                                .setMessage("パーミッションを許可してください！")
-                                .setPositiveButton("今行く") { dialog, which -> XXPermissions.gotoPermissionSettings(this@MainActivity) }
+                                .setMessage(resources.getString(R.string.permission_allow))
+                                .setPositiveButton(resources.getString(R.string.go_now)) { dialog, which -> XXPermissions.gotoPermissionSettings(this@MainActivity) }
                                 .show()
                         }
                     }
