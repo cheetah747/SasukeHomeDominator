@@ -133,7 +133,7 @@ class WaterMarker(val context: Context) {
         }
 
 //        }
-        var saveResult = saveBmp2File(resultBmp, File(scrShotPath), Bitmap.CompressFormat.JPEG)
+        var saveResult = saveBmp2File(resultBmp, File(scrShotPath), Bitmap.CompressFormat.PNG)
         shotBmp?.takeIf { !it.isRecycled }?.run { this.recycle(); shotBmp = null }
         resultBmp?.takeIf { !it.isRecycled }?.run { this.recycle(); resultBmp = null }
 
