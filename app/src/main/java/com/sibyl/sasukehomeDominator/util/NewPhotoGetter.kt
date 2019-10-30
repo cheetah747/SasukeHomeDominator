@@ -17,17 +17,20 @@ class NewPhotoGetter(val context: Context,val dealWork: (String) -> Unit) {
         lastPathHistory = getLatest(context)
     }
 
+    val handler by lazy { Handler() }
+
     /**循环检查*/
     fun checkAndDeal() {
         if (counter <= 0) return
         val latestPath = getLatest(context)
         if (latestPath != lastPathHistory && lastPathHistory.isNotBlank()) {//表示收到新图
             dealWork.invoke(latestPath)
+            handler.removeCallbacksAndMessages(null)//既然得到了新图片，那消息队列里的消息就不需要了。
             return
         }
         //500毫秒循环发一次消息
         counter--
-        Handler().postDelayed({ checkAndDeal() }, 500)
+        handler.postDelayed({ checkAndDeal() }, 500)
     }
 
     companion object {
