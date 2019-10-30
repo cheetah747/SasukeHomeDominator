@@ -36,7 +36,7 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onCreate() {
         super.onCreate()
 //        mContext = applicationContext
-        manager.startListen()
+//        manager.startListen()//SasukeTodo 如果要启用安卓9.0以下的被动观察监听，就把这行代码打开
 //        EventBus.getDefault().register(this)
     }
 
@@ -51,9 +51,9 @@ class SasukeAccessibilityService : AccessibilityService() {
         when (intent.getStringExtra(StaticVar.KEY_ACCESSIBILITY_TYPE)) {
             //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
             StaticVar.STRONG_SCRSHOT -> {
-                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
+//                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
                     NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
-                }
+//                }
                 Handler().postDelayed(
                     { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
                     600 + (if (scrShotDelay != 0L) scrShotDelay - 600 else 0)
@@ -68,9 +68,9 @@ class SasukeAccessibilityService : AccessibilityService() {
         when (selected) {
             StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
             StaticVar.SCREEN_SHOT -> {
-                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
+//                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
                     NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
-                }
+//                }
                 Handler().postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) }, 1500 + scrShotDelay
                 )
             }
