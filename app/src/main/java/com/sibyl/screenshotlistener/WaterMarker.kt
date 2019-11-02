@@ -70,8 +70,8 @@ class WaterMarker(val context: Context) {
 
         infos.forEach {
             val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
-//            val textStartX = newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 0.8//写在右下角
-            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
+            val textStartX = newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 0.8//写在右下角
+//            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
 
             canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
             textStartY += TEXT_PAINT_SIZE * LINE_SPACE
