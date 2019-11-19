@@ -3,7 +3,6 @@ package com.sibyl.sasukehomeDominator
 import android.Manifest
 import android.app.ActivityOptions
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -50,7 +49,7 @@ class MainActivity : BaseActivity() {
 
         //截屏设置卡片
         (screenShotSettingCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
-        (screenShotSettingCard.findViewById<CardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(Color.WHITE) }
+        (screenShotSettingCard.findViewById<CardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(resources.getColor(R.color.big_btn_text_color,null)) }
         (screenShotSettingCard.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
 
         //电源键长按卡片
@@ -67,13 +66,13 @@ class MainActivity : BaseActivity() {
 
     /**根据选中状态不同，来显示不同颜色*/
     fun changeBtnState(cardView: View, isSelected: Boolean) {
-        (cardView.findViewById<CardView>(R.id.cardIcon) as ImageView).setColorFilter(if (isSelected) Color.WHITE else Color.BLACK)
-        (cardView.findViewById<CardView>(R.id.cardText) as TextView).setTextColor(if (isSelected) Color.WHITE else Color.BLACK)
+        (cardView.findViewById<CardView>(R.id.cardIcon) as ImageView).setColorFilter(if (isSelected) resources.getColor(R.color.big_btn_text_color,null) else resources.getColor(R.color.black,null))
+        (cardView.findViewById<CardView>(R.id.cardText) as TextView).setTextColor(if (isSelected) resources.getColor(R.color.big_btn_text_color,null) else resources.getColor(R.color.black,null))
         (cardView.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(
             if (isSelected) resources.getColor(
                 R.color.colorPrimary,
                 null
-            ) else Color.WHITE
+            ) else resources.getColor(R.color.big_btn_color,null)
         )
     }
 
@@ -127,7 +126,7 @@ class MainActivity : BaseActivity() {
             checkDialog = AlertDialog.Builder(this).setMessage(resources.getString(R.string.turn_on_dialog_alert))
                 .setPositiveButton(resources.getString(R.string.go_now), { dialog, which ->
                     startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-                    startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
+//                    startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
                 })
                 .setCancelable(false)
                 .create()

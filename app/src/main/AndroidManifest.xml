@@ -17,7 +17,9 @@
             android:theme="@style/AppTheme">
 
 
-        <activity android:name=".util.BaseActivity"/>
+        <activity android:name=".util.BaseActivity"
+                  android:configChanges="uiMode"/>
+        <!--uiMode适配黑暗模式，可以在不需要重启应用的情况下改变主题-->
 
         <activity
                 android:name="com.sibyl.sasukehomeDominator.MainActivity">
