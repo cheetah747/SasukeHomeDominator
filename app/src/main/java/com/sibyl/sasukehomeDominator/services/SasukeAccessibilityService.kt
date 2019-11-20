@@ -71,7 +71,8 @@ class SasukeAccessibilityService : AccessibilityService() {
 //                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
                     NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
-                Handler().postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) }, 1500 + scrShotDelay
+                Handler().postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
+                    (if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500) + scrShotDelay//安卓10的语音助手比较快，不需要1500秒
                 )
             }
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
