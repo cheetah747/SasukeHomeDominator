@@ -38,5 +38,16 @@ class StaticVar {
 
         /**根据监听到的截屏，来获取截图目录，因为很多手机不一样*/
         const val KEY_SCREEN_SHOT_DIR = "KEY_SCREEN_SHOT_DIR"
+
+        /**手机型号*/
+        var deviceModel = ""
+            get() {
+                if (android.os.Build.MODEL.toLowerCase() in
+                    arrayOf("xiaomi","redmi","oneplus","google","pixel","huawei","meizu","lenovo","oppo","vivo","honor","samsung","realme",
+                        "nokia","nubia","smartisan")){
+                    return android.os.Build.MODEL
+                }
+                return android.os.Build.DEVICE
+            }
     }
 }

@@ -93,7 +93,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                     StaticVar.KEY_USER_NAME,
                     "Android ${android.os.Build.VERSION.RELEASE}"
                 ).run { if (isNotBlank()) "${this}@" else "" } +
-                        PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, android.os.Build.MODEL)
+                        PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)
                 //开始把水印画上去
                 val psResultShot =
                     drawWaterMark(imagePath, phoneInfo, SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(Date()))

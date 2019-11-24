@@ -71,7 +71,7 @@ class ScrShotSettingAct : BaseActivity() {
                 //保存手机型号
                 setStringCommit(
                     StaticVar.KEY_PHONE_MODEL,
-                    phoneInfo.text.toString().trim().run { if (isNotBlank()) this else android.os.Build.MODEL })
+                    phoneInfo.text.toString().trim().run { if (isNotBlank()) this else StaticVar.deviceModel })
                 //保存截屏延迟
                 setIntCommit(
                     StaticVar.KEY_TIME_TO_SCRSHOT, when (true) {
@@ -99,11 +99,11 @@ class ScrShotSettingAct : BaseActivity() {
             })
         }
         //手机型号
-        phoneInfoLayout.hint = "${resources.getString(R.string.water_mark_end)}(${android.os.Build.MODEL})"
+        phoneInfoLayout.hint = "${resources.getString(R.string.water_mark_end)}(${StaticVar.deviceModel})"
 //        phoneInfo.hint = android.os.Build.MODEL
         PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, "").run {
-            phoneInfo.setText(if (isNotBlank()) this else android.os.Build.MODEL.apply {
-                PreferHelper.getInstance().setStringCommit(StaticVar.KEY_PHONE_MODEL, android.os.Build.MODEL)
+            phoneInfo.setText(if (isNotBlank()) this else StaticVar.deviceModel.apply {
+                PreferHelper.getInstance().setStringCommit(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)
             })
         }
         //水印开关
