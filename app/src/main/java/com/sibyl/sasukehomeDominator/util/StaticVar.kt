@@ -42,9 +42,8 @@ class StaticVar {
         /**手机型号*/
         var deviceModel = ""
             get() {
-                if (android.os.Build.MODEL.toLowerCase() in
-                    arrayOf("xiaomi","redmi","oneplus","google","pixel","huawei","meizu","lenovo","oppo","vivo","honor","samsung","realme",
-                        "nokia","nubia","smartisan")){
+                if (arrayOf("xiaomi","redmi","oneplus","google","pixel","huawei","meizu","lenovo","oppo","vivo","honor","samsung","realme",
+                        "nokia","nubia","smartisan").any { it in android.os.Build.MODEL.toLowerCase() }){
                     return android.os.Build.MODEL
                 }
                 return android.os.Build.DEVICE
