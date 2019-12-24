@@ -22,9 +22,9 @@
     <string name="water_mark">截屏水印</string>
     <string name="timeout">截屏延时</string>
     <string name="home_dominator_service">HOME支配者服务(SasukeAccessibilityService)</string>
-    <string name="scr_shot_tile">截他妈的</string>
-    <string name="lock_scr_tile">锁他妈的</string>
-    <string name="power_long_tile">电他妈的</string>
+    <string name="scr_shot_tile">截屏</string>
+    <string name="lock_scr_tile">锁屏</string>
+    <string name="power_long_tile">长按电源键</string>
     <string name="setting_success_toast">设置保存成功</string>
     <string name="water_mark_front">前缀</string>
     <string name="water_mark_end">后缀</string>
