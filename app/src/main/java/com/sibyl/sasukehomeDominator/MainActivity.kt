@@ -126,7 +126,7 @@ class MainActivity : BaseActivity() {
             checkDialog = AlertDialog.Builder(this).setMessage(resources.getString(R.string.turn_on_dialog_alert))
                 .setPositiveButton(resources.getString(R.string.go_now), { dialog, which ->
                     startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
-//                    startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
+                    startActivity(Intent(Settings.ACTION_VOICE_INPUT_SETTINGS))
                 })
                 .setCancelable(false)
                 .create()
