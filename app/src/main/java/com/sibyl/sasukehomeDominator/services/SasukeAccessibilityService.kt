@@ -87,7 +87,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         //如果水印开关关掉了，那就不画水印
         if (!PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK, true)) return
         doAsync {
-            Thread.sleep(500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
+//            Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
             WaterMarker(this@SasukeAccessibilityService).apply {
                 val phoneInfo = PreferHelper.getInstance().getString(
                     StaticVar.KEY_USER_NAME,
