@@ -72,7 +72,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                     NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
                 Handler().postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
-                    (if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500) + scrShotDelay//安卓10的语音助手比较快，不需要1500秒
+                    /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/1500 + scrShotDelay//安卓10的语音助手比较快，不需要1500秒
                 )
             }
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
@@ -87,7 +87,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         //如果水印开关关掉了，那就不画水印
         if (!PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK, true)) return
         doAsync {
-//            Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
+            Thread.sleep(500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
             WaterMarker(this@SasukeAccessibilityService).apply {
                 val phoneInfo = PreferHelper.getInstance().getString(
                     StaticVar.KEY_USER_NAME,
