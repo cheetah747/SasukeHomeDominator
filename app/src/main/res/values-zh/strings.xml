@@ -28,4 +28,5 @@
     <string name="setting_success_toast">设置保存成功</string>
     <string name="water_mark_front">前缀</string>
     <string name="water_mark_end">后缀</string>
+    <string name="water_pos">位置</string>
 </resources>

@@ -10,9 +10,14 @@ import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.FolderSelectorDialog
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
+import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.CENTER
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
+import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.LEFT
+import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.RIGHT
 import kotlinx.android.synthetic.main.screen_shot_setting_act.*
 import org.jetbrains.anko.find
+
+
 
 
 /**
@@ -64,6 +69,12 @@ class ScrShotSettingAct : BaseActivity() {
             PreferHelper.getInstance().run {
                 //保存水印
                 setBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, waterMarkCheck.isChecked)
+                //保存水印位置
+                PreferHelper.getInstance().setStringCommit(StaticVar.KEY_POS_SELECT, when(true){
+                    leftSelect.background != null -> StaticVar.LEFT
+                    centerSelect.background != null -> StaticVar.CENTER
+                    else -> StaticVar.RIGHT
+                })
                 //保存用户名
                 setStringCommit(
                     StaticVar.KEY_USER_NAME,
@@ -85,6 +96,21 @@ class ScrShotSettingAct : BaseActivity() {
             Toast.makeText(this, resources.getString(R.string.setting_success_toast), Toast.LENGTH_SHORT).show()
             onBackPressed()
         }
+
+        //选择水印位置
+        arrayOf(rightSelect, centerSelect, leftSelect).forEach {
+            it.setOnClickListener {
+                //先刷新显示状态
+                val pos = when(it){
+                    leftSelect -> LEFT
+                    centerSelect -> CENTER
+                    else -> RIGHT
+                }
+                refreshPosSelectState(pos)
+//                //改记录
+//                PreferHelper.getInstance().setStringCommit(StaticVar.KEY_POS_SELECT, pos)
+            }
+        }
     }
 
     fun initUI() {
@@ -98,6 +124,10 @@ class ScrShotSettingAct : BaseActivity() {
                     .setStringCommit(StaticVar.KEY_USER_NAME, "Android ${android.os.Build.VERSION.RELEASE}")
             })
         }
+
+        //水印位置（默认右边
+        val posSelect = PreferHelper.getInstance().getString(StaticVar.KEY_POS_SELECT, StaticVar.RIGHT)
+        refreshPosSelectState(posSelect)
         //手机型号
         phoneInfoLayout.hint = "${resources.getString(R.string.water_mark_end)}(${StaticVar.deviceModel})"
 //        phoneInfo.hint = android.os.Build.MODEL
@@ -135,6 +165,18 @@ class ScrShotSettingAct : BaseActivity() {
         }
     }
 
+    /**刷新位置选择显示状态*/
+    fun refreshPosSelectState(pos: String){
+        leftSelect.background = null
+        centerSelect.background = null
+        rightSelect.background = null
+        when(pos){
+            LEFT -> leftSelect
+            CENTER -> centerSelect
+            else -> rightSelect
+        }.background = resources.getDrawable(R.drawable.rect_white_select,null)
+    }
+
     /**刷新秒数选择的单选框状态*/
     fun refreshSecondsChecks(checkBox: AppCompatCheckBox) {
         arrayOf(seconds0, seconds3, seconds5).forEach {
@@ -167,4 +209,5 @@ class ScrShotSettingAct : BaseActivity() {
 //        }
 //        return super.onOptionsItemSelected(item)
 //    }
+
 }

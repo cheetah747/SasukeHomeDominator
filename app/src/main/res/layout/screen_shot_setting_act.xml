@@ -78,56 +78,106 @@
                         android:layout_height="wrap_content"/>
 
                 <LinearLayout
-                        android:visibility="gone"
+                        tools:visibility="visible"
                         android:id="@+id/waterMarkInputLayout"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/userNameLayout"
-                            android:layout_width="0dp"
-                            app:counterEnabled="true"
-                            app:boxBackgroundColor="@color/red"
-                            android:layout_weight="1"
-                            app:hintAnimationEnabled="true"
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                        <EditText
-                                android:id="@+id/userName"
-                                android:lines="1"
-                                android:inputType="text"
-                                android:layout_width="match_parent"
+                        <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/userNameLayout"
+                                android:layout_width="0dp"
+                                app:counterEnabled="true"
+                                app:boxBackgroundColor="@color/red"
+                                android:layout_weight="1"
+                                app:hintAnimationEnabled="true"
+                                android:layout_height="wrap_content">
+
+                            <EditText
+                                    android:id="@+id/userName"
+                                    android:lines="1"
+                                    android:inputType="text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <TextView
+                                android:text="\@"
+                                android:textSize="18sp"
+                                android:layout_gravity="center"
+                                android:paddingBottom="10dp"
+                                android:textColor="@color/black"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/phoneInfoLayout"
+                                android:layout_width="0dp"
+                                app:counterEnabled="true"
+                                app:hintAnimationEnabled="true"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content">
 
+                            <EditText
+                                    android:id="@+id/phoneInfo"
+                                    android:lines="1"
+                                    android:inputType="text"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                    <!--水印位置设置-->
 
                     <TextView
-                            android:text="\@"
-                            android:textSize="18sp"
-                            android:layout_gravity="center"
-                            android:paddingBottom="10dp"
-                            android:textColor="@color/black"
+                            android:layout_marginLeft="6dp"
+                            android:text="@string/water_pos"
+                            android:textColor="#9e9e9e"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="3dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/phoneInfoLayout"
-                            android:layout_width="0dp"
-                            app:counterEnabled="true"
-                            app:hintAnimationEnabled="true"
-                            android:layout_weight="1"
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                        <EditText
-                                android:id="@+id/phoneInfo"
-                                android:lines="1"
-                                android:inputType="text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                        <ImageButton
+                                android:id="@+id/leftSelect"
+                                android:layout_width="0dp"
+                                android:background="@null"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/left_select"
+                                android:layout_weight="1"
+                                android:layout_height="100dp"/>
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <ImageButton
+                                android:id="@+id/centerSelect"
+                                android:layout_width="0dp"
+                                android:scaleType="centerInside"
+                                android:background="@null"
+                                android:src="@mipmap/center_select"
+                                android:layout_weight="1"
+                                android:layout_height="100dp"/>
+
+                        <ImageButton
+                                android:id="@+id/rightSelect"
+                                android:background="@null"
+                                android:src="@mipmap/right_select"
+                                android:scaleType="centerInside"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="100dp"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <View

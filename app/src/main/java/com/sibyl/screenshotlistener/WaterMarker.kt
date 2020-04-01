@@ -3,6 +3,8 @@ package com.sibyl.screenshotlistener
 import android.content.Context
 import android.graphics.*
 import com.sibyl.sasukehomeDominator.R
+import com.sibyl.sasukehomeDominator.util.PreferHelper
+import com.sibyl.sasukehomeDominator.util.StaticVar
 import java.io.*
 
 
@@ -43,7 +45,7 @@ class WaterMarker(val context: Context) {
         })
 
         //字的大小，改成图片最高高度的60分之一
-        shotBmp?.let { TEXT_PAINT_SIZE = Math.min(it.width,it.height).toFloat() / 32/*60*/ }
+        shotBmp?.let { TEXT_PAINT_SIZE = Math.min(it.width,it.height).toFloat() / 30/*60*/ }
 
         val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(newBitmap)
@@ -67,11 +69,17 @@ class WaterMarker(val context: Context) {
         val heightUnit = TEXT_PAINT_SIZE * LINE_SPACE //newBitmap.height / infos.size.toFloat()//每行字的高度
         //绘制文字的起始水平线高度
         var textStartY = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size - 0.6)* heightUnit
-
+        //水印位置
+        var waterPos = PreferHelper.getInstance().getString(StaticVar.KEY_POS_SELECT, StaticVar.RIGHT)
         infos.forEach {
             val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
-            val textStartX = newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 1.0/*0.8*/ //写在右下角（还是多减点吧，圆角屏，需要多空一点空间出来）
 //            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
+//            val textStartX = newBitmap.width / 2 - textLength.toFloat() / 2 //写在中央
+            val textStartX: Double = when(waterPos){
+                StaticVar.RIGHT -> newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 1.0/*0.8*/ //写在右下角（还是多减点吧，圆角屏，需要多空一点空间出来）
+                StaticVar.CENTER -> newBitmap.width / 2.0 - textLength.toFloat() / 2.0 //写在中央
+                else -> TEXT_PAINT_SIZE * 0.8//写在左下角
+            }
 
             canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
             textStartY += TEXT_PAINT_SIZE * LINE_SPACE

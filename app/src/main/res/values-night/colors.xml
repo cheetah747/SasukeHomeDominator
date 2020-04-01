@@ -10,5 +10,8 @@
     <color name="transparent">#00000000</color>
     <color name="lighter_gray">#303030</color>
     <color name="big_btn_color">#2d2d2d</color>
+    <color name="rect_select_background">#65FFFFFF</color>
+
+
 
 </resources>

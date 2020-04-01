@@ -9,6 +9,11 @@ class StaticVar {
         const val LOCK_SCREEN = "LOCK_SCREEN"
         const val POWER_LONGPRESS = "POWER_LONGPRESS"
 
+        const val LEFT = "LEFT"
+        const val RIGHT = "RIGHT"
+        const val CENTER = "CENTER"
+
+
         /**手机型号*/
         const val KEY_PHONE_MODEL = "KEY_PHONE_MODEL"
 
@@ -38,6 +43,10 @@ class StaticVar {
 
         /**根据监听到的截屏，来获取截图目录，因为很多手机不一样*/
         const val KEY_SCREEN_SHOT_DIR = "KEY_SCREEN_SHOT_DIR"
+
+        /**水印位置设置*/
+        const val KEY_POS_SELECT = "KEY_POS_SELECT"
+
 
         /**手机型号*/
         var deviceModel = ""
