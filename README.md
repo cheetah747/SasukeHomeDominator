@@ -9,7 +9,7 @@
 ---
 - スクショ設定に入れば、ウォーターマークや遅延などがカスタマイズできます
 
-![](https://i.ibb.co/Z2xpJJ4/Screenshot-20190910-145216.jpg)
+![](https://i.ibb.co/8D0nhNM/Screenshot-20200402-095632-A.jpg)
 ---
 - TileやShotcutsなどの機能も搭載され、操作楽々
 
