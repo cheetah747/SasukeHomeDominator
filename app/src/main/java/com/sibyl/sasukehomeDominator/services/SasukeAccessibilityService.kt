@@ -36,7 +36,7 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onCreate() {
         super.onCreate()
 //        mContext = applicationContext
-//        manager.startListen()//SasukeTodo 如果要启用安卓9.0以下的被动观察监听，就把这行代码打开
+        manager.startListen()
 //        EventBus.getDefault().register(this)
     }
 
@@ -52,7 +52,7 @@ class SasukeAccessibilityService : AccessibilityService() {
             //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
             StaticVar.STRONG_SCRSHOT -> {
 //                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
-                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
+//                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
                 Handler().postDelayed(
                     { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
@@ -69,7 +69,7 @@ class SasukeAccessibilityService : AccessibilityService() {
             StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
             StaticVar.SCREEN_SHOT -> {
 //                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
-                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
+//                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
                 Handler().postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
                     /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/1500 + scrShotDelay//安卓10的语音助手比较快，不需要1500秒
