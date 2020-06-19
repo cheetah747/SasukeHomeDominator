@@ -6,18 +6,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.Toolbar
-import com.sibyl.sasukehomeDominator.util.BaseActivity
-import com.sibyl.sasukehomeDominator.util.FolderSelectorDialog
-import com.sibyl.sasukehomeDominator.util.PreferHelper
-import com.sibyl.sasukehomeDominator.util.StaticVar
+import com.sibyl.sasukehomeDominator.util.*
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.CENTER
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.LEFT
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.RIGHT
 import kotlinx.android.synthetic.main.screen_shot_setting_act.*
 import org.jetbrains.anko.find
-
-
 
 
 /**
@@ -64,25 +59,35 @@ class ScrShotSettingAct : BaseActivity() {
                 }
             }
         }
+        //监听文字变化
+        arrayOf(userName, phoneInfo).forEach {
+            it.afterTextChanged {
+                refreshAtTextVisibility()
+            }
+        }
         //保存
         fab.setOnClickListener {
             PreferHelper.getInstance().run {
                 //保存水印
                 setBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, waterMarkCheck.isChecked)
                 //保存水印位置
-                PreferHelper.getInstance().setStringCommit(StaticVar.KEY_POS_SELECT, when(true){
-                    leftSelect.background != null -> StaticVar.LEFT
-                    centerSelect.background != null -> StaticVar.CENTER
-                    else -> StaticVar.RIGHT
-                })
+                PreferHelper.getInstance().setStringCommit(
+                    StaticVar.KEY_POS_SELECT, when (true) {
+                        leftSelect.background != null -> StaticVar.LEFT
+                        centerSelect.background != null -> StaticVar.CENTER
+                        else -> StaticVar.RIGHT
+                    }
+                )
                 //保存用户名
                 setStringCommit(
                     StaticVar.KEY_USER_NAME,
-                    userName.text.toString().trim().run { if (isNotBlank()) this else "Android ${android.os.Build.VERSION.RELEASE}" })
+                    userName.text.toString()
+                        .run { if (isNotEmpty()) this else "Android ${android.os.Build.VERSION.RELEASE}" })
                 //保存手机型号
                 setStringCommit(
                     StaticVar.KEY_PHONE_MODEL,
-                    phoneInfo.text.toString().trim().run { if (isNotBlank()) this else StaticVar.deviceModel })
+                    phoneInfo.text.toString()
+                        .run { if (isNotEmpty()) this else StaticVar.deviceModel })
                 //保存截屏延迟
                 setIntCommit(
                     StaticVar.KEY_TIME_TO_SCRSHOT, when (true) {
@@ -93,7 +98,11 @@ class ScrShotSettingAct : BaseActivity() {
                     }
                 )
             }
-            Toast.makeText(this, resources.getString(R.string.setting_success_toast), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                resources.getString(R.string.setting_success_toast),
+                Toast.LENGTH_SHORT
+            ).show()
             onBackPressed()
         }
 
@@ -101,7 +110,7 @@ class ScrShotSettingAct : BaseActivity() {
         arrayOf(rightSelect, centerSelect, leftSelect).forEach {
             it.setOnClickListener {
                 //先刷新显示状态
-                val pos = when(it){
+                val pos = when (it) {
                     leftSelect -> LEFT
                     centerSelect -> CENTER
                     else -> RIGHT
@@ -113,31 +122,43 @@ class ScrShotSettingAct : BaseActivity() {
         }
     }
 
+    /**根据填写内容来判断如何显示@字符的颜色*/
+    fun refreshAtTextVisibility() {
+        val isHideAt = arrayOf(userName, phoneInfo).any { it.text.isBlank() && it.text.isNotEmpty() }
+        atTextView.visibility = if (isHideAt) View.GONE else View.VISIBLE
+    }
+
     fun initUI() {
         //用户名
 //        userName.setText(PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME, "Android ${android.os.Build.VERSION.RELEASE}"))
 //        userName.hint = "Android ${android.os.Build.VERSION.RELEASE}"
-        userNameLayout.hint = "${resources.getString(R.string.water_mark_front)}(Android ${android.os.Build.VERSION.RELEASE})"
+        userNameLayout.hint = "Android ${android.os.Build.VERSION.RELEASE}"//"${resources.getString(R.string.water_mark_front)}(Android ${android.os.Build.VERSION.RELEASE})"
         PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME, "").run {
-            userName.setText(if (isNotBlank()) this else "Android ${android.os.Build.VERSION.RELEASE}".apply {
+            userName.setText(if (isNotEmpty()) this else "Android ${android.os.Build.VERSION.RELEASE}".apply {
                 PreferHelper.getInstance()
-                    .setStringCommit(StaticVar.KEY_USER_NAME, "Android ${android.os.Build.VERSION.RELEASE}")
+                    .setStringCommit(
+                        StaticVar.KEY_USER_NAME,
+                        "Android ${android.os.Build.VERSION.RELEASE}"
+                    )
             })
         }
 
         //水印位置（默认右边
-        val posSelect = PreferHelper.getInstance().getString(StaticVar.KEY_POS_SELECT, StaticVar.RIGHT)
+        val posSelect =
+            PreferHelper.getInstance().getString(StaticVar.KEY_POS_SELECT, StaticVar.RIGHT)
         refreshPosSelectState(posSelect)
         //手机型号
-        phoneInfoLayout.hint = "${resources.getString(R.string.water_mark_end)}(${StaticVar.deviceModel})"
+        phoneInfoLayout.hint = "${StaticVar.deviceModel}"//"${resources.getString(R.string.water_mark_end)}(${StaticVar.deviceModel})"
 //        phoneInfo.hint = android.os.Build.MODEL
         PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, "").run {
-            phoneInfo.setText(if (isNotBlank()) this else StaticVar.deviceModel.apply {
-                PreferHelper.getInstance().setStringCommit(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)
+            phoneInfo.setText(if (isNotEmpty()) this else StaticVar.deviceModel.apply {
+                PreferHelper.getInstance()
+                    .setStringCommit(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)
             })
         }
         //水印开关
-        waterMarkCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, true)
+        waterMarkCheck.isChecked =
+            PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, true)
 
         //初始化秒数选择
         refreshSecondsChecks(
@@ -148,10 +169,13 @@ class ScrShotSettingAct : BaseActivity() {
                 else -> seconds0
             }
         )
+        //根据填写内容来判断如何显示@字符的颜色
+        refreshAtTextVisibility()
 
 
         //针对安卓10，新增手动指定截屏路径（安卓10老子操你妈。。。。）
-        dirSelectLayout.visibility = View.GONE/*if (android.os.Build.VERSION.RELEASE.toDouble() < 10) View.GONE else View.VISIBLE*/
+        dirSelectLayout.visibility =
+            View.GONE/*if (android.os.Build.VERSION.RELEASE.toDouble() < 10) View.GONE else View.VISIBLE*/
         dirSelectTv.text = PreferHelper.getInstance().getString(
             KEY_SCREEN_SHOT_DIR,
             Environment.getExternalStorageDirectory().path + "/Pictures/Screenshots/"
@@ -166,15 +190,15 @@ class ScrShotSettingAct : BaseActivity() {
     }
 
     /**刷新位置选择显示状态*/
-    fun refreshPosSelectState(pos: String){
+    fun refreshPosSelectState(pos: String) {
         leftSelect.background = null
         centerSelect.background = null
         rightSelect.background = null
-        when(pos){
+        when (pos) {
             LEFT -> leftSelect
             CENTER -> centerSelect
             else -> rightSelect
-        }.background = resources.getDrawable(R.drawable.rect_white_select,null)
+        }.background = resources.getDrawable(R.drawable.rect_white_select, null)
     }
 
     /**刷新秒数选择的单选框状态*/

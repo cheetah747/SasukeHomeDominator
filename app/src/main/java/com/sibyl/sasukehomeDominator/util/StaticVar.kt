@@ -1,5 +1,8 @@
 package com.sibyl.sasukehomeDominator.util
 
+import android.os.Build
+import java.util.*
+
 /**
  * @author Sasuke on 2019/6/23.
  */
@@ -52,7 +55,8 @@ class StaticVar {
         var deviceModel = ""
             get() {
                 if (arrayOf("xiaomi","redmi","oneplus","google","nexus","pixel","huawei","meizu","lenovo","oppo","vivo","honor","samsung","realme",
-                        "nokia","nubia","smartisan").any { it in android.os.Build.MODEL.toLowerCase() }){
+                        "nokia","nubia","smartisan"
+                    ).any { it in Build.MODEL.toLowerCase(Locale.US) }){
                     return android.os.Build.MODEL
                 }
                 return android.os.Build.DEVICE

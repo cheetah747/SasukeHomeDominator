@@ -89,14 +89,15 @@ class SasukeAccessibilityService : AccessibilityService() {
         doAsync {
 //            Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
             WaterMarker(this@SasukeAccessibilityService).apply {
-                val phoneInfo = PreferHelper.getInstance().getString(
-                    StaticVar.KEY_USER_NAME,
-                    "Android ${android.os.Build.VERSION.RELEASE}"
-                ).run { if (isNotBlank()) "${this}@" else "" } +
-                        PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)
+                var userName = PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME,"Android ${android.os.Build.VERSION.RELEASE}")
+                                                            .run { if (isNotBlank()) "${this}@" else "" }
+                val phoneModel = PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)
+                if (phoneModel.isBlank() && userName.endsWith("@")) userName = userName.substring(0,userName.length - 1)
+
+                val phoneInfo = userName + phoneModel
                 //开始把水印画上去
                 val psResultShot =
-                    drawWaterMark(imagePath, phoneInfo, SimpleDateFormat("yyyy-MM-dd  HH:mm:ss").format(Date()))
+                    drawWaterMark(imagePath, phoneInfo, SimpleDateFormat("yyyy-MM-dd  HH:mm:ss",Locale.ENGLISH).format(Date()))
                 saveBmp2File(psResultShot, File(imagePath), Bitmap.CompressFormat.PNG)
 //                        File(imagePath).renameTo(File(imagePath?.replace(".png",".jpg")))//改文件名，png改成jpg
 
