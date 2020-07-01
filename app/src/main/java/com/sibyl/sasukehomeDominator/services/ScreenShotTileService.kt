@@ -30,7 +30,7 @@ class ScreenShotTileService: TileService() {
 
     override fun onTileAdded() {
         super.onTileAdded()
-        qsTile.state = Tile.STATE_ACTIVE
+        qsTile.state = Tile.STATE_INACTIVE
         qsTile.updateTile()
     }
 
