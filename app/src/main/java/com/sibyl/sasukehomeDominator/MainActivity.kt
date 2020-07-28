@@ -1,13 +1,20 @@
 package com.sibyl.sasukehomeDominator
 
 import android.Manifest
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.animation.TypeEvaluator
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
+import android.util.Log
 import android.util.Pair
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -21,6 +28,7 @@ import com.sibyl.sasukehomeDominator.util.CheckAccessibility
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 
 
@@ -31,26 +39,26 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        initUI()
+        initUI(false)
         setListeners()
         grantPermissions()
 
     }
 
 
-    fun initUI() {
+    fun initUI(isAnime: Boolean) {
         //锁屏卡片
         (lockScreenCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.lock_screen_30dp)
         (lockScreenCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_lock))
 
         //截屏卡片
-        (screenShotCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
-        (screenShotCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_shot))
+        (screenShotCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
+        (screenShotCard.findViewById<AnimCardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_shot))
 
         //截屏设置卡片
-        (screenShotSettingCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
-        (screenShotSettingCard.findViewById<CardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(resources.getColor(R.color.big_btn_text_color,null)) }
-        (screenShotSettingCard.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
+        (screenShotSettingCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
+        (screenShotSettingCard.findViewById<AnimCardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(resources.getColor(R.color.big_btn_text_color,null)) }
+        (screenShotSettingCard.findViewById<AnimCardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
 
         //电源键长按卡片
         (powerLongPressCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.power_longpress_30dp)
@@ -60,8 +68,34 @@ class MainActivity : BaseActivity() {
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         changeBtnState(screenShotCard, selected == StaticVar.SCREEN_SHOT)
         changeBtnState(lockScreenCard, selected == StaticVar.LOCK_SCREEN)
-        screenShotSettingCard.visibility = if (selected == StaticVar.SCREEN_SHOT) View.VISIBLE else View.GONE
         changeBtnState(powerLongPressCard, selected == StaticVar.POWER_LONGPRESS)
+
+
+        Handler().post {
+            val widthAmount = screenShotContainer.measuredWidth
+            //10是卡片的margin，存在3个或2个margin空隙，4是4等份，分配两个按钮
+            val scrCardWidth =  if (selected == StaticVar.SCREEN_SHOT) (widthAmount - dip(10 * 3)) / 4 * 3 else widthAmount - dip(10 * 2)
+            val scrSettingCardWidth = (widthAmount - dip(10 * 3)) / 4
+            if (isAnime){//动画显示，则用动画
+                animateCard(screenShotCard,screenShotCard.layoutParams.width,scrCardWidth)
+            }else{//禁动画，则直接赋值
+                screenShotSettingCard.run {layoutParams = layoutParams.apply { width = scrSettingCardWidth }}
+                screenShotCard.run {layoutParams = layoutParams.apply { width = scrCardWidth}}
+            }
+        }
+
+//        screenShotSettingCard.visibility = if (selected == StaticVar.SCREEN_SHOT) View.VISIBLE else View.GONE
+    }
+
+    fun animateCard(card: View ,startValue: Int, endValue: Int) =
+        ObjectAnimator.ofObject(card,"paramWidth",object : TypeEvaluator<Int>{
+            override fun evaluate(fraction: Float, startValue: Int, endValue: Int): Int {
+                return (startValue + (endValue - startValue) * fraction).toInt()
+            }
+        }, startValue, endValue).setDuration(300).start()
+
+    fun ViewGroup.LayoutParams.setWidth(width: Int){
+        this.width = width
     }
 
     /**根据选中状态不同，来显示不同颜色*/
@@ -90,7 +124,7 @@ class MainActivity : BaseActivity() {
                 )
                 Snackbar.make(root, "【${it.findViewById<TextView>(R.id.cardText).text}】${resources.getString(R.string.setting_success)}", Snackbar.LENGTH_SHORT)
                     .show()
-                initUI()//再刷新一下页面
+                initUI(true)//再刷新一下页面
             }
         }
 

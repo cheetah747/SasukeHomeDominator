@@ -23,6 +23,7 @@
                 android:layout_height="match_parent">
 
             <LinearLayout
+                    android:id="@+id/screenShotContainer"
                     android:animateLayoutChanges="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -34,7 +35,6 @@
 
                 <include
                         android:id="@+id/screenShotSettingCard"
-                        android:visibility="gone"
                         layout="@layout/card_unit_big_weight1"/>
             </LinearLayout>
 
