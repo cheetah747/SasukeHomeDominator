@@ -71,7 +71,7 @@ class MainActivity : BaseActivity() {
         changeBtnState(powerLongPressCard, selected == StaticVar.POWER_LONGPRESS)
 
 
-        Handler().post {
+        screenShotContainer.post {
             val widthAmount = screenShotContainer.measuredWidth
             //10是卡片的margin，存在3个或2个margin空隙，4是4等份，分配两个按钮
             val scrCardWidth =  if (selected == StaticVar.SCREEN_SHOT) (widthAmount - dip(10 * 3)) / 4 * 3 else widthAmount - dip(10 * 2)
