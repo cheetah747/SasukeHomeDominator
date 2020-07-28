@@ -320,7 +320,7 @@ public class ScreenShotListenManager {
         data = data.toLowerCase();
         // 判断图片路径是否含有指定的关键字之一, 如果有, 则认为当前截屏了
         for (String keyWork : KEYWORDS) {
-            if (data.contains(keyWork)) {
+            if (data.contains(keyWork) && data.indexOf(keyWork) < data.lastIndexOf("/")) {
                 return true;
             }
         }
