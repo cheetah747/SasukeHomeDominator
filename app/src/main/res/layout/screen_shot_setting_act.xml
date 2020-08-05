@@ -215,18 +215,18 @@
                             android:layout_height="wrap_content"/>
 
                     <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/seconds3"
+                            android:id="@+id/seconds1"
                             android:buttonTint="@color/zi"
                             android:layout_centerHorizontal="true"
-                            android:text="2秒"
+                            android:text="1秒"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                     <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/seconds5"
+                            android:id="@+id/seconds3"
                             android:layout_alignParentRight="true"
                             android:buttonTint="@color/zi"
-                            android:text="5秒"
+                            android:text="3秒"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                 </RelativeLayout>

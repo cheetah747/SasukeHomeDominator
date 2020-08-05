@@ -21,8 +21,8 @@ import org.jetbrains.anko.find
 class ScrShotSettingAct : BaseActivity() {
     companion object {
         const val SECONDS_0 = 0
-        const val SECONDS_2 = 2000
-        const val SECONDS_5 = 5000
+        const val SECONDS_1 = 1000
+        const val SECONDS_3 = 3000
 
     }
 
@@ -52,7 +52,7 @@ class ScrShotSettingAct : BaseActivity() {
             waterMarkInputLayout.visibility = if (isShow) View.VISIBLE else View.GONE
         }
         //截屏延时 时长选取
-        arrayOf(seconds0, seconds3, seconds5).forEach {
+        arrayOf(seconds0, seconds1, seconds3).forEach {
             it.setOnCheckedChangeListener { compoundButton, isChecked ->
                 if (isChecked) {
                     refreshSecondsChecks(it)
@@ -92,8 +92,8 @@ class ScrShotSettingAct : BaseActivity() {
                 setIntCommit(
                     StaticVar.KEY_TIME_TO_SCRSHOT, when (true) {
                         seconds0.isChecked -> SECONDS_0
-                        seconds3.isChecked -> SECONDS_2
-                        seconds5.isChecked -> SECONDS_5
+                        seconds1.isChecked -> SECONDS_1
+                        seconds3.isChecked -> SECONDS_3
                         else -> SECONDS_0
                     }
                 )
@@ -164,8 +164,8 @@ class ScrShotSettingAct : BaseActivity() {
         refreshSecondsChecks(
             when (PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0)) {
                 SECONDS_0 -> seconds0
-                SECONDS_2 -> seconds3
-                SECONDS_5 -> seconds5
+                SECONDS_1 -> seconds1
+                SECONDS_3 -> seconds3
                 else -> seconds0
             }
         )
@@ -203,7 +203,7 @@ class ScrShotSettingAct : BaseActivity() {
 
     /**刷新秒数选择的单选框状态*/
     fun refreshSecondsChecks(checkBox: AppCompatCheckBox) {
-        arrayOf(seconds0, seconds3, seconds5).forEach {
+        arrayOf(seconds0, seconds1, seconds3).forEach {
             it.isChecked = it == checkBox
         }
     }

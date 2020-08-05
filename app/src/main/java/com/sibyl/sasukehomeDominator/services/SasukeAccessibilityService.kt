@@ -72,7 +72,7 @@ class SasukeAccessibilityService : AccessibilityService() {
 //                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
                 Handler().postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
-                    /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/1500 + scrShotDelay//安卓10的语音助手比较快，不需要1500秒
+                    /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/700 + scrShotDelay//安卓10的语音助手比较快，不需要1500秒
                 )
             }
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
