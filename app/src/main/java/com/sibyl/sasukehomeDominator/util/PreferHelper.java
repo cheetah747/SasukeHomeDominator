@@ -68,6 +68,11 @@ public class PreferHelper {
         return editor.commit();
     }
 
+    public boolean setBooleanCommit(String key, boolean value) {
+        editor.putBoolean(key, value);
+        return editor.commit();
+    }
+
     public boolean setStringCommit(String key, String value) {
         editor.putString(key, value);
         return editor.commit();

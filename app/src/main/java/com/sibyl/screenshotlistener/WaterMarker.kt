@@ -1,6 +1,7 @@
 package com.sibyl.screenshotlistener
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.*
 import com.sibyl.sasukehomeDominator.R
 import com.sibyl.sasukehomeDominator.util.PreferHelper
@@ -8,11 +9,35 @@ import com.sibyl.sasukehomeDominator.util.StaticVar
 import java.io.*
 
 
-
 /**
  * @author Sasuke on 2019-6-25 0025.
  */
 class WaterMarker(val context: Context) {
+    companion object{
+        /**
+         * 将bitmap宽适应屏幕
+         */
+         @JvmStatic
+        fun trasBmp2Card(bitmap: Bitmap, heightFactor: Float): Bitmap{
+            //比例
+            val scaleFactor: Float = Resources.getSystem().displayMetrics.widthPixels / bitmap.width.toFloat()
+//            val desWidth = Resources.getSystem().displayMetrics.widthPixels
+//            val tempBmp = Bitmap.createBitmap(desWidth, (desWidth / heightFactor).toInt(), Bitmap.Config.RGB_565)
+
+//            val canvas = Canvas(tempBmp)
+//            canvas.scale(scaleFactor, scaleFactor)
+//            canvas.drawBitmap(bitmap,null,Rect(0,0,bitmap.width, bitmap.height),Paint())
+//            canvas.clipRect(0f, 0f, bitmap.width.toFloat(), bitmap.width.toFloat() / heightFactor)
+
+//            return tempBmp
+            // 取得想要缩放的matrix参数
+//            val matrix = Matrix().apply { postScale(scaleFactor, scaleFactor) }
+            // 得到新的图片
+            // 得到新的图片
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, (bitmap.width / heightFactor).toInt(),null,true)
+        }
+
+    }
 
     var TEXT_PAINT_SIZE = 25.0f
 

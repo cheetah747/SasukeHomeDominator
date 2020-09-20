@@ -1,18 +1,32 @@
 package com.sibyl.sasukehomeDominator
 
+import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.sibyl.sasukehomeDominator.util.*
+import com.sibyl.sasukehomeDominator.util.PhotoPickDominator.CROP_REQUEST
+import com.sibyl.sasukehomeDominator.util.PhotoPickDominator.PHOTO_REQUEST_GALLERY
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.CENTER
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.LEFT
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.RIGHT
+import com.sibyl.screenshotlistener.WaterMarker
 import kotlinx.android.synthetic.main.screen_shot_setting_act.*
 import org.jetbrains.anko.find
+import java.io.File
+import java.nio.file.Files
 
 
 /**
@@ -24,8 +38,10 @@ class ScrShotSettingAct : BaseActivity() {
         const val SECONDS_1 = 1000
         const val SECONDS_3 = 3000
 
-    }
+        //水印卡片的高度倍数
+        const val IMG_CARD_HEIGHT_FACTORS = 8f
 
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +53,10 @@ class ScrShotSettingAct : BaseActivity() {
         setListeners()
         initUI()
     }
+
+
+    //图片选择器
+    val imgPicker by lazy { PhotoPickDominator(this) }
 
     fun initTransitionName() {
         find<View>(R.id.toolbarBackView).transitionName = "cardView"
@@ -55,6 +75,11 @@ class ScrShotSettingAct : BaseActivity() {
         //是否开启水印卡片背景
         waterCardCheck.setOnCheckedChangeListener { buttonView, isShow ->
             waterCardImg.visibility = if (isShow) View.VISIBLE else View.GONE
+        }
+
+        //添加水印卡片图片
+        waterCardImg.setOnClickListener {
+            imgPicker.selectByLocal(PhotoPickDominator.PHOTO_REQUEST_GALLERY)
         }
 
         //截屏延时 时长选取
@@ -94,6 +119,8 @@ class ScrShotSettingAct : BaseActivity() {
                     StaticVar.KEY_PHONE_MODEL,
                     phoneInfo.text.toString()
                         .run { if (isNotEmpty()) this else StaticVar.deviceModel })
+                //保存水印卡片开关
+                setBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, waterCardCheck.isChecked)
                 //保存截屏延迟
                 setIntCommit(
                     StaticVar.KEY_TIME_TO_SCRSHOT, when (true) {
@@ -167,6 +194,12 @@ class ScrShotSettingAct : BaseActivity() {
 
         //水印卡片开关
         waterCardCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)
+        FileData.waterCardFile(this).takeIf { it.exists() }?.let {
+            Glide.with(this).load(it)
+                .skipMemoryCache(true) // 不使用内存缓存
+                .diskCacheStrategy(DiskCacheStrategy.NONE) // 不使用磁盘缓存
+                .into(waterCardImg)
+        }
 
         //初始化秒数选择
         refreshSecondsChecks(
@@ -200,7 +233,7 @@ class ScrShotSettingAct : BaseActivity() {
     //设置水印卡片背景的自定义高度
     private fun setWaterCardHeight() {
         waterCardImg.post {
-            waterCardImg.layoutParams =waterCardImg.layoutParams.apply { height = waterCardImg.measuredWidth / 8 }
+            waterCardImg.layoutParams =waterCardImg.layoutParams.apply { height = (waterCardImg.measuredWidth / IMG_CARD_HEIGHT_FACTORS).toInt() }
             waterCardImg.visibility = if (waterCardCheck.isChecked) View.VISIBLE else View.GONE
         }
     }
@@ -215,6 +248,52 @@ class ScrShotSettingAct : BaseActivity() {
             CENTER -> centerSelect
             else -> rightSelect
         }.background = resources.getDrawable(R.drawable.rect_white_select, null)
+    }
+
+    var photoPathTemp = ""
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            //裁剪返回======================================
+            CROP_REQUEST ->{
+//                if (data != null) {
+//                    var photo: Bitmap? = null
+//                    if (data.extras != null) {
+//                        photo = data.extras.get("data") as Bitmap?
+//                    }
+//                    if (photo == null && data.data != null) {
+//                        photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.data))
+//                    }
+//                    //删掉中间缓存图片
+//                    photoPathTemp?.takeIf { File(it).exists() }?.let { File(it).delete() }
+//                    Handler().postDelayed({
+//                    }, 800)
+//                }
+            }
+            //选图返回======================================
+            else ->{
+                photoPathTemp = imgPicker.onPhotoPathResult(this, requestCode, resultCode, data)
+                photoPathTemp?.takeIf { it.isNotBlank() }?.let {
+                    val photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(File(it).toUri()),null,BitmapFactory.Options().apply {
+                        inMutable = true
+                    })
+                    val cardBmp = WaterMarker.trasBmp2Card(photo, IMG_CARD_HEIGHT_FACTORS)
+                    photoPathTemp?.takeIf { File(it).exists() }?.let { File(it).delete() }
+                    FileCache.saveBitmap(cardBmp,FileData.waterCardFile(this))
+                    waterCardImg.setImageBitmap(cardBmp)
+
+//                    imgPicker?.cropPhoto(this,
+//                        FuckGoogleAdaptUtil.android7AdaptUri(
+//                            this,
+//                            FileData.fileProviderAuth, File(photoPathTemp)
+//                        ),
+//                        if (requestCode == PHOTO_REQUEST_GALLERY) Resources.getSystem().displayMetrics.widthPixels else 1,
+//                        if (requestCode == PHOTO_REQUEST_GALLERY) Resources.getSystem().displayMetrics.widthPixels / IMG_CARD_HEIGHT_FACTORS else 1
+//                    )
+                }
+            }
+        }
+
     }
 
     /**刷新秒数选择的单选框状态*/
