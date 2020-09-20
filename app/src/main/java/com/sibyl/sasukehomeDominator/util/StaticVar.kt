@@ -26,6 +26,9 @@ class StaticVar {
         /**水印开关*/
         const val KEY_IS_SHOW_WATERMARK = "KEY_IS_SHOW_WATERMARK"
 
+        /**水印卡片开关*/
+        const val KEY_IS_SHOW_WATER_CARD = "KEY_IS_SHOW_WATER_CARD"
+
         /**截图延时时长*/
         const val KEY_TIME_TO_SCRSHOT = "KEY_TIME_TO_SCRSHOT"
 

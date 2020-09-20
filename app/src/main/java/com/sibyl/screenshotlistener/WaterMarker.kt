@@ -44,7 +44,7 @@ class WaterMarker(val context: Context) {
             inPreferredConfig = Bitmap.Config.ARGB_8888
         })
 
-        //字的大小，改成图片最高高度的60分之一
+        //字的大小，改成图片窄边的30分之一
         shotBmp?.let { TEXT_PAINT_SIZE = Math.min(it.width,it.height).toFloat() / 30/*60*/ }
 
         val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.ARGB_8888)

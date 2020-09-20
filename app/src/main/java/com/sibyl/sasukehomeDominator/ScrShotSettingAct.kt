@@ -51,6 +51,12 @@ class ScrShotSettingAct : BaseActivity() {
             //            PreferHelper.getInstance().setBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, isShow)
             waterMarkInputLayout.visibility = if (isShow) View.VISIBLE else View.GONE
         }
+
+        //是否开启水印卡片背景
+        waterCardCheck.setOnCheckedChangeListener { buttonView, isShow ->
+            waterCardImg.visibility = if (isShow) View.VISIBLE else View.GONE
+        }
+
         //截屏延时 时长选取
         arrayOf(seconds0, seconds1, seconds3).forEach {
             it.setOnCheckedChangeListener { compoundButton, isChecked ->
@@ -157,8 +163,10 @@ class ScrShotSettingAct : BaseActivity() {
             })
         }
         //水印开关
-        waterMarkCheck.isChecked =
-            PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, true)
+        waterMarkCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, true)
+
+        //水印卡片开关
+        waterCardCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)
 
         //初始化秒数选择
         refreshSecondsChecks(
@@ -171,21 +179,29 @@ class ScrShotSettingAct : BaseActivity() {
         )
         //根据填写内容来判断如何显示@字符的颜色
         refreshAtTextVisibility()
-
+        //水印卡片（高度设为宽的8分之一）
+        setWaterCardHeight()
 
         //针对安卓10，新增手动指定截屏路径（安卓10老子操你妈。。。。）
-        dirSelectLayout.visibility =
-            View.GONE/*if (android.os.Build.VERSION.RELEASE.toDouble() < 10) View.GONE else View.VISIBLE*/
-        dirSelectTv.text = PreferHelper.getInstance().getString(
-            KEY_SCREEN_SHOT_DIR,
-            Environment.getExternalStorageDirectory().path + "/Pictures/Screenshots/"
-        )
-        //用户自行修改
-        dirSelectTv.setOnClickListener {
-            FolderSelectorDialog.showDialog(this) { file ->
-                dirSelectTv.text = file.canonicalPath
-                PreferHelper.getInstance().setString(KEY_SCREEN_SHOT_DIR, file.canonicalPath)
-            }
+//        dirSelectLayout.visibility = if (android.os.Build.VERSION.RELEASE.toDouble() < 10) View.GONE else View.VISIBLE
+//        dirSelectTv.text = PreferHelper.getInstance().getString(
+//            KEY_SCREEN_SHOT_DIR,
+//            Environment.getExternalStorageDirectory().path + "/Pictures/Screenshots/"
+//        )
+//        //用户自行修改
+//        dirSelectTv.setOnClickListener {
+//            FolderSelectorDialog.showDialog(this) { file ->
+//                dirSelectTv.text = file.canonicalPath
+//                PreferHelper.getInstance().setString(KEY_SCREEN_SHOT_DIR, file.canonicalPath)
+//            }
+//        }
+    }
+
+    //设置水印卡片背景的自定义高度
+    private fun setWaterCardHeight() {
+        waterCardImg.post {
+            waterCardImg.layoutParams =waterCardImg.layoutParams.apply { height = waterCardImg.measuredWidth / 8 }
+            waterCardImg.visibility = if (waterCardCheck.isChecked) View.VISIBLE else View.GONE
         }
     }
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:background="@color/white"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <RelativeLayout
             android:layout_marginBottom="5dp"
@@ -16,7 +16,7 @@
                 android:id="@+id/toolbarBackView"
                 android:background="@color/red"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"/>
+                android:layout_height="55dp" />
 
         <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -30,7 +30,7 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/screen_shot_setting_30dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             <TextView
                     android:id="@+id/toolbarText"
@@ -38,7 +38,7 @@
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings"/>
+                    android:text="@string/settings" />
         </androidx.appcompat.widget.Toolbar>
     </RelativeLayout>
 
@@ -54,33 +54,38 @@
 
             <LinearLayout
                     android:animateLayoutChanges="true"
-                    android:padding="15dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                 <TextView
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/water_mark"
                         android:layout_marginBottom="15dp"
                         android:textSize="18sp"
                         android:textColor="@color/red"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/waterMarkCheck"
+                        android:layout_marginLeft="15dp"
                         android:text="@string/available"
                         android:layout_marginBottom="15dp"
                         android:buttonTint="@color/zi"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
+
+                <!-- 截屏水印模块-->
                 <LinearLayout
                         tools:visibility="visible"
                         android:id="@+id/waterMarkInputLayout"
                         android:orientation="vertical"
+                        android:animateLayoutChanges="true"
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -88,6 +93,8 @@
                     <LinearLayout
                             android:animateLayoutChanges="true"
                             android:orientation="horizontal"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -105,7 +112,7 @@
                                     android:lines="1"
                                     android:inputType="text"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,7 +125,7 @@
                                 android:paddingBottom="10dp"
                                 android:textColor="@color/at_text_color"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content" />
 
                         <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/phoneInfoLayout"
@@ -133,22 +140,25 @@
                                     android:lines="1"
                                     android:inputType="text"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content" />
 
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                     <!--水印位置设置-->
 
                     <TextView
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginLeft="21dp"
                             android:text="@string/water_pos"
                             android:textColor="#9e9e9e"
                             android:paddingTop="10dp"
                             android:paddingBottom="3dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
+                    <!--三个位置选项-->
                     <LinearLayout
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -160,7 +170,7 @@
                                 android:scaleType="centerInside"
                                 android:src="@mipmap/left_select"
                                 android:layout_weight="1"
-                                android:layout_height="100dp"/>
+                                android:layout_height="100dp" />
 
                         <ImageButton
                                 android:id="@+id/centerSelect"
@@ -169,7 +179,7 @@
                                 android:background="@null"
                                 android:src="@mipmap/center_select"
                                 android:layout_weight="1"
-                                android:layout_height="100dp"/>
+                                android:layout_height="100dp" />
 
                         <ImageButton
                                 android:id="@+id/rightSelect"
@@ -178,8 +188,31 @@
                                 android:scaleType="centerInside"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
-                                android:layout_height="100dp"/>
+                                android:layout_height="100dp" />
                     </LinearLayout>
+
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/waterCardCheck"
+                            android:layout_marginLeft="15dp"
+                            android:text="@string/water_card_img"
+                            android:buttonTint="@color/zi"
+                            android:textColor="@color/black"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    <!--水印卡片-->
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/waterCardImg"
+                            android:layout_height="100dp"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginLeft="20dp"
+                            app:srcCompat="@mipmap/plus"
+                            android:scaleType="centerInside"
+                            android:layout_marginRight="20dp"
+                            android:background="@color/imageview_background_color"/>
+
                 </LinearLayout>
 
                 <View
@@ -187,21 +220,21 @@
                         android:layout_marginTop="35dp"
                         android:layout_marginBottom="35dp"
                         android:layout_height="1px"
-                        android:background="@color/lighter_gray"/>
+                        android:background="@color/lighter_gray" />
 
                 <TextView
                         android:text="@string/timeout"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginBottom="15dp"
                         android:textSize="18sp"
                         android:textColor="@color/red"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
 
                 <RelativeLayout
-                        android:layout_marginBottom="15dp"
                         android:orientation="horizontal"
-                        android:paddingLeft="30dp"
+                        android:paddingLeft="45dp"
                         android:paddingRight="30dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -212,7 +245,7 @@
                             android:text="0秒"
                             android:buttonTint="@color/zi"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/seconds1"
@@ -220,7 +253,7 @@
                             android:layout_centerHorizontal="true"
                             android:text="1秒"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/seconds3"
@@ -228,67 +261,67 @@
                             android:buttonTint="@color/zi"
                             android:text="3秒"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content" />
                 </RelativeLayout>
 
 
-                <Button
-                        android:visibility="gone"
-                        android:id="@+id/okBtn"
-                        android:clickable="true"
-                        android:elevation="5dp"
-                        android:layout_marginTop="30dp"
-                        android:layout_margin="10dp"
-                        android:backgroundTint="@color/red"
-                        android:textColor="@color/white"
-                        android:text="保存"
-                        android:padding="14dp"
-                        android:textSize="16sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                <!--                <Button-->
+                <!--                        android:visibility="gone"-->
+                <!--                        android:id="@+id/okBtn"-->
+                <!--                        android:clickable="true"-->
+                <!--                        android:elevation="5dp"-->
+                <!--                        android:layout_marginTop="30dp"-->
+                <!--                        android:layout_margin="10dp"-->
+                <!--                        android:backgroundTint="@color/red"-->
+                <!--                        android:textColor="@color/white"-->
+                <!--                        android:text="保存"-->
+                <!--                        android:padding="14dp"-->
+                <!--                        android:textSize="16sp"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content" />-->
 
-                <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/dirSelectLayout"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                <!--                <LinearLayout-->
+                <!--                        android:visibility="gone"-->
+                <!--                        android:id="@+id/dirSelectLayout"-->
+                <!--                        android:orientation="vertical"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content">-->
 
-                    <View
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="35dp"
-                            android:layout_marginBottom="35dp"
-                            android:layout_height="1px"
-                            android:background="@color/lighter_gray"/>
+                <!--                    <View-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_marginTop="35dp"-->
+                <!--                            android:layout_marginBottom="35dp"-->
+                <!--                            android:layout_height="1px"-->
+                <!--                            android:background="@color/lighter_gray" />-->
 
-                    <TextView
-                            android:text="フォルダ"
-                            android:layout_marginBottom="15dp"
-                            android:textSize="18sp"
-                            android:textColor="@color/red"
-                            android:textStyle="bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                <!--                    <TextView-->
+                <!--                            android:text="フォルダ"-->
+                <!--                            android:layout_marginBottom="15dp"-->
+                <!--                            android:textSize="18sp"-->
+                <!--                            android:textColor="@color/red"-->
+                <!--                            android:textStyle="bold"-->
+                <!--                            android:layout_width="wrap_content"-->
+                <!--                            android:layout_height="wrap_content" />-->
 
-                    <TextView
-                            android:id="@+id/dirSelectTv"
-                            android:paddingTop="3dp"
-                            android:paddingBottom="3dp"
-                            android:textSize="18sp"
-                            android:text="/..."
-                            tools:text="/Pictures/ScreenShots/"
-                            android:textColor="@color/black"
-                            android:ellipsize="start"
-                            android:drawablePadding="15dp"
-                            android:drawableLeft="@drawable/ic_folder_black_24dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                </LinearLayout>
+                <!--                    <TextView-->
+                <!--                            android:id="@+id/dirSelectTv"-->
+                <!--                            android:paddingTop="3dp"-->
+                <!--                            android:paddingBottom="3dp"-->
+                <!--                            android:textSize="18sp"-->
+                <!--                            android:text="/..."-->
+                <!--                            tools:text="/Pictures/ScreenShots/"-->
+                <!--                            android:textColor="@color/black"-->
+                <!--                            android:ellipsize="start"-->
+                <!--                            android:drawablePadding="15dp"-->
+                <!--                            android:drawableLeft="@drawable/ic_folder_black_24dp"-->
+                <!--                            android:layout_width="match_parent"-->
+                <!--                            android:layout_height="wrap_content" />-->
+                <!--                </LinearLayout>-->
 
                 <View
                         android:id="@+id/blank"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"/>
+                        android:layout_height="60dp" />
             </LinearLayout>
         </com.sibyl.sasukehomeDominator.util.VerticalScrollView>
 
@@ -304,7 +337,7 @@
                 app:rippleColor="@color/colorPrimary"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         <!--<com.melnykov.fab.FloatingActionButton-->
         <!--android:id="@+id/fab"-->
         <!--android:layout_width="wrap_content"-->
