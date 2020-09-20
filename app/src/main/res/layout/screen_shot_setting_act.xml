@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@color/main_activity_background_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -81,143 +82,184 @@
 
 
                 <!-- 截屏水印模块-->
-                <LinearLayout
-                        tools:visibility="visible"
+
+                <androidx.cardview.widget.CardView
                         android:id="@+id/waterMarkInputLayout"
-                        android:orientation="vertical"
-                        android:animateLayoutChanges="true"
-                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        card_view:cardCornerRadius="8dp"
+                        card_view:cardElevation="6dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:clickable="true">
 
                     <LinearLayout
+                            tools:visibility="visible"
+                            android:paddingBottom="18dp"
+                            android:orientation="vertical"
+                            android:paddingTop="18dp"
                             android:animateLayoutChanges="true"
-                            android:orientation="horizontal"
-                            android:paddingLeft="15dp"
-                            android:paddingRight="15dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/userNameLayout"
-                                android:layout_width="0dp"
-                                app:counterEnabled="true"
-                                app:boxBackgroundColor="@color/red"
-                                android:layout_weight="1"
-                                app:hintAnimationEnabled="true"
+                        <LinearLayout
+                                android:animateLayoutChanges="true"
+                                android:orientation="horizontal"
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                            <EditText
-                                    android:id="@+id/userName"
-                                    android:lines="1"
-                                    android:inputType="text"
-                                    android:layout_width="match_parent"
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/userNameLayout"
+                                    android:layout_width="0dp"
+                                    app:counterEnabled="true"
+                                    app:boxBackgroundColor="@color/red"
+                                    android:layout_weight="1"
+                                    app:hintAnimationEnabled="true"
+                                    android:layout_height="wrap_content">
+
+                                <EditText
+                                        android:id="@+id/userName"
+                                        android:lines="1"
+                                        android:inputType="text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <TextView
+                                    android:id="@+id/atTextView"
+                                    android:text="\@"
+                                    android:textSize="18sp"
+                                    android:layout_gravity="center"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="@color/at_text_color"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                            <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/phoneInfoLayout"
+                                    android:layout_width="0dp"
+                                    app:counterEnabled="true"
+                                    app:hintAnimationEnabled="true"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content">
 
+                                <EditText
+                                        android:id="@+id/phoneInfo"
+                                        android:lines="1"
+                                        android:inputType="text"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+                        <!--水印位置设置-->
 
                         <TextView
-                                android:id="@+id/atTextView"
-                                android:text="\@"
-                                android:textSize="18sp"
-                                android:layout_gravity="center"
-                                android:paddingBottom="10dp"
-                                android:textColor="@color/at_text_color"
+                                android:layout_marginLeft="21dp"
+                                android:text="@string/water_pos"
+                                android:textColor="#9e9e9e"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="3dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/phoneInfoLayout"
-                                android:layout_width="0dp"
-                                app:counterEnabled="true"
-                                app:hintAnimationEnabled="true"
-                                android:layout_weight="1"
+                        <!--三个位置选项-->
+                        <LinearLayout
+                                android:paddingLeft="15dp"
+                                android:paddingRight="15dp"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                            <EditText
-                                    android:id="@+id/phoneInfo"
-                                    android:lines="1"
-                                    android:inputType="text"
-                                    android:layout_width="match_parent"
+                            <ImageButton
+                                    android:id="@+id/leftSelect"
+                                    android:layout_width="0dp"
+                                    android:background="@null"
+                                    android:scaleType="centerInside"
+                                    android:src="@mipmap/left_select"
+                                    android:layout_weight="1"
+                                    android:layout_height="100dp" />
+
+                            <ImageButton
+                                    android:id="@+id/centerSelect"
+                                    android:layout_width="0dp"
+                                    android:scaleType="centerInside"
+                                    android:background="@null"
+                                    android:src="@mipmap/center_select"
+                                    android:layout_weight="1"
+                                    android:layout_height="100dp" />
+
+                            <ImageButton
+                                    android:id="@+id/rightSelect"
+                                    android:background="@null"
+                                    android:src="@mipmap/right_select"
+                                    android:scaleType="centerInside"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="100dp" />
+                        </LinearLayout>
+
+                        <!--水印卡片选项-->
+                        <RelativeLayout
+                                android:layout_marginTop="5dp"
+                                android:gravity="center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/waterCardCheck"
+                                    android:layout_marginLeft="15dp"
+                                    android:text="@string/water_card_img"
+                                    android:buttonTint="@color/zi"
+                                    android:textColor="@color/black"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
 
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-                    <!--水印位置设置-->
+                        </RelativeLayout>
+                        <!--水印卡片-->
+                        <LinearLayout
+                                android:id="@+id/waterCardContainer"
+                                android:orientation="vertical"
+                                android:paddingTop="20dp"
+                                android:elevation="-3dp"
+                                android:paddingBottom="25dp"
+                                android:background="@color/water_card_setting_background"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                    <TextView
-                            android:layout_marginLeft="21dp"
-                            android:text="@string/water_pos"
-                            android:textColor="#9e9e9e"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="3dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            <Switch
+                                    android:id="@+id/waterTextColorCheck"
+                                    android:checked="false"
+                                    android:paddingTop="6dp"
+                                    android:paddingBottom="6dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:textColor="@color/black"
+                                    android:text="@string/water_text_black"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
 
-                    <!--三个位置选项-->
-                    <LinearLayout
-                            android:paddingLeft="15dp"
-                            android:paddingRight="15dp"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        <ImageButton
-                                android:id="@+id/leftSelect"
-                                android:layout_width="0dp"
-                                android:background="@null"
-                                android:scaleType="centerInside"
-                                android:src="@mipmap/left_select"
-                                android:layout_weight="1"
-                                android:layout_height="100dp" />
-
-                        <ImageButton
-                                android:id="@+id/centerSelect"
-                                android:layout_width="0dp"
-                                android:scaleType="centerInside"
-                                android:background="@null"
-                                android:src="@mipmap/center_select"
-                                android:layout_weight="1"
-                                android:layout_height="100dp" />
-
-                        <ImageButton
-                                android:id="@+id/rightSelect"
-                                android:background="@null"
-                                android:src="@mipmap/right_select"
-                                android:scaleType="centerInside"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="100dp" />
+                            <com.sibyl.sasukehomeDominator.AnimImageView
+                                    android:id="@+id/waterCardImg"
+                                    android:layout_height="100dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:scaleType="centerCrop"
+                                    android:elevation="15dp"
+                                    android:layout_marginRight="10dp"
+                                    android:src="@mipmap/default_card_backgorund" />
+                        </LinearLayout>
                     </LinearLayout>
 
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/waterCardCheck"
-                            android:layout_marginLeft="15dp"
-                            android:text="@string/water_card_img"
-                            android:buttonTint="@color/zi"
-                            android:textColor="@color/black"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                    <!--水印卡片-->
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/waterCardImg"
-                            android:layout_height="100dp"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginLeft="20dp"
-                            app:srcCompat="@mipmap/plus"
-                            android:scaleType="centerInside"
-                            android:layout_marginRight="20dp"
-                            android:background="@color/imageview_background_color"/>
-
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <View
                         android:layout_width="match_parent"
-                        android:layout_marginTop="35dp"
+                        android:layout_marginTop="25dp"
                         android:layout_marginBottom="35dp"
                         android:layout_height="1px"
                         android:background="@color/lighter_gray" />

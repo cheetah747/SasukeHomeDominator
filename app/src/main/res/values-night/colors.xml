@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="main_activity_background_color">#000000</color>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#2196F3</color>
@@ -12,7 +13,9 @@
     <color name="big_btn_color">#2d2d2d</color>
     <color name="rect_select_background">#65FFFFFF</color>
     <color name="at_text_color">#FFFFFF</color>
-<!--    <color name="at_text_color_gray">#54FFFFFF</color>-->
+    <color name="water_card_setting_background">#353434</color>
+
+    <!--    <color name="at_text_color_gray">#54FFFFFF</color>-->
 
 
 </resources>

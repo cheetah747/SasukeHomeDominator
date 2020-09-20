@@ -74,12 +74,16 @@ class ScrShotSettingAct : BaseActivity() {
 
         //是否开启水印卡片背景
         waterCardCheck.setOnCheckedChangeListener { buttonView, isShow ->
-            waterCardImg.visibility = if (isShow) View.VISIBLE else View.GONE
+            waterCardContainer.visibility = if (isShow) View.VISIBLE else View.GONE
+            waterCardImg.post {
+                waterCardImg.setParamHeight((waterCardImg.measuredWidth / IMG_CARD_HEIGHT_FACTORS).toInt())
+            }
         }
+
 
         //添加水印卡片图片
         waterCardImg.setOnClickListener {
-            imgPicker.selectByLocal(PhotoPickDominator.PHOTO_REQUEST_GALLERY)
+            imgPicker.selectByLocal(PHOTO_REQUEST_GALLERY)
         }
 
         //截屏延时 时长选取
@@ -121,6 +125,8 @@ class ScrShotSettingAct : BaseActivity() {
                         .run { if (isNotEmpty()) this else StaticVar.deviceModel })
                 //保存水印卡片开关
                 setBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, waterCardCheck.isChecked)
+                //保存水印文字颜色
+                setBoolean(StaticVar.KEY_WATER_TEXT_IS_BLACK,waterTextColorCheck.isChecked)
                 //保存截屏延迟
                 setIntCommit(
                     StaticVar.KEY_TIME_TO_SCRSHOT, when (true) {
@@ -195,12 +201,17 @@ class ScrShotSettingAct : BaseActivity() {
         //水印卡片开关
         waterCardCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)
         FileData.waterCardFile(this).takeIf { it.exists() }?.let {
-            Glide.with(this).load(it)
-                .skipMemoryCache(true) // 不使用内存缓存
-                .diskCacheStrategy(DiskCacheStrategy.NONE) // 不使用磁盘缓存
-                .into(waterCardImg)
+            waterCardImg.setImageURI(it.toUri())
+//            Glide.with(this).load(it)
+//                .skipMemoryCache(true) // 不使用内存缓存
+//                .diskCacheStrategy(DiskCacheStrategy.NONE) // 不使用磁盘缓存
+//                .centerCrop()
+//                .into(waterCardImg)
         }
-
+        //水印文字颜色（是否黑色）
+        waterTextColorCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_WATER_TEXT_IS_BLACK, false)
+        //水印卡片显隐
+        waterCardContainer.visibility = if(waterCardCheck.isChecked) View.VISIBLE else View.GONE
         //初始化秒数选择
         refreshSecondsChecks(
             when (PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0)) {
@@ -213,7 +224,9 @@ class ScrShotSettingAct : BaseActivity() {
         //根据填写内容来判断如何显示@字符的颜色
         refreshAtTextVisibility()
         //水印卡片（高度设为宽的8分之一）
-        setWaterCardHeight()
+        waterCardImg.post {
+            waterCardImg.setParamHeight((waterCardImg.measuredWidth / IMG_CARD_HEIGHT_FACTORS).toInt())
+        }
 
         //针对安卓10，新增手动指定截屏路径（安卓10老子操你妈。。。。）
 //        dirSelectLayout.visibility = if (android.os.Build.VERSION.RELEASE.toDouble() < 10) View.GONE else View.VISIBLE
@@ -228,14 +241,6 @@ class ScrShotSettingAct : BaseActivity() {
 //                PreferHelper.getInstance().setString(KEY_SCREEN_SHOT_DIR, file.canonicalPath)
 //            }
 //        }
-    }
-
-    //设置水印卡片背景的自定义高度
-    private fun setWaterCardHeight() {
-        waterCardImg.post {
-            waterCardImg.layoutParams =waterCardImg.layoutParams.apply { height = (waterCardImg.measuredWidth / IMG_CARD_HEIGHT_FACTORS).toInt() }
-            waterCardImg.visibility = if (waterCardCheck.isChecked) View.VISIBLE else View.GONE
-        }
     }
 
     /**刷新位置选择显示状态*/

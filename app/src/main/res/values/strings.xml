@@ -32,4 +32,5 @@
     <string name="water_mark_end">ブランド</string>
     <string name="water_pos">位置</string>
     <string name="water_card_img">背景カード</string>
+    <string name="water_text_black">反色文字</string>
 </resources>
