@@ -1,5 +1,6 @@
 package com.sibyl.sasukehomeDominator
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -9,6 +10,7 @@ import android.os.Environment
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
@@ -84,6 +86,16 @@ class ScrShotSettingAct : BaseActivity() {
         //添加水印卡片图片
         waterCardImg.setOnClickListener {
             imgPicker.selectByLocal(PHOTO_REQUEST_GALLERY)
+        }
+
+        //水印卡片复位默认
+        waterCardImg.setOnLongClickListener {
+            AlertDialog.Builder(this).setMessage(resources.getString(R.string.is_resume_default_card))
+                .setPositiveButton(resources.getString(R.string.yes),{ dialog, which ->
+                    waterCardImg.setImageResource(R.mipmap.default_card_background)//恢复默认显示
+                    FileData.waterCardFile(this).takeIf { it.exists() }?.let { it.delete() }//删除
+                }).show()
+            true
         }
 
         //截屏延时 时长选取

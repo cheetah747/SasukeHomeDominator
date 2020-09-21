@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import com.sibyl.sasukehomeDominator.R
+import com.sibyl.sasukehomeDominator.SasukeApplication
+import com.sibyl.sasukehomeDominator.ScrShotSettingAct
+import com.sibyl.sasukehomeDominator.util.FileData
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 import java.io.*
@@ -51,13 +54,62 @@ class WaterMarker(val context: Context) {
     /**
      * 用于自定义card背景图片资源ID
      */
-    var defaultCardResId = com.sibyl.sasukehomeDominator.R.drawable.ic_launcher_background
+    var defaultCardResId =R.mipmap.default_card_background
+
+    val textPaintColor by lazy {
+        //只有在启用水印卡片&&反色的时候，才用黑色字，否则用白色
+        if(PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)
+            && PreferHelper.getInstance().getBoolean(StaticVar.KEY_WATER_TEXT_IS_BLACK, false)){
+            Color.BLACK
+        }else{
+            Color.WHITE
+        }
+    }
+
+    //文字画笔（普通模式）
+    val textPaint by lazy {
+        Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG).apply {
+            textSize = TEXT_PAINT_SIZE
+            typeface = context.resources.getFont(R.font.google_product_sans)
+            color = Color.WHITE
+            //如果不显示水印卡片，那就加阴影，否则不加
+            setShadowLayer(4f, 1f, 1f,Color.BLACK)
+        }
+    }
+
+    //文字画笔（画水印卡片）
+    val textPaintInCard by lazy {
+        Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG).apply {
+            textSize = TEXT_PAINT_SIZE
+            typeface = context.resources.getFont(R.font.google_product_sans)
+            color = textPaintColor
+            //如果不显示水印卡片，那就加阴影，否则不加
+            if ( !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)){
+                setShadowLayer(4f, 1f, 1f,Color.BLACK)
+            }
+        }
+    }
+
+
+
+    //图片画笔
+    val bitmapPaint by lazy {
+        Paint().apply {
+            isDither = true
+            isFilterBitmap = true
+        }
+    }
+
+    //每行字的高度
+    val heightUnit = TEXT_PAINT_SIZE * LINE_SPACE //newBitmap.height / infos.size.toFloat()//每行字的高度
+
+    //水印位置（左，中，右）
+    val waterPos by lazy { PreferHelper.getInstance().getString(StaticVar.KEY_POS_SELECT, StaticVar.RIGHT) }
 
     /**
      * 把需要显示的信息画到底部卡片上
      */
     fun drawWaterMark(scrShotPath: String?, vararg infos: String): Bitmap {
-//        val bottomCard = readBitmapRes(context, defaultCardResId)
         var shotBmp: Bitmap? = BitmapFactory.decodeFile(scrShotPath, BitmapFactory.Options().apply {
             val opt = BitmapFactory.Options().apply {
                 inJustDecodeBounds = true
@@ -66,36 +118,60 @@ class WaterMarker(val context: Context) {
             //前面都是铺垫，这个才是目的
             this.inJustDecodeBounds = false
             this.inSampleSize = if (Math.min(opt.outWidth ,opt.outHeight)>  2160) 1 else 1//凡是大于1080的全特么给我缩小！(新：缩你麻痹，有时候给老子莫名其妙缩成一半模糊小图是怎么回事)
-            inPreferredConfig = Bitmap.Config.ARGB_8888
+            inPreferredConfig = Bitmap.Config.RGB_565
         })
 
         //字的大小，改成图片窄边的30分之一
-        shotBmp?.let { TEXT_PAINT_SIZE = Math.min(it.width,it.height).toFloat() / 30/*60*/ }
+        shotBmp?.let { TEXT_PAINT_SIZE = Math.min(it.width,it.height).toFloat() / 30/*60*/
+            //如果要使用水印卡片&&是竖屏截图
+            if (PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD,false)
+                     && shotBmp.width < shotBmp.height){
+                    val cardFile = FileData.waterCardFile(SasukeApplication.app!!)
+                    val bottomCard = if (cardFile.exists()) BitmapFactory.decodeFile(cardFile.absolutePath) else readBitmapRes(context, defaultCardResId)
+                    //开始绘制
+                    val desHeight = ((bottomCard?.width ?: 0) / ScrShotSettingAct.IMG_CARD_HEIGHT_FACTORS).toInt()
+                    val newBitmap = Bitmap.createBitmap(bottomCard?.width ?:0, desHeight, Bitmap.Config.RGB_565)
+                    val canvas = Canvas(newBitmap)
 
-        val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(newBitmap)
-        val bitmapPaint = Paint().apply {
-            isDither = true
-            isFilterBitmap = true
+                    val src = Rect(0, 0, bottomCard?.width ?: 0, desHeight)
+                    val dst = Rect(0, 0, bottomCard?.width ?: 0, desHeight)
+                    canvas.drawBitmap(shotBmp, src, dst, bitmapPaint)
+                    //绘制文字的起始水平线高度
+                    var textStartY = desHeight / 2 - infos.size * heightUnit / 2 + heightUnit
+
+                    infos.forEach {
+                        val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
+    //            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
+    //            val textStartX = newBitmap.width / 2 - textLength.toFloat() / 2 //写在中央
+                        val textStartX: Double = when(waterPos){
+                            StaticVar.RIGHT -> newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 1.0/*0.8*/ //写在右下角（还是多减点吧，圆角屏，需要多空一点空间出来）
+                            StaticVar.CENTER -> newBitmap.width / 2.0 - textLength.toFloat() / 2.0 //写在中央
+                            else -> TEXT_PAINT_SIZE * 0.8//写在左下角
+                        }
+
+                        canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
+                        textStartY += TEXT_PAINT_SIZE * LINE_SPACE
+                    }
+                return newBitmap
+            }
+
         }
+
+
+
+
+        val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.RGB_565)
+        val canvas = Canvas(newBitmap)
+
         val src = Rect(0, 0, shotBmp?.width ?:0, shotBmp?.height ?:0)
         val dst = Rect(0, 0, shotBmp?.width ?:0, shotBmp?.height ?:0)
         canvas.drawBitmap(shotBmp, src, dst, bitmapPaint)
 
-        //截图已经画上画布了，接下来把字写上去。
-        val textPaint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG)
-        textPaint.apply {
-            textSize = TEXT_PAINT_SIZE
-            typeface = context.resources.getFont(R.font.google_product_sans)
-            color = Color.WHITE
-            setShadowLayer(4f, 1f, 1f,Color.BLACK)
-        }
 
-        val heightUnit = TEXT_PAINT_SIZE * LINE_SPACE //newBitmap.height / infos.size.toFloat()//每行字的高度
         //绘制文字的起始水平线高度
         var textStartY = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size - 0.6)* heightUnit
         //水印位置
-        var waterPos = PreferHelper.getInstance().getString(StaticVar.KEY_POS_SELECT, StaticVar.RIGHT)
+
         infos.forEach {
             val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
 //            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
@@ -114,6 +190,15 @@ class WaterMarker(val context: Context) {
         return newBitmap
     }
 
+
+
+
+    /**
+     * 如果需要，就把水印画到卡片上去
+     */
+    fun drawWater2CardIfNeed(){
+
+    }
 
     /**
      * 把截图与底部信息卡拼接起来

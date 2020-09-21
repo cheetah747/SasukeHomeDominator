@@ -156,8 +156,6 @@ class MainActivity : BaseActivity() {
     }
 
     fun checkAccessibility() {
-        return //SasukeTodo 暂时不弹窗
-
         if (checkDialog == null) {
             checkDialog = AlertDialog.Builder(this).setMessage(resources.getString(R.string.turn_on_dialog_alert))
                 .setPositiveButton(resources.getString(R.string.go_now), { dialog, which ->

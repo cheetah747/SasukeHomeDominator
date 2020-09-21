@@ -33,4 +33,8 @@
     <string name="water_pos">位置</string>
     <string name="water_card_img">背景カード</string>
     <string name="water_text_black">反色文字</string>
+    <string name="is_resume_default_card">デフォルト に戻しますか？</string>
+    <string name="yes">はい</string>
+
+
 </resources>

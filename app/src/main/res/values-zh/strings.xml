@@ -31,4 +31,6 @@
     <string name="water_pos">位置</string>
     <string name="water_card_img">水印卡片</string>
     <string name="water_text_black">反色文字</string>
+    <string name="is_resume_default_card">恢复默认卡片吗？</string>
+    <string name="yes">是的</string>
 </resources>

@@ -226,7 +226,7 @@
                                 android:orientation="vertical"
                                 android:paddingTop="20dp"
                                 android:elevation="-3dp"
-                                android:paddingBottom="25dp"
+                                android:paddingBottom="15dp"
                                 android:background="@color/water_card_setting_background"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -251,7 +251,7 @@
                                     android:scaleType="centerCrop"
                                     android:elevation="15dp"
                                     android:layout_marginRight="10dp"
-                                    android:src="@mipmap/default_card_backgorund" />
+                                    android:src="@mipmap/default_card_background" />
                         </LinearLayout>
                     </LinearLayout>
 
