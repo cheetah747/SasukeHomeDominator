@@ -84,9 +84,15 @@ class WaterMarker(val context: Context) {
             typeface = context.resources.getFont(R.font.google_product_sans)
             color = textPaintColor
             //如果不显示水印卡片，那就加阴影，否则不加
-            if ( !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)){
-                setShadowLayer(4f, 1f, 1f,Color.BLACK)
+//            if ( !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)){
+            PreferHelper.getInstance().getBoolean(StaticVar.KEY_WATER_TEXT_IS_BLACK, false).run {
+                setShadowLayer(1f, 1f, 1f,when(this){
+                    true -> Color.WHITE
+                    else -> Color.BLACK
+                })
             }
+
+//            }
         }
     }
 
@@ -109,7 +115,7 @@ class WaterMarker(val context: Context) {
     /**
      * 把需要显示的信息画到底部卡片上
      */
-    fun drawWaterMark(scrShotPath: String?, vararg infos: String): Bitmap {
+    fun drawWaterMark(scrShotPath: String?, vararg infos: String): Bitmap? {
         var shotBmp: Bitmap? = BitmapFactory.decodeFile(scrShotPath, BitmapFactory.Options().apply {
             val opt = BitmapFactory.Options().apply {
                 inJustDecodeBounds = true
@@ -135,12 +141,12 @@ class WaterMarker(val context: Context) {
 
                     val src = Rect(0, 0, bottomCard?.width ?: 0, desHeight)
                     val dst = Rect(0, 0, bottomCard?.width ?: 0, desHeight)
-                    canvas.drawBitmap(shotBmp, src, dst, bitmapPaint)
+                    canvas.drawBitmap(bottomCard, src, dst, bitmapPaint)
                     //绘制文字的起始水平线高度
-                    var textStartY = desHeight / 2 - infos.size * heightUnit / 2 + heightUnit
+                    var textStartY = desHeight / 2 - infos.size * heightUnit / 2 + heightUnit * 0.66
 
                     infos.forEach {
-                        val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
+                        val textLength = Rect().apply { textPaintInCard.getTextBounds(it, 0, it?.length, this) }.width()
     //            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
     //            val textStartX = newBitmap.width / 2 - textLength.toFloat() / 2 //写在中央
                         val textStartX: Double = when(waterPos){
@@ -148,11 +154,10 @@ class WaterMarker(val context: Context) {
                             StaticVar.CENTER -> newBitmap.width / 2.0 - textLength.toFloat() / 2.0 //写在中央
                             else -> TEXT_PAINT_SIZE * 0.8//写在左下角
                         }
-
-                        canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
+                        canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaintInCard)
                         textStartY += TEXT_PAINT_SIZE * LINE_SPACE
                     }
-                return newBitmap
+                return mergeScrShot2BottomCard(shotBmp,newBitmap)
             }
 
         }
@@ -169,7 +174,7 @@ class WaterMarker(val context: Context) {
 
 
         //绘制文字的起始水平线高度
-        var textStartY = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size - 0.6)* heightUnit
+        var textStartY = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size /*- 0.66*/)* heightUnit
         //水印位置
 
         infos.forEach {
@@ -185,8 +190,8 @@ class WaterMarker(val context: Context) {
             canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
             textStartY += TEXT_PAINT_SIZE * LINE_SPACE
         }
-        canvas.save()
-        canvas.restore()
+//        canvas.save()
+//        canvas.restore()
         return newBitmap
     }
 
@@ -203,18 +208,18 @@ class WaterMarker(val context: Context) {
     /**
      * 把截图与底部信息卡拼接起来
      */
-    fun mergeScrShot2BottomCard(scrShotPath: String, bottomCard: Bitmap): Boolean {
+    fun mergeScrShot2BottomCard(shotBmp: Bitmap?, bottomCard: Bitmap): Bitmap? {
         var resultBmp: Bitmap?
-        var shotBmp: Bitmap? = BitmapFactory.decodeFile(scrShotPath, BitmapFactory.Options().apply {
-            val opt = BitmapFactory.Options().apply {
-                inJustDecodeBounds = true
-            }
-            BitmapFactory.decodeFile(scrShotPath, opt)
-            //前面都是铺垫，这个才是目的
-            this.inJustDecodeBounds = false
-            this.inSampleSize = if (opt.outWidth > bottomCard.width) 2 else 1//凡是大于1080的全特么给我缩小！
-            inPreferredConfig = Bitmap.Config.RGB_565
-        })
+//        var shotBmp: Bitmap? = BitmapFactory.decodeFile(scrShotPath, BitmapFactory.Options().apply {
+//            val opt = BitmapFactory.Options().apply {
+//                inJustDecodeBounds = true
+//            }
+//            BitmapFactory.decodeFile(scrShotPath, opt)
+//            //前面都是铺垫，这个才是目的
+//            this.inJustDecodeBounds = false
+//            this.inSampleSize = if (opt.outWidth > bottomCard.width) 2 else 1//凡是大于1080的全特么给我缩小！
+//            inPreferredConfig = Bitmap.Config.RGB_565
+//        })
 
 //        val shotWidth = shotBmp.getWidth()
 //        if (bottomCard.getWidth() !== shotWidth) {
@@ -227,23 +232,25 @@ class WaterMarker(val context: Context) {
 //            canvas.drawBitmap(newSizeBmp2, 0.toFloat(), shotBmp.height.toFloat(), null)
 //        } else {
         //以防万一，有时候会为空
-        if (shotBmp == null) return false
+        if (shotBmp == null) return null
         //如果截图宽 小于 底卡宽，那就缩小底卡
-        if (shotBmp?.width < bottomCard.width) {
+        if (shotBmp.width < bottomCard.width) {
             var newbottomCard =
-                resizeBitmap(bottomCard, shotBmp?.width, bottomCard.height * shotBmp?.width / bottomCard.width)
+                resizeBitmap(bottomCard, shotBmp.width, bottomCard.height * shotBmp.width / bottomCard.width)
             resultBmp =
                 Bitmap.createBitmap(newbottomCard.width, shotBmp.height + newbottomCard.height, Bitmap.Config.RGB_565)
             val canvas = Canvas(resultBmp)
             canvas.drawBitmap(shotBmp, 0.toFloat(), 0.toFloat(), null)
             canvas.drawBitmap(newbottomCard, 0.toFloat(), shotBmp.height.toFloat(), null)
             //如果截图宽 大于 底卡宽，那就缩小截图
-        } else if (shotBmp?.width > bottomCard.width) {
-            shotBmp = resizeBitmap(shotBmp, bottomCard.width, shotBmp.height * bottomCard.width / shotBmp.width)
-            resultBmp = Bitmap.createBitmap(shotBmp?.width, shotBmp.height + bottomCard.height, Bitmap.Config.RGB_565)
+        } else if (shotBmp.width > bottomCard.width) {
+            var shotBmpTemp = shotBmp
+            shotBmpTemp = resizeBitmap(shotBmp, bottomCard.width, shotBmp.height * bottomCard.width / shotBmp.width)
+            resultBmp = Bitmap.createBitmap(shotBmpTemp.width, shotBmpTemp.height + bottomCard.height, Bitmap.Config.RGB_565)
             val canvas = Canvas(resultBmp)
-            canvas.drawBitmap(shotBmp, 0.toFloat(), 0.toFloat(), null)
-            canvas.drawBitmap(bottomCard, 0.toFloat(), shotBmp.height.toFloat(), null)
+            canvas.drawBitmap(shotBmpTemp, 0.toFloat(), 0.toFloat(), null)
+            canvas.drawBitmap(bottomCard, 0.toFloat(), shotBmpTemp.height.toFloat(), null)
+            shotBmpTemp?.takeIf { !it.isRecycled }?.run { this.recycle()}
         } else {
             //两张图片宽度相等，则直接拼接。
             resultBmp = Bitmap.createBitmap(bottomCard.width, shotBmp.height + bottomCard.height, Bitmap.Config.RGB_565)
@@ -253,11 +260,11 @@ class WaterMarker(val context: Context) {
         }
 
 //        }
-        var saveResult = saveBmp2File(resultBmp, File(scrShotPath), Bitmap.CompressFormat.PNG)
-        shotBmp?.takeIf { !it.isRecycled }?.run { this.recycle(); shotBmp = null }
-        resultBmp?.takeIf { !it.isRecycled }?.run { this.recycle(); resultBmp = null }
+//        var saveResult = saveBmp2File(resultBmp, File(scrShotPath), Bitmap.CompressFormat.PNG)
+        shotBmp?.takeIf { !it.isRecycled }?.run { this.recycle()}
+//        resultBmp?.takeIf { !it.isRecycled }?.run { this.recycle(); resultBmp = null }
 
-        return saveResult
+        return resultBmp
     }
 
 
