@@ -55,6 +55,9 @@ class WaterMarker(val context: Context) {
      * 用于自定义card背景图片资源ID
      */
     var defaultCardResId =R.mipmap.default_card_background
+    var topShadowResId =R.mipmap.top_shadow
+
+
 
     val textPaintColor by lazy {
         //只有在启用水印卡片&&反色的时候，才用黑色字，否则用白色
@@ -133,16 +136,22 @@ class WaterMarker(val context: Context) {
             if (PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD,false)
                      && shotBmp.width < shotBmp.height){
                     val cardFile = FileData.waterCardFile(SasukeApplication.app!!)
-                    val bottomCard = if (cardFile.exists()) BitmapFactory.decodeFile(cardFile.absolutePath) else readBitmapRes(context, defaultCardResId)
-                    //开始绘制
+                    //拿出图片bitmap实例，然后run进行与屏幕宽的适配缩放
+                    val bottomCard = (if (cardFile.exists()) BitmapFactory.decodeFile(cardFile.absolutePath) else readBitmapRes(context, defaultCardResId)).run {
+                        resizeBitmap(this, shotBmp.width, this.height * shotBmp.width / this.width)
+                    }
+
+                    val topShadow = readBitmapRes(context, topShadowResId)
+                    //开始绘制（这里是考虑一个截取，可能图片本身比较高，这里要固定为宽度的8分之1）
                     val desHeight = ((bottomCard?.width ?: 0) / ScrShotSettingAct.IMG_CARD_HEIGHT_FACTORS).toInt()
                     val newBitmap = Bitmap.createBitmap(bottomCard?.width ?:0, desHeight, Bitmap.Config.RGB_565)
 
-                    val canvas = createBmpCanvas(bottomCard, newBitmap)
+                    val canvas = createBmpCanvas(bottomCard, newBitmap, topShadow)
                     //绘制文字的起始水平线高度
                     var textStartY = desHeight / 2 - infos.size * heightUnit / 2 + heightUnit * 0.66
                     myDrawText(canvas, bottomCard.width, textStartY.toFloat(), true ,*infos)
                     bottomCard?.takeIf { !it.isRecycled }?.run { this.recycle()}
+                    topShadow?.takeIf { !it.isRecycled }?.run { this.recycle()}
 
                     return mergeScrShot2BottomCard(shotBmp,newBitmap)
             }
@@ -163,11 +172,12 @@ class WaterMarker(val context: Context) {
      * 用一个bitmap创建一个Canvas
      * 注： 把srcBitmap画到desBitmap里，这里的desBitmap一般是个空bitmap
      */
-    fun createBmpCanvas(srcBitmap: Bitmap?,desBitmap: Bitmap?): Canvas{
+    fun createBmpCanvas(srcBitmap: Bitmap?,desBitmap: Bitmap?,topShadow: Bitmap? = null): Canvas{
         val canvas = Canvas(desBitmap)
         val src = Rect(0, 0, desBitmap?.width ?: 0, desBitmap?.height ?:0)
         val dst = Rect(0, 0, desBitmap?.width ?: 0, desBitmap?.height ?:0)
         srcBitmap?.let { canvas.drawBitmap(srcBitmap, src, dst, bitmapPaint) }
+        topShadow?.let { canvas.drawBitmap(topShadow, src, dst, bitmapPaint) }
         return canvas
     }
 
@@ -194,6 +204,7 @@ class WaterMarker(val context: Context) {
             textStartYTemp += TEXT_PAINT_SIZE * LINE_SPACE
         }
     }
+
 
     /**
      * 把截图与底部信息卡拼接起来
@@ -224,30 +235,30 @@ class WaterMarker(val context: Context) {
         //以防万一，有时候会为空
         if (shotBmp == null) return null
         //如果截图宽 小于 底卡宽，那就缩小底卡
-        if (shotBmp.width < bottomCard.width) {
-            var newbottomCard =
-                resizeBitmap(bottomCard, shotBmp.width, bottomCard.height * shotBmp.width / bottomCard.width)
-            resultBmp =
-                Bitmap.createBitmap(newbottomCard.width, shotBmp.height + newbottomCard.height, Bitmap.Config.RGB_565)
-            val canvas = Canvas(resultBmp)
-            canvas.drawBitmap(shotBmp, 0.toFloat(), 0.toFloat(), null)
-            canvas.drawBitmap(newbottomCard, 0.toFloat(), shotBmp.height.toFloat(), null)
-            //如果截图宽 大于 底卡宽，那就缩小截图
-        } else if (shotBmp.width > bottomCard.width) {
-            var shotBmpTemp = shotBmp
-            shotBmpTemp = resizeBitmap(shotBmp, bottomCard.width, shotBmp.height * bottomCard.width / shotBmp.width)
-            resultBmp = Bitmap.createBitmap(shotBmpTemp.width, shotBmpTemp.height + bottomCard.height, Bitmap.Config.RGB_565)
-            val canvas = Canvas(resultBmp)
-            canvas.drawBitmap(shotBmpTemp, 0.toFloat(), 0.toFloat(), null)
-            canvas.drawBitmap(bottomCard, 0.toFloat(), shotBmpTemp.height.toFloat(), null)
-            shotBmpTemp?.takeIf { !it.isRecycled }?.run { this.recycle()}
-        } else {
+//        if (shotBmp.width < bottomCard.width) {
+//            var newbottomCard =
+//                resizeBitmap(bottomCard, shotBmp.width, bottomCard.height * shotBmp.width / bottomCard.width)
+//            resultBmp =
+//                Bitmap.createBitmap(newbottomCard.width, shotBmp.height + newbottomCard.height, Bitmap.Config.RGB_565)
+//            val canvas = Canvas(resultBmp)
+//            canvas.drawBitmap(shotBmp, 0.toFloat(), 0.toFloat(), null)
+//            canvas.drawBitmap(newbottomCard, 0.toFloat(), shotBmp.height.toFloat(), null)
+//            //如果截图宽 大于 底卡宽，那就缩小截图
+//        } else if (shotBmp.width > bottomCard.width) {
+//            var shotBmpTemp = shotBmp
+//            shotBmpTemp = resizeBitmap(shotBmp, bottomCard.width, shotBmp.height * bottomCard.width / shotBmp.width)
+//            resultBmp = Bitmap.createBitmap(shotBmpTemp.width, shotBmpTemp.height + bottomCard.height, Bitmap.Config.RGB_565)
+//            val canvas = Canvas(resultBmp)
+//            canvas.drawBitmap(shotBmpTemp, 0.toFloat(), 0.toFloat(), null)
+//            canvas.drawBitmap(bottomCard, 0.toFloat(), shotBmpTemp.height.toFloat(), null)
+//            shotBmpTemp?.takeIf { !it.isRecycled }?.run { this.recycle()}
+//        } else {
             //两张图片宽度相等，则直接拼接。
             resultBmp = Bitmap.createBitmap(bottomCard.width, shotBmp.height + bottomCard.height, Bitmap.Config.RGB_565)
             val canvas = Canvas(resultBmp)
             canvas.drawBitmap(shotBmp, 0.toFloat(), 0.toFloat(), null)
             canvas.drawBitmap(bottomCard, 0.toFloat(), shotBmp.height.toFloat(), null)
-        }
+//        }
 
 //        }
 //        var saveResult = saveBmp2File(resultBmp, File(scrShotPath), Bitmap.CompressFormat.PNG)
