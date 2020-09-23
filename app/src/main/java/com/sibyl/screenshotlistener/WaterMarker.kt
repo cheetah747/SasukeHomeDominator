@@ -126,6 +126,7 @@ class WaterMarker(val context: Context) {
             inPreferredConfig = Bitmap.Config.RGB_565
         })
 
+        //要画水印卡片的情况===============================
         //字的大小，改成图片窄边的30分之一
         shotBmp?.let { TEXT_PAINT_SIZE = Math.min(it.width,it.height).toFloat() / 30/*60*/
             //如果要使用水印卡片&&是竖屏截图
@@ -136,75 +137,62 @@ class WaterMarker(val context: Context) {
                     //开始绘制
                     val desHeight = ((bottomCard?.width ?: 0) / ScrShotSettingAct.IMG_CARD_HEIGHT_FACTORS).toInt()
                     val newBitmap = Bitmap.createBitmap(bottomCard?.width ?:0, desHeight, Bitmap.Config.RGB_565)
-                    val canvas = Canvas(newBitmap)
 
-                    val src = Rect(0, 0, bottomCard?.width ?: 0, desHeight)
-                    val dst = Rect(0, 0, bottomCard?.width ?: 0, desHeight)
-                    canvas.drawBitmap(bottomCard, src, dst, bitmapPaint)
+                    val canvas = createBmpCanvas(bottomCard, newBitmap)
                     //绘制文字的起始水平线高度
                     var textStartY = desHeight / 2 - infos.size * heightUnit / 2 + heightUnit * 0.66
+                    myDrawText(canvas, bottomCard.width, textStartY.toFloat(), true ,*infos)
+                    bottomCard?.takeIf { !it.isRecycled }?.run { this.recycle()}
 
-                    infos.forEach {
-                        val textLength = Rect().apply { textPaintInCard.getTextBounds(it, 0, it?.length, this) }.width()
-    //            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
-    //            val textStartX = newBitmap.width / 2 - textLength.toFloat() / 2 //写在中央
-                        val textStartX: Double = when(waterPos){
-                            StaticVar.RIGHT -> newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 1.0/*0.8*/ //写在右下角（还是多减点吧，圆角屏，需要多空一点空间出来）
-                            StaticVar.CENTER -> newBitmap.width / 2.0 - textLength.toFloat() / 2.0 //写在中央
-                            else -> TEXT_PAINT_SIZE * 0.8//写在左下角
-                        }
-                        canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaintInCard)
-                        textStartY += TEXT_PAINT_SIZE * LINE_SPACE
-                    }
-                newBitmap?.takeIf { !it.isRecycled }?.run { this.recycle()}
-                bottomCard?.takeIf { !it.isRecycled }?.run { this.recycle()}
-
-                return mergeScrShot2BottomCard(shotBmp,newBitmap)
+                    return mergeScrShot2BottomCard(shotBmp,newBitmap)
             }
-
         }
 
-
-
-
+        //不画水印卡片的情况===============================
         val newBitmap = Bitmap.createBitmap(shotBmp?.width ?:0, shotBmp?.height ?:0, Bitmap.Config.RGB_565)
-        val canvas = Canvas(newBitmap)
-
-        val src = Rect(0, 0, shotBmp?.width ?:0, shotBmp?.height ?:0)
-        val dst = Rect(0, 0, shotBmp?.width ?:0, shotBmp?.height ?:0)
-        canvas.drawBitmap(shotBmp, src, dst, bitmapPaint)
-
-
+        val canvas = createBmpCanvas(shotBmp, newBitmap)
         //绘制文字的起始水平线高度
         var textStartY = (shotBmp?.height?.toFloat() ?:1920f) - (infos.size /*- 0.66*/)* heightUnit
         //水印位置
-
-        infos.forEach {
-            val textLength = Rect().apply { textPaint.getTextBounds(it, 0, it?.length, this) }.width()
-//            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
-//            val textStartX = newBitmap.width / 2 - textLength.toFloat() / 2 //写在中央
-            val textStartX: Double = when(waterPos){
-                StaticVar.RIGHT -> newBitmap.width - textLength.toFloat() - TEXT_PAINT_SIZE * 1.0/*0.8*/ //写在右下角（还是多减点吧，圆角屏，需要多空一点空间出来）
-                StaticVar.CENTER -> newBitmap.width / 2.0 - textLength.toFloat() / 2.0 //写在中央
-                else -> TEXT_PAINT_SIZE * 0.8//写在左下角
-            }
-
-            canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaint)
-            textStartY += TEXT_PAINT_SIZE * LINE_SPACE
-        }
-//        canvas.save()
-//        canvas.restore()
+        myDrawText(canvas,newBitmap.width, textStartY,false, *infos)
         return newBitmap
     }
 
 
+    /**
+     * 用一个bitmap创建一个Canvas
+     * 注： 把srcBitmap画到desBitmap里，这里的desBitmap一般是个空bitmap
+     */
+    fun createBmpCanvas(srcBitmap: Bitmap?,desBitmap: Bitmap?): Canvas{
+        val canvas = Canvas(desBitmap)
+        val src = Rect(0, 0, desBitmap?.width ?: 0, desBitmap?.height ?:0)
+        val dst = Rect(0, 0, desBitmap?.width ?: 0, desBitmap?.height ?:0)
+        srcBitmap?.let { canvas.drawBitmap(srcBitmap, src, dst, bitmapPaint) }
+        return canvas
+    }
 
 
     /**
-     * 如果需要，就把水印画到卡片上去
+     * 实际绘制水印文字
+     * textStartY：文字绘制起始Y轴坐标
+     * isInCard：是否绘制卡片模式
      */
-    fun drawWater2CardIfNeed(){
+    fun myDrawText(canvas: Canvas, bitmapWidth: Int, textStartY: Float, isInCard: Boolean,vararg infos: String) {
+        var textPaintTemp = if (isInCard) textPaintInCard else textPaint
+        var textStartYTemp = textStartY
+        infos.forEach {
+            val textLength = Rect().apply { textPaintTemp.getTextBounds(it, 0, it?.length, this) }.width()
+//            val textStartX = TEXT_PAINT_SIZE * 0.8//写在左下角
+//            val textStartX = newBitmap.width / 2 - textLength.toFloat() / 2 //写在中央
+            val textStartX: Double = when(waterPos){
+                StaticVar.RIGHT -> bitmapWidth - textLength.toFloat() - TEXT_PAINT_SIZE * 1.0/*0.8*/ //写在右下角（还是多减点吧，圆角屏，需要多空一点空间出来）
+                StaticVar.CENTER -> bitmapWidth / 2.0 - textLength.toFloat() / 2.0 //写在中央
+                else -> TEXT_PAINT_SIZE * 0.8//写在左下角
+            }
 
+            canvas.drawText(it, textStartX.toFloat(), textStartYTemp, textPaintTemp)
+            textStartYTemp += TEXT_PAINT_SIZE * LINE_SPACE
+        }
     }
 
     /**
@@ -264,6 +252,8 @@ class WaterMarker(val context: Context) {
 //        }
 //        var saveResult = saveBmp2File(resultBmp, File(scrShotPath), Bitmap.CompressFormat.PNG)
         shotBmp?.takeIf { !it.isRecycled }?.run { this.recycle()}
+        bottomCard?.takeIf { !it.isRecycled }?.run { this.recycle()}
+
 //        resultBmp?.takeIf { !it.isRecycled }?.run { this.recycle(); resultBmp = null }
 
         return resultBmp
