@@ -97,7 +97,6 @@ class WaterMarker(val context: Context) {
     }
 
 
-
     //图片画笔
     val bitmapPaint by lazy {
         Paint().apply {
@@ -157,6 +156,9 @@ class WaterMarker(val context: Context) {
                         canvas.drawText(it, textStartX.toFloat(), textStartY.toFloat(), textPaintInCard)
                         textStartY += TEXT_PAINT_SIZE * LINE_SPACE
                     }
+                newBitmap?.takeIf { !it.isRecycled }?.run { this.recycle()}
+                bottomCard?.takeIf { !it.isRecycled }?.run { this.recycle()}
+
                 return mergeScrShot2BottomCard(shotBmp,newBitmap)
             }
 

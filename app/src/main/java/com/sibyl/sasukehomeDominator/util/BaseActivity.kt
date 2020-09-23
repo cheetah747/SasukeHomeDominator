@@ -20,7 +20,7 @@ open class BaseActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //着色导航栏
-        getWindow().setNavigationBarColor(resources.getColor(R.color.white,null))
+        getWindow().setNavigationBarColor(resources.getColor(R.color.main_activity_background_color,null))
     }
 
     //适配黑暗模式 https://www.jianshu.com/p/ba62cbcc9075
