@@ -209,6 +209,7 @@ class ScrShotSettingAct : BaseActivity() {
         }
         //水印开关
         waterMarkCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATERMARK, true)
+        waterMarkInputLayout.visibility = if (waterMarkCheck.isChecked ) View.VISIBLE else View.GONE
 
         //水印卡片开关
         waterCardCheck.isChecked = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)

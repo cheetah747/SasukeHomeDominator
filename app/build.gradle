@@ -10,7 +10,7 @@ android {
         applicationId "com.sibyl.sasukehomeDominator"
         minSdkVersion 28
         targetSdkVersion 28
-        versionCode 6
+        versionCode 8
         versionName "1.3.0"
         setProperty("archivesBaseName", "$applicationId-$versionName")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
