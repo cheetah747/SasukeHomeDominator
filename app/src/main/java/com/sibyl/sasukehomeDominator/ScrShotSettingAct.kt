@@ -77,9 +77,6 @@ class ScrShotSettingAct : BaseActivity() {
         //是否开启水印卡片背景
         waterCardCheck.setOnCheckedChangeListener { buttonView, isShow ->
             waterCardContainer.visibility = if (isShow) View.VISIBLE else View.GONE
-            waterCardImg.post {
-                waterCardImg.setParamHeight((waterCardImg.measuredWidth / IMG_CARD_HEIGHT_FACTORS).toInt())
-            }
         }
 
 
@@ -238,7 +235,11 @@ class ScrShotSettingAct : BaseActivity() {
         refreshAtTextVisibility()
         //水印卡片（高度设为宽的8分之一）
         waterCardImg.post {
+            //解决：要先设UNSPECIFIED 然后再measure一下，才能在没有绘制的时候获取尺寸
+            val spec = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED)
+            waterCardImg.measure(spec,spec)
             waterCardImg.setParamHeight((waterCardImg.measuredWidth / IMG_CARD_HEIGHT_FACTORS).toInt())
+//            Log.i("SasukeLog","waterCardImg.measuredWidth: ${waterCardImg.measuredWidth}")
         }
 
         //针对安卓10，新增手动指定截屏路径（安卓10老子操你妈。。。。）
