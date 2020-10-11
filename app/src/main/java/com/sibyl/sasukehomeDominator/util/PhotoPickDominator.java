@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -126,7 +127,10 @@ public class PhotoPickDominator {
                     } else {//如果是安卓7.0或以上
                         imgPath = FuckGoogleAdaptUtil.getRealFilePath(context, data.getData());
                     }
-
+                    //没有被加入到MediaStore数据库里的图片是不会返回path的
+                    if (TextUtils.isEmpty(imgPath)) {
+                        return "";
+                    }
                     String picName = "CACHE_FOR_CROP.JPG";
                     FileCache.copyFile(imgPath, mPhotoDir + File.separator + picName);
                     return mPhotoDir + File.separator + picName;

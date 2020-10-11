@@ -34,10 +34,10 @@ class WaterMarker(val context: Context) {
 
 //            return tempBmp
             // 取得想要缩放的matrix参数
-//            val matrix = Matrix().apply { postScale(scaleFactor, scaleFactor) }
+            val matrix = Matrix().apply { postScale(scaleFactor, scaleFactor) }
             // 得到新的图片
             // 得到新的图片
-            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, (bitmap.width / heightFactor).toInt(),null,true)
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, (bitmap.width / heightFactor).toInt(),matrix,true)
         }
 
     }
