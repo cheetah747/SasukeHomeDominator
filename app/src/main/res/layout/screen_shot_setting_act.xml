@@ -225,7 +225,6 @@
                                 android:id="@+id/waterCardContainer"
                                 android:orientation="vertical"
                                 android:paddingTop="10dp"
-                                android:elevation="-3dp"
                                 android:paddingBottom="5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -243,11 +242,12 @@
 
                             <com.sibyl.sasukehomeDominator.AnimImageView
                                     android:id="@+id/waterCardImg"
-                                    android:layout_height="100dp"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="centerCrop"
+                                    android:layout_height="wrap_content"
                                     android:layout_width="match_parent"
                                     android:layout_marginTop="5dp"
                                     android:layout_marginLeft="10dp"
-                                    android:scaleType="fitCenter"
                                     android:elevation="15dp"
                                     android:layout_marginRight="10dp"
                                     android:src="@mipmap/default_card_background" />
