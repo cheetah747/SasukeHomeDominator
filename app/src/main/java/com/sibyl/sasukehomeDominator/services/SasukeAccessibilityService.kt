@@ -147,7 +147,12 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {
     }
 
-//    class LockScreenMsg
+    override fun onUnbind(intent: Intent?): Boolean {
+        handler.removeCallbacksAndMessages(null)
+        return super.onUnbind(intent)
+    }
+
+    //    class LockScreenMsg
 
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
