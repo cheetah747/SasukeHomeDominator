@@ -33,11 +33,22 @@ class SasukeAccessibilityService : AccessibilityService() {
         }
     }
 
+    val handler by lazy { Handler() }
+
     override fun onCreate() {
         super.onCreate()
 //        mContext = applicationContext
         manager.startListen()
 //        EventBus.getDefault().register(this)
+    }
+
+
+
+
+
+    override fun onDestroy() {
+        handler.removeCallbacksAndMessages(null)
+        super.onDestroy()
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -54,7 +65,7 @@ class SasukeAccessibilityService : AccessibilityService() {
 //                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
 //                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
-                Handler().postDelayed(
+                handler.postDelayed(
                     { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
                     500 + scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
                 );return Service.START_STICKY
@@ -71,7 +82,7 @@ class SasukeAccessibilityService : AccessibilityService() {
 //                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
 //                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
-                Handler().postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
+                handler.postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
                     /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/if (scrShotDelay == 1000L) 1500 else (700 + scrShotDelay)//安卓10的语音助手比较快，不需要1500秒
                 )
             }
