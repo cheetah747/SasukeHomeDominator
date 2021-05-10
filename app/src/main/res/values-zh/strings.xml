@@ -24,6 +24,7 @@
     <string name="home_dominator_service">HOME键支配者服务(SasukeAccessibilityService)</string>
     <string name="scr_shot_tile">截屏</string>
     <string name="lock_scr_tile">锁屏</string>
+    <string name="any_tile">万能瓷贴</string>
     <string name="power_long_tile">长按电源键</string>
     <string name="setting_success_toast">设置保存成功</string>
     <string name="water_mark_front">前缀</string>

@@ -359,6 +359,27 @@
                 <!--                            android:layout_height="wrap_content" />-->
                 <!--                </LinearLayout>-->
 
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/anyTileLayout"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="30dp"
+                        app:counterEnabled="false"
+                        app:boxBackgroundColor="@color/red"
+                        app:hintAnimationEnabled="true"
+                        android:layout_height="wrap_content">
+
+                    <EditText
+                            android:id="@+id/anyTile"
+                            android:lines="1"
+                            android:inputType="text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <View
                         android:id="@+id/blank"
                         android:layout_width="match_parent"

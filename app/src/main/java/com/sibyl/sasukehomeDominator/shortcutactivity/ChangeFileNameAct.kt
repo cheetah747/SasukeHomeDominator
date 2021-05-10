@@ -32,10 +32,10 @@ class ChangeFileNameAct: BaseActivity() {
                     it.renameTo(File(it.path?.replace(".png",".jpg")))
                 }
                 uiThread { Toast.makeText(this@ChangeFileNameAct,if (count == 0) resources.getString(R.string.no_file_can_change)
-                                            else "${count}${resources.getString(R.string.file_changed_success)}" ,Toast.LENGTH_LONG).show() }
+                                            else "${count}${resources.getString(R.string.file_changed_success)}" ,Toast.LENGTH_SHORT).show() }
             }catch (e: FileNotFoundException){
                 e.printStackTrace()
-                uiThread { Toast.makeText(this@ChangeFileNameAct,e.toString(),Toast.LENGTH_LONG).show() }
+                uiThread { Toast.makeText(this@ChangeFileNameAct,e.toString(),Toast.LENGTH_SHORT).show() }
             }
             finish()
         }

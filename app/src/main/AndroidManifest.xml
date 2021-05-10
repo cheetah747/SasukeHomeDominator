@@ -54,7 +54,7 @@
 
         <activity
                 android:name=".ScrShotSettingAct"
-                android:theme="@style/NoActionBarAct">
+                android:theme="@style/ScrShotSettingAct">
             <intent-filter>
                 <!--长按Tile瓷贴时跳转到该Activity-->
                 <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
@@ -105,6 +105,16 @@
                 android:name=".services.LockScreenTileService"
                 android:label="@string/lock_scr_tile"
                 android:icon="@mipmap/ic_lock_screen"
+                android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
+        <service
+                android:name=".services.AnyTileService"
+                android:label="@string/any_tile"
+                android:icon="@mipmap/ic_any_tile"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE"/>

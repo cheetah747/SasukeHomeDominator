@@ -145,6 +145,8 @@ class ScrShotSettingAct : BaseActivity() {
                         else -> SECONDS_0
                     }
                 )
+                //保存万能瓷贴
+                setStringCommit(StaticVar.KEY_ANY_TILE, anyTile.text.toString())
             }
             Toast.makeText(
                 this,
@@ -189,6 +191,12 @@ class ScrShotSettingAct : BaseActivity() {
                         "Android ${android.os.Build.VERSION.RELEASE}"
                     )
             })
+        }
+
+        //万能瓷贴
+        anyTileLayout.hint = "万能瓷贴（包名/Activity名）"
+        PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.run {
+            anyTile.setText(this)
         }
 
         //水印位置（默认右边

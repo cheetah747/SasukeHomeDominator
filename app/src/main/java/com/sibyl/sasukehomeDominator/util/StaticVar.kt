@@ -23,6 +23,9 @@ class StaticVar {
         /**用户名*/
         const val KEY_USER_NAME = "KEY_USER_NAME"
 
+        /**万能瓷贴*/
+        const val KEY_ANY_TILE = "KEY_ANY_TILE"
+
         /**水印开关*/
         const val KEY_IS_SHOW_WATERMARK = "KEY_IS_SHOW_WATERMARK"
 

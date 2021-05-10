@@ -25,6 +25,11 @@
         <item name="colorAccent">#3F51B5</item>
     </style>
 
+    <!--<style name="NoActionBarAct" parent="Theme.MaterialComponents.Light.NoActionBar">-->
+    <style name="ScrShotSettingAct" parent="NoActionBarAct">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
 
     <!--<style name="alertDialogAnim" parent="android:Animation">-->
     <!--<item name="android:windowEnterAnimation">@anim/alert_dialog_show</item>-->
