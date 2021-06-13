@@ -24,10 +24,10 @@
     <string name="water_mark">ウォーターマーク</string>
     <string name="timeout">遅延</string>
     <string name="home_dominator_service">HOMEドミネーター用のサービス(SasukeAccessibilityService)</string>
-    <string name="scr_shot_tile">スクショ</string>
-    <string name="lock_scr_tile">ロック</string>
+    <string name="scr_shot_tile">クソスクショ</string>
+    <string name="lock_scr_tile">クソロック</string>
     <string name="any_tile">万能タイル</string>
-    <string name="power_long_tile">パワーメニュー</string>
+    <string name="power_long_tile">クソパワー</string>
     <string name="setting_success_toast">設定が保存されました</string>
     <string name="water_mark_front">ネーム</string>
     <string name="water_mark_end">ブランド</string>
