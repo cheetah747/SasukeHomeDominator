@@ -292,7 +292,8 @@ public class ScreenShotListenManager {
         // 如果加入数据库的时间在开始监听之前, 或者与当前时间相差大于10秒, 则认为当前没有截屏
         Calendar c= Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis() - dateTaken);
-        if (dateTaken < mStartListenTime || c.get(Calendar.SECOND) > 10) {
+        //真滴怪，妈的为什么安卓11上这个dateTaken恒为0啊？？？
+        if (dateTaken != 0 && (dateTaken < mStartListenTime || c.get(Calendar.SECOND) > 10)) {
             return false;
         }
 
