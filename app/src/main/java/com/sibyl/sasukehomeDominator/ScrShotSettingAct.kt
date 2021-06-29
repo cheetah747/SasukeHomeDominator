@@ -196,7 +196,7 @@ class ScrShotSettingAct : BaseActivity() {
         //万能瓷贴
         anyTileLayout.hint = "万能瓷贴（包名/Activity名）"
         PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.run {
-            anyTile.setText(this)
+            anyTile.setText(if (this.isBlank()) "com.tombayley.volumepanel/.app.ui.widgetshortcut.OpenPanelShortcutActivity" else this)
         }
 
         //水印位置（默认右边
