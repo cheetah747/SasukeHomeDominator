@@ -12,7 +12,7 @@
             android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+<!--截屏-->
         <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/container"
@@ -37,7 +37,7 @@
                         android:id="@+id/screenShotSettingCard"
                         layout="@layout/card_unit_big_weight1"/>
             </LinearLayout>
-
+<!--锁屏-->
             <include
                     android:id="@+id/lockScreenCard"
                     layout="@layout/card_unit_big"/>
@@ -45,10 +45,31 @@
             <View
                     android:layout_width="match_parent"
                     android:layout_height="10dp"/>
-
+<!--电源键-->
             <include
                     android:id="@+id/powerLongPressCard"
                     layout="@layout/card_unit_big"/>
+
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"/>
+<!-- 写轮眼-->
+            <LinearLayout
+                    android:id="@+id/sharinganContainer"
+                    android:animateLayoutChanges="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <include
+                        android:id="@+id/sharinganCard"
+                        layout="@layout/card_unit_big_weight3"/>
+
+                <include
+                        android:id="@+id/sharinganSettingCard"
+                        layout="@layout/card_unit_big_weight1"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -11,6 +11,7 @@ class StaticVar {
         const val SCREEN_SHOT = "SCREEN_SHOT"
         const val LOCK_SCREEN = "LOCK_SCREEN"
         const val POWER_LONGPRESS = "POWER_LONGPRESS"
+        const val SHARINGAN = "SHARINGAN"
 
         const val LEFT = "LEFT"
         const val RIGHT = "RIGHT"

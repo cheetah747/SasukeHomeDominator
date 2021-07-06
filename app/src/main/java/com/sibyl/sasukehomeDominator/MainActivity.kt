@@ -1,17 +1,13 @@
 package com.sibyl.sasukehomeDominator
 
 import android.Manifest
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
 import android.animation.TypeEvaluator
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
-import android.util.Log
 import android.util.Pair
 import android.view.View
 import android.view.ViewGroup
@@ -39,14 +35,15 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        setupUI()
         initUI(false)
         setListeners()
         grantPermissions()
 
     }
 
-
-    fun initUI(isAnime: Boolean) {
+    fun setupUI(){
         //锁屏卡片
         (lockScreenCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.lock_screen_30dp)
         (lockScreenCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_lock))
@@ -64,23 +61,37 @@ class MainActivity : BaseActivity() {
         (powerLongPressCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.power_longpress_30dp)
         (powerLongPressCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.power_menu))
 
+        //写轮眼卡片
+        (sharinganCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
+        (sharinganCard.findViewById<AnimCardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_shot))
+
+        //写轮眼设置卡片
+        (sharinganSettingCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
+        (sharinganSettingCard.findViewById<AnimCardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(resources.getColor(R.color.big_btn_text_color,null)) }
+        (sharinganSettingCard.findViewById<AnimCardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
+    }
+
+
+    fun initUI(isAnime: Boolean) {
         //刷新卡片激活状态
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
-        changeBtnState(screenShotCard, selected == StaticVar.SCREEN_SHOT)
-        changeBtnState(lockScreenCard, selected == StaticVar.LOCK_SCREEN)
-        changeBtnState(powerLongPressCard, selected == StaticVar.POWER_LONGPRESS)
+        changeBtnColor(screenShotCard, selected == StaticVar.SCREEN_SHOT)
+        changeBtnColor(lockScreenCard, selected == StaticVar.LOCK_SCREEN)
+        changeBtnColor(powerLongPressCard, selected == StaticVar.POWER_LONGPRESS)
+        changeBtnColor(sharinganCard, selected == StaticVar.POWER_LONGPRESS)
 
-
-        screenShotContainer.post {
-            val widthAmount = screenShotContainer.measuredWidth
-            //10是卡片的margin，存在3个或2个margin空隙，4是4等份，分配两个按钮
-            val scrCardWidth =  if (selected == StaticVar.SCREEN_SHOT) (widthAmount - dip(10 * 3)) / 4 * 3 else widthAmount - dip(10 * 2)
-            val scrSettingCardWidth = (widthAmount - dip(10 * 3)) / 4
-            if (isAnime){//动画显示，则用动画
-                animateCard(screenShotCard,screenShotCard.layoutParams.width,scrCardWidth)
-            }else{//禁动画，则直接赋值
-                screenShotSettingCard.run {layoutParams = layoutParams.apply { width = scrSettingCardWidth }}
-                screenShotCard.run {layoutParams = layoutParams.apply { width = scrCardWidth}}
+        arrayOf(screenShotContainer, sharinganContainer).forEach {
+            it.post {
+                val widthAmount = screenShotContainer.measuredWidth
+                //10是卡片的margin，存在3个或2个margin空隙，4是4等份，分配两个按钮
+                val scrCardWidth =  if (selected == StaticVar.SCREEN_SHOT) (widthAmount - dip(10 * 3)) / 4 * 3 else widthAmount - dip(10 * 2)
+                val scrSettingCardWidth = (widthAmount - dip(10 * 3)) / 4
+                if (isAnime){//动画显示，则用动画
+                    animateCard(screenShotCard,screenShotCard.layoutParams.width,scrCardWidth)
+                }else{//禁动画，则直接赋值
+                    screenShotSettingCard.run {layoutParams = layoutParams.apply { width = scrSettingCardWidth }}
+                    screenShotCard.run {layoutParams = layoutParams.apply { width = scrCardWidth}}
+                }
             }
         }
 
@@ -99,7 +110,7 @@ class MainActivity : BaseActivity() {
     }
 
     /**根据选中状态不同，来显示不同颜色*/
-    fun changeBtnState(cardView: View, isSelected: Boolean) {
+    fun changeBtnColor(cardView: View, isSelected: Boolean) {
         (cardView.findViewById<CardView>(R.id.cardIcon) as ImageView).setColorFilter(if (isSelected) resources.getColor(R.color.big_btn_text_color,null) else resources.getColor(R.color.black,null))
         (cardView.findViewById<CardView>(R.id.cardText) as TextView).setTextColor(if (isSelected) resources.getColor(R.color.big_btn_text_color,null) else resources.getColor(R.color.black,null))
         (cardView.findViewById<CardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(
@@ -111,7 +122,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun setListeners() {
-        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard).forEach {
+        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard, sharinganCard).forEach {
             it.setOnClickListener {
                 PreferHelper.getInstance().setStringCommit(
                     StaticVar.KEY_SELECTED_ITEM,
@@ -119,6 +130,7 @@ class MainActivity : BaseActivity() {
                         lockScreenCard -> StaticVar.LOCK_SCREEN
                         screenShotCard -> StaticVar.SCREEN_SHOT
                         powerLongPressCard -> StaticVar.POWER_LONGPRESS
+                        sharinganCard -> StaticVar.SHARINGAN
                         else -> ""
                     }
                 )
