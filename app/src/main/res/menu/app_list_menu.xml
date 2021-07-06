@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/isSysAppShow"
+        android:orderInCategory="1"
+        android:title="@string/is_sys_app_show"
+        android:checked="false"
+        android:checkable="true"
+        app:showAsAction="never" />
+</menu>

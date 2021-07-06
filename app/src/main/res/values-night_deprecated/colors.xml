@@ -15,6 +15,12 @@
     <color name="at_text_color">#FFFFFF</color>
     <color name="water_card_setting_background">#353434</color>
     <color name="sharingan_setting_background">#353434</color>
+    <color name="dark">#424242</color>
+    <color name="gray">#DFDFDF</color>
+    <color name="hint_color">#BBBABA</color>
+    <color name="progressbar_color">#009688</color>
+
+
 
     <!--    <color name="at_text_color_gray">#54FFFFFF</color>-->
 

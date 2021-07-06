@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
 import com.sibyl.sasukehomeDominator.R
 
 
@@ -15,6 +16,19 @@ open class BaseActivity: AppCompatActivity() {
     override fun attachBaseContext(newBase: Context) {
         //Public.Language 为 对应的资源格式后缀，比如"zh"      "
         super.attachBaseContext(MyContextWrapper.wrap(newBase, ""))
+    }
+
+    fun showBackButton(){
+        findViewById<Toolbar>(R.id.toolbar)?.let {
+            setSupportActionBar(it.apply {
+                contentInsetStartWithNavigation = 0//真的烦，为了去掉那个自带箭头的留白
+            })
+        }
+        //返回按钮
+        supportActionBar?.run {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

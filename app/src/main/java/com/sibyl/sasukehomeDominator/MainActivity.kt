@@ -19,6 +19,7 @@ import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
+import com.sibyl.fuckwelcomeactivity.selectapp.view.AppListActivity
 import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.CheckAccessibility
 import com.sibyl.sasukehomeDominator.util.PreferHelper
@@ -134,13 +135,17 @@ class MainActivity : BaseActivity() {
                 Intent(this, ScrShotSettingAct::class.java),
                 ActivityOptions.makeSceneTransitionAnimation(this@MainActivity, cardView, cardIcon, cardText).toBundle()
             )
-
 //            val settingDialog = AlertDialog.Builder(this)
 //                .setView(R.layout.scrshot_setting_dialog)
 //                .create()
 //            settingDialog.show()
 //            settingDialog.window.setBackgroundDrawableResource(android.R.color.transparent)
 //            settingDialog.window.setWindowAnimations(R.style.alertDialogAnim)
+        }
+
+        //写轮眼
+        sharinganSettingCard.setOnClickListener {
+            //SasukeTodo 还是再写一个小弹窗吧。。。用来展示选择结果
         }
     }
 

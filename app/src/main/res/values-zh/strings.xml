@@ -35,5 +35,7 @@
     <string name="is_resume_default_card">恢复默认卡片吗？</string>
     <string name="yes">是的</string>
     <string name="sha_rin_gan">写轮眼</string>
+    <string name="is_sys_app_show">是否显示系统应用</string>
+    <string name="search_hint">搜索</string>
 
 </resources>
