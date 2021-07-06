@@ -31,71 +31,60 @@ import org.jetbrains.anko.find
 class MainActivity : BaseActivity() {
     var checkDialog: AlertDialog? = null
 
+    var pre: MainPre? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        pre = MainPre(this,listOf(
+            lockScreenCard.apply { setTag(StaticVar.LOCK_SCREEN) },
+            screenShotCard.apply { setTag(StaticVar.SCREEN_SHOT) },
+            screenShotSettingCard,
+            powerLongPressCard.apply { setTag(StaticVar.POWER_LONGPRESS) },
+            sharinganCard.apply { setTag(StaticVar.SHARINGAN) },
+            sharinganSettingCard
+        ))
 
         setupUI()
-        initUI(false)
         setListeners()
+        refreshUIbySelected(false)
         grantPermissions()
 
     }
 
     fun setupUI(){
-        //锁屏卡片
-        (lockScreenCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.lock_screen_30dp)
-        (lockScreenCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_lock))
-
-        //截屏卡片
-        (screenShotCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
-        (screenShotCard.findViewById<AnimCardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_shot))
-
-        //截屏设置卡片
-        (screenShotSettingCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
-        (screenShotSettingCard.findViewById<AnimCardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(resources.getColor(R.color.big_btn_text_color,null)) }
-        (screenShotSettingCard.findViewById<AnimCardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
-
-        //电源键长按卡片
-        (powerLongPressCard.findViewById<CardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.power_longpress_30dp)
-        (powerLongPressCard.findViewById<CardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.power_menu))
-
-        //写轮眼卡片
-        (sharinganCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_30dp)
-        (sharinganCard.findViewById<AnimCardView>(R.id.cardText) as TextView).setText(resources.getString(R.string.screen_shot))
-
-        //写轮眼设置卡片
-        (sharinganSettingCard.findViewById<AnimCardView>(R.id.cardIcon) as ImageView).setImageResource(R.drawable.screen_shot_setting_30dp)
-        (sharinganSettingCard.findViewById<AnimCardView>(R.id.cardText) as TextView).run { setText(resources.getString(R.string.settings));setTextColor(resources.getColor(R.color.big_btn_text_color,null)) }
-        (sharinganSettingCard.findViewById<AnimCardView>(R.id.cardContainer) as LinearLayout).setBackgroundColor(resources.getColor(R.color.red, null ) )
+        pre?.setupCardView()
     }
 
 
-    fun initUI(isAnime: Boolean) {
+    fun refreshUIbySelected(isAnime: Boolean) {
         //刷新卡片激活状态
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
-        changeBtnColor(screenShotCard, selected == StaticVar.SCREEN_SHOT)
-        changeBtnColor(lockScreenCard, selected == StaticVar.LOCK_SCREEN)
-        changeBtnColor(powerLongPressCard, selected == StaticVar.POWER_LONGPRESS)
-        changeBtnColor(sharinganCard, selected == StaticVar.POWER_LONGPRESS)
+        arrayOf(screenShotCard,lockScreenCard,powerLongPressCard,sharinganCard).forEach {
+            changeBtnColor(it,selected == it.tag as String)
+        }
 
-        arrayOf(screenShotContainer, sharinganContainer).forEach {
-            it.post {
-                val widthAmount = screenShotContainer.measuredWidth
-                //10是卡片的margin，存在3个或2个margin空隙，4是4等份，分配两个按钮
-                val scrCardWidth =  if (selected == StaticVar.SCREEN_SHOT) (widthAmount - dip(10 * 3)) / 4 * 3 else widthAmount - dip(10 * 2)
-                val scrSettingCardWidth = (widthAmount - dip(10 * 3)) / 4
-                if (isAnime){//动画显示，则用动画
-                    animateCard(screenShotCard,screenShotCard.layoutParams.width,scrCardWidth)
-                }else{//禁动画，则直接赋值
-                    screenShotSettingCard.run {layoutParams = layoutParams.apply { width = scrSettingCardWidth }}
-                    screenShotCard.run {layoutParams = layoutParams.apply { width = scrCardWidth}}
-                }
-            }
+
+        arrayOf(screenShotCard, sharinganCard).forEach {
+            calculateHasSettingCards(it,selected,isAnime)
         }
 
 //        screenShotSettingCard.visibility = if (selected == StaticVar.SCREEN_SHOT) View.VISIBLE else View.GONE
+    }
+
+    private fun calculateHasSettingCards(cardView: View, selected: String,isAnime: Boolean){
+        cardView.post {
+            val widthAmount = ((cardView.parent) as LinearLayout).measuredWidth
+            //10是卡片的margin，存在3个或2个margin空隙，4是4等份，分配两个按钮
+            val cardWidth =  if (selected == cardView.tag as String) (widthAmount - dip(10 * 3)) / 4 * 3 else widthAmount - dip(10 * 2)
+            val settingCardWidth = (widthAmount - dip(10 * 3)) / 4
+            if (isAnime){//动画显示，则用动画
+                animateCard(cardView,cardView.layoutParams.width,cardWidth)
+            }else{//禁动画，则直接赋值
+                ((cardView.parent) as LinearLayout).getChildAt(1).run {layoutParams = layoutParams.apply { width = settingCardWidth }}
+                cardView.run {layoutParams = layoutParams.apply { width = cardWidth}}
+            }
+        }
     }
 
     fun animateCard(card: View ,startValue: Int, endValue: Int) =
@@ -126,17 +115,11 @@ class MainActivity : BaseActivity() {
             it.setOnClickListener {
                 PreferHelper.getInstance().setStringCommit(
                     StaticVar.KEY_SELECTED_ITEM,
-                    when (it) {
-                        lockScreenCard -> StaticVar.LOCK_SCREEN
-                        screenShotCard -> StaticVar.SCREEN_SHOT
-                        powerLongPressCard -> StaticVar.POWER_LONGPRESS
-                        sharinganCard -> StaticVar.SHARINGAN
-                        else -> ""
-                    }
+                    it.tag as String
                 )
                 Snackbar.make(root, "【${it.findViewById<TextView>(R.id.cardText).text}】${resources.getString(R.string.setting_success)}", Snackbar.LENGTH_SHORT)
                     .show()
-                initUI(true)//再刷新一下页面
+                refreshUIbySelected(true)//再刷新一下页面
             }
         }
 

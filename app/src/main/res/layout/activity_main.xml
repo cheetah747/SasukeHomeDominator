@@ -50,10 +50,6 @@
                     android:id="@+id/powerLongPressCard"
                     layout="@layout/card_unit_big"/>
 
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
 <!-- 写轮眼-->
             <LinearLayout
                     android:id="@+id/sharinganContainer"
