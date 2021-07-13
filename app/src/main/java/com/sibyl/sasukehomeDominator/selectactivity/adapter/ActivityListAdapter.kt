@@ -1,6 +1,7 @@
 package com.sibyl.fuckwelcomeactivity.selectactivity.adapter
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -56,10 +57,10 @@ class ActivityListAdapter(val context: Activity): RecyclerView.Adapter<ActivityL
                 rootImg.visibility = if (data.exported) View.INVISIBLE else View.VISIBLE
                 //点击关闭返回数据
                 containerLayout.setOnClickListener {
-                    PreferHelper.getInstance().setString(StaticVar.KEY_SELECTED_ITEM,"${data.appInfo?.packageName}/${data.activityName}")
-                    //SasukeTodo 要回调，关闭上一个App选择页面，并刷新设置界面显示
-//                    context.setResult(SELECT_ACTIVITY, Intent().putExtra(ACTIVITY_INFO,data))
-//                    context.finish()
+                    PreferHelper.getInstance().setString(StaticVar.KEY_ANY_TILE,"${data.appInfo?.packageName}/${data.activityName}")
+                    PreferHelper.getInstance().setBoolean(StaticVar.KEY_ANY_TILE_IS_ROOT, !data.exported)
+                    context.setResult(RESULT_OK,Intent().putExtra("close",true))
+                    context.finish()
                 }
             }
         }

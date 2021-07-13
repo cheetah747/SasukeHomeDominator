@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_activity_background_color">#EFEFEF</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#2196F3</color>
+    <color name="white">#FFFFFF</color>
+    <color name="big_btn_text_color">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF5722</color>
+    <color name="zi">#3F51B5</color>
+    <color name="transparent">#00000000</color>
+    <color name="lighter_gray">#ddd</color>
+    <color name="big_btn_color">#FFFFFF</color>
+    <color name="rect_select_background">#f2f2f2</color>
+    <color name="at_text_color">#000000</color>
+    <color name="imageview_background_color">#E1E2E6</color>
+    <color name="imageview_icon_color">#aeaeae</color>
+    <color name="water_card_setting_background">#F9F7F7</color>
+    <color name="sharingan_setting_background">#353434</color>
+    <color name="dark">#424242</color>
+    <color name="gray">#DFDFDF</color>
+    <color name="hint_color">#BBBABA</color>
+    <color name="progressbar_color">#009688</color>
+
+
+<!--    <color name="main_activity_background_color">#000000</color>-->
+<!--    <color name="colorPrimary">#008577</color>-->
+<!--    <color name="colorPrimaryDark">#00574B</color>-->
+<!--    <color name="colorAccent">#2196F3</color>-->
+<!--    <color name="black">#FFFFFF</color>-->
+<!--    <color name="white">#000000</color>-->
+<!--    <color name="red">#FF5722</color>-->
+<!--    <color name="zi">#3F51B5</color>-->
+<!--    <color name="transparent">#00000000</color>-->
+<!--    <color name="lighter_gray">#303030</color>-->
+<!--    <color name="big_btn_color">#2d2d2d</color>-->
+<!--    <color name="rect_select_background">#65FFFFFF</color>-->
+<!--    <color name="at_text_color">#FFFFFF</color>-->
+<!--    <color name="water_card_setting_background">#353434</color>-->
+<!--    <color name="sharingan_setting_background">#353434</color>-->
+<!--    <color name="dark">#424242</color>-->
+<!--    <color name="gray">#DFDFDF</color>-->
+<!--    <color name="hint_color">#BBBABA</color>-->
+<!--    <color name="progressbar_color">#009688</color>-->
+
+
+
+
+</resources>

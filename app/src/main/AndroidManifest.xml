@@ -74,6 +74,12 @@
                 android:name=".shortcutactivity.ChangeFileNameAct"
                 android:theme="@style/BridgeAct">
         </activity>
+        <activity
+                android:name=".selectapp.view.AppListActivity"
+                android:theme="@style/AppListTheme" />
+        <activity
+                android:name=".selectactivity.view.ActivityListActivity"
+                android:theme="@style/AppListTheme" />
 
 
         <service

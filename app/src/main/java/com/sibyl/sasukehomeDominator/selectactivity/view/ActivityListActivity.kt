@@ -1,4 +1,4 @@
-package com.sibyl.fuckwelcomeactivity.selectactivity.view
+package com.sibyl.sasukehomeDominator.selectactivity.view
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager

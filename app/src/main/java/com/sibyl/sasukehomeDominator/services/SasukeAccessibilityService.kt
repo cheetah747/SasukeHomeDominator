@@ -6,9 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Handler
 import android.view.accessibility.AccessibilityEvent
-import com.sibyl.sasukehomeDominator.util.NewPhotoGetter
-import com.sibyl.sasukehomeDominator.util.PreferHelper
-import com.sibyl.sasukehomeDominator.util.StaticVar
+import com.sibyl.sasukehomeDominator.util.*
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_IS_SHOW_WATERMARK
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
 import com.sibyl.screenshotlistener.ScreenShotListenManager
@@ -34,6 +32,8 @@ class SasukeAccessibilityService : AccessibilityService() {
     }
 
     val handler by lazy { Handler() }
+    //跳转封装
+    val jumpWrapper by lazy { JumpWrapper(this) }
 
     override fun onCreate() {
         super.onCreate()
@@ -87,6 +87,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                 )
             }
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
+            StaticVar.SHARINGAN -> jumpWrapper.jump()
         }
         return Service.START_STICKY
     }

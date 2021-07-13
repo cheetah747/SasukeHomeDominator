@@ -16,7 +16,7 @@ class ScreenShotTileService: TileService() {
         //收起通知栏
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
 
-        startService(Intent(this, SasukeAccessibilityService::class.java).apply {
+        startForegroundService(Intent(this, SasukeAccessibilityService::class.java).apply {
             putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SCRSHOT)
         })
     }

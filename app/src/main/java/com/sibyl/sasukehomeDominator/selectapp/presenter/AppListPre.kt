@@ -4,7 +4,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import com.sibyl.fuckwelcomeactivity.selectapp.model.PackData
-import com.sibyl.fuckwelcomeactivity.selectapp.view.AppListActivity
+import com.sibyl.sasukehomeDominator.selectapp.view.AppListActivity
 import com.sibyl.sasukehomeDominator.util.CountDownDominator
 import java.util.*
 

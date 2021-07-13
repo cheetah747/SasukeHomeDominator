@@ -27,6 +27,9 @@ class StaticVar {
         /**万能瓷贴*/
         const val KEY_ANY_TILE = "KEY_ANY_TILE"
 
+        /**目标activity是否是ROOT*/
+        const val KEY_ANY_TILE_IS_ROOT = "KEY_ANY_TILE_IS_ROOT"
+
         /**水印开关*/
         const val KEY_IS_SHOW_WATERMARK = "KEY_IS_SHOW_WATERMARK"
 

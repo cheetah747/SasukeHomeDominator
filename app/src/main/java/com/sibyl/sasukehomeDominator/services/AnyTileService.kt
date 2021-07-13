@@ -6,6 +6,8 @@ import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.widget.Toast
+import com.sibyl.sasukehomeDominator.util.JumpActivityDominator
+import com.sibyl.sasukehomeDominator.util.JumpWrapper
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 
@@ -13,28 +15,13 @@ import com.sibyl.sasukehomeDominator.util.StaticVar
  * @author Sasuke on 2021/5/10.
  */
 class AnyTileService : TileService() {
-    var appName = ""
-    var activityName = ""
+    val jumpWrapper by lazy { JumpWrapper(this) }
 
     override fun onClick() {
         super.onClick()
         //收起通知栏
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-
-        PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.takeIf { it.isNotEmpty() && it.split("/").size == 2 }?.run {
-            appName =  this.split("/")[0]
-            activityName = this.split("/")[1].run { if (this.startsWith(".")) appName + this else this}
-
-            val appIntent = packageManager?.getLaunchIntentForPackage(appName)
-            if (appIntent == null){
-                Toast.makeText(this@AnyTileService,"未安装${appName}", Toast.LENGTH_SHORT).show()
-            }else{
-                startActivity(Intent().apply {
-                    setClassName(appName, activityName)
-                    flags = FLAG_ACTIVITY_NEW_TASK
-                })
-            }
-        }
+        jumpWrapper.jump()
     }
 
 

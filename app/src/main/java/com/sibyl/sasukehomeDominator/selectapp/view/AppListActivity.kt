@@ -1,4 +1,4 @@
-package com.sibyl.fuckwelcomeactivity.selectapp.view
+package com.sibyl.sasukehomeDominator.selectapp.view
 
 import android.content.Intent
 import android.os.Bundle

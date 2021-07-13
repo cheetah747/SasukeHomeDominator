@@ -43,6 +43,16 @@
         <item name="android:colorControlNormal">@color/red</item>
     </style>
 
+    <!-- 选取Activity和APP的专用主题-->
+    <style name="AppListTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/red</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--        <item name="android:windowBackground">@color/main_activity_background_color</item>-->
+    </style>
+
     <!--<style name="alertDialogAnim" parent="android:Animation">-->
     <!--<item name="android:windowEnterAnimation">@anim/alert_dialog_show</item>-->
     <!--<item name="android:windowExitAnimation">@anim/alert_dialog_dismiss</item>-->

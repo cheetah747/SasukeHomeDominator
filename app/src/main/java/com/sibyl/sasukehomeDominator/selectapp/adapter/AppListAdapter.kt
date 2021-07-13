@@ -9,10 +9,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sibyl.fuckwelcomeactivity.selectactivity.view.ActivityListActivity
 import com.sibyl.fuckwelcomeactivity.selectapp.model.PackData
 import com.sibyl.sasukehomeDominator.R
 import com.sibyl.sasukehomeDominator.SasukeApplication
+import com.sibyl.sasukehomeDominator.selectactivity.view.ActivityListActivity
 import com.sibyl.sasukehomeDominator.util.bitmap2Bytes
 import com.sibyl.sasukehomeDominator.util.drawable2Bitmap
 import com.sibyl.sasukehomeDominator.util.loadNoCache
@@ -45,7 +45,6 @@ class AppListAdapter(val context: Activity): RecyclerView.Adapter<AppListAdapter
             pkgNameTv.text = data.pkgName
             //点击跳转
             rootLayout.setOnClickListener {
-                //SasukeTodo 回头要记得处理这里的关闭回调情况
                 context.startActivityForResult(Intent(context, ActivityListActivity::class.java).apply {
                     putExtra("packData",data)
 //                    putExtra("isAddNew",true)

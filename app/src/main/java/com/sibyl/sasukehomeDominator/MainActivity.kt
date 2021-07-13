@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Pair
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -16,23 +17,42 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
-import com.sibyl.fuckwelcomeactivity.selectapp.view.AppListActivity
+import com.sibyl.sasukehomeDominator.selectapp.view.AppListActivity
 import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.CheckAccessibility
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
+import org.jetbrains.anko.uiThread
 
 
 class MainActivity : BaseActivity() {
     var checkDialog: AlertDialog? = null
 
     var pre: MainPre? = null
+
+    val sharinganDialogView by lazy {
+        LayoutInflater.from(this).inflate(R.layout.sharingan_dialog_view,null).apply {
+            //点击跳转选取APP
+            findViewById<CardView>(R.id.selectActivityCard).setOnClickListener {
+                startActivity(Intent(this@MainActivity, AppListActivity::class.java))
+            }
+        }
+    }
+
+    val sharinganDialog by lazy {
+        AlertDialog.Builder(this)
+            .setCancelable(true)
+            .create()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,7 +165,9 @@ class MainActivity : BaseActivity() {
 
         //写轮眼
         sharinganSettingCard.setOnClickListener {
-            //SasukeTodo 还是再写一个小弹窗吧。。。用来展示选择结果
+            refreshSharinganDialogData()
+            sharinganDialog.show()
+            sharinganDialog.window?.setContentView(sharinganDialogView)
         }
     }
 
@@ -153,6 +175,35 @@ class MainActivity : BaseActivity() {
         super.onResume()
         //检查是否开启了辅助功能
         checkAccessibility()
+        if (sharinganDialog.isShowing){
+            refreshSharinganDialogData()
+        }
+
+    }
+
+    fun refreshSharinganDialogData(){
+        PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.takeIf { it.isNotEmpty() && it.split("/").size == 2 }?.run {
+            val pkgName =  this.split("/")[0]
+            val activityName = this.split("/")[1].run { if (this.startsWith(".")) pkgName + this else this}
+            val isRoot = PreferHelper.getInstance().getBoolean(StaticVar.KEY_ANY_TILE_IS_ROOT,false)
+
+            //显示按钮文字
+            sharinganDialogView.findViewById<TextView>(R.id.selectActivityTv).text = activityName
+            //显示ROOT背景
+            sharinganDialogView.findViewById<ImageView>(R.id.rootImg).visibility = if (isRoot) View.VISIBLE else View.GONE
+            //显示按钮颜色
+            sharinganDialogView.findViewById<CardView>(R.id.selectActivityCard).setCardBackgroundColor(resources.getColor(if (isRoot) R.color.dark else R.color.progressbar_color,null))
+            //显示图标
+            doAsync {
+                val iconDrawable = packageManager.getPackageInfo(pkgName, 0).applicationInfo.loadIcon(packageManager)
+                val iconImg = sharinganDialogView.findViewById<CircleImageView>(R.id.appIconIv)
+                uiThread {
+                    Glide.with(this@MainActivity)
+                        .load(iconDrawable)
+                        .into(iconImg)
+                }
+            }
+        }
     }
 
     fun checkAccessibility() {
