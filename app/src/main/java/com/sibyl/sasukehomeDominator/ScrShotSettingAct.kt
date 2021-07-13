@@ -146,7 +146,7 @@ class ScrShotSettingAct : BaseActivity() {
                     }
                 )
                 //保存万能瓷贴
-                setStringCommit(StaticVar.KEY_ANY_TILE, anyTile.text.toString())
+//                setStringCommit(StaticVar.KEY_ANY_TILE, anyTile.text.toString())
             }
             Toast.makeText(
                 this,
@@ -194,10 +194,10 @@ class ScrShotSettingAct : BaseActivity() {
         }
 
         //万能瓷贴
-        anyTileLayout.hint = "万能瓷贴（包名/Activity名）"
-        PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.run {
-            anyTile.setText(if (this.isBlank()) "com.tombayley.volumepanel/.app.ui.widgetshortcut.OpenPanelShortcutActivity" else this)
-        }
+//        anyTileLayout.hint = "万能瓷贴（包名/Activity名）"
+//        PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.run {
+//            anyTile.setText(if (this.isBlank()) "com.tombayley.volumepanel/.app.ui.widgetshortcut.OpenPanelShortcutActivity" else this)
+//        }
 
         //水印位置（默认右边
         val posSelect =
