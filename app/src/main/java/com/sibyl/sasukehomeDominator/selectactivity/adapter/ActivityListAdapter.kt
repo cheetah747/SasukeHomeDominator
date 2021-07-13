@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.sibyl.sasukehomeDominator.R
 import com.sibyl.sasukehomeDominator.SasukeApplication
 import com.sibyl.sasukehomeDominator.util.ActivityInfo2
@@ -19,6 +21,7 @@ import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 import com.sibyl.sasukehomeDominator.util.loadNoCache
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * @author Sasuke on 2021-06-05.
@@ -59,6 +62,7 @@ class ActivityListAdapter(val context: Activity): RecyclerView.Adapter<ActivityL
                 containerLayout.setOnClickListener {
                     PreferHelper.getInstance().setString(StaticVar.KEY_ANY_TILE,"${data.appInfo?.packageName}/${data.activityName}")
                     PreferHelper.getInstance().setBoolean(StaticVar.KEY_ANY_TILE_IS_ROOT, !data.exported)
+                    Toast.makeText(context,context.resources.getString(R.string.setting_success_toast),Toast.LENGTH_SHORT).show()
                     context.setResult(RESULT_OK,Intent().putExtra("close",true))
                     context.finish()
                 }

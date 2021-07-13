@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:background="@color/white"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/appNameTv"
+            android:layout_gravity="center_horizontal"
+            tools:text="海康"
+            android:visibility="gone"
+            android:shadowColor="@color/black"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="1.0"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_marginTop="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/appIconIv"
             android:layout_gravity="center_horizontal"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="24dp"
             app:cardElevation="2dp"
             android:src="@color/gray"
@@ -20,14 +36,14 @@
 
     <androidx.cardview.widget.CardView
             android:id="@+id/selectActivityCard"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="20dp"
             android:layout_gravity="bottom"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"
             app:cardBackgroundColor="@color/progressbar_color"
             android:layout_width="match_parent"
-            android:layout_height="44dp" >
+            android:layout_height="45dp" >
 
         <TextView
                 android:id="@+id/selectActivityTv"
@@ -35,6 +51,7 @@
                 android:focusableInTouchMode="false"
                 android:text="@string/select_activity"
                 android:textColor="@color/white"
+                android:ellipsize="marquee"
                 android:textSize="16sp"
                 android:textAllCaps="false"
                 android:layout_width="match_parent"

@@ -167,7 +167,10 @@ class MainActivity : BaseActivity() {
         sharinganSettingCard.setOnClickListener {
             refreshSharinganDialogData()
             sharinganDialog.show()
-            sharinganDialog.window?.setContentView(sharinganDialogView)
+            sharinganDialog.window?.apply {
+                setContentView(sharinganDialogView)
+                attributes = attributes.apply { width = dip(300) }
+            }
         }
     }
 
@@ -184,7 +187,7 @@ class MainActivity : BaseActivity() {
     fun refreshSharinganDialogData(){
         PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.takeIf { it.isNotEmpty() && it.split("/").size == 2 }?.run {
             val pkgName =  this.split("/")[0]
-            val activityName = this.split("/")[1].run { if (this.startsWith(".")) pkgName + this else this}
+            val activityName = this.split(".").run { this[this.size - 1] }
             val isRoot = PreferHelper.getInstance().getBoolean(StaticVar.KEY_ANY_TILE_IS_ROOT,false)
 
             //显示按钮文字
@@ -196,8 +199,14 @@ class MainActivity : BaseActivity() {
             //显示图标
             doAsync {
                 val iconDrawable = packageManager.getPackageInfo(pkgName, 0).applicationInfo.loadIcon(packageManager)
+                val appName = packageManager.getPackageInfo(pkgName, 0).applicationInfo.loadLabel(packageManager).toString()
                 val iconImg = sharinganDialogView.findViewById<CircleImageView>(R.id.appIconIv)
                 uiThread {
+                    //显示APP名称
+                    sharinganDialogView.findViewById<TextView>(R.id.appNameTv).apply {
+                        text = appName
+                        visibility = View.VISIBLE
+                    }
                     Glide.with(this@MainActivity)
                         .load(iconDrawable)
                         .into(iconImg)
