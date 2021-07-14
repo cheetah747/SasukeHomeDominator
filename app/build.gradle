@@ -11,7 +11,7 @@ android {
         minSdkVersion 28
         targetSdkVersion 28
         versionCode 16
-        versionName "1.5.4"
+        versionName "1.6.4"
         setProperty("archivesBaseName", "$applicationId-$versionName")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

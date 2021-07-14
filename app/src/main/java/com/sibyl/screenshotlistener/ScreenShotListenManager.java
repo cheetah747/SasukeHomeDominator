@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -289,11 +290,15 @@ public class ScreenShotListenManager {
         /*
          * 判断依据一: 时间判断
          */
+        //真滴怪，妈的为什么安卓11上这个dateTaken恒为0啊？？？
+        if (dateTaken == 0){
+            dateTaken = new File(data).lastModified();
+        }
         // 如果加入数据库的时间在开始监听之前, 或者与当前时间相差大于10秒, 则认为当前没有截屏
         Calendar c= Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis() - dateTaken);
-        //真滴怪，妈的为什么安卓11上这个dateTaken恒为0啊？？？
-        if (dateTaken != 0 && (dateTaken < mStartListenTime || c.get(Calendar.SECOND) > 10)) {
+
+        if ( (dateTaken < mStartListenTime || c.get(Calendar.SECOND) > 10)) {
             return false;
         }
 
