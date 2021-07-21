@@ -36,7 +36,7 @@ class SasukeAccessibilityService : AccessibilityService() {
     //跳转封装
     val jumpWrapper by lazy { JumpWrapper(this) }
 
-    val waterMarkTypeface by lazy { TextView(this).typeface }
+//    val waterMarkTypeface by lazy { TextView(this).typeface }
 
 
     override fun onCreate() {
@@ -104,7 +104,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         if (!PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK, true)) return
         doAsync {
 //            Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
-            WaterMarker(this@SasukeAccessibilityService,waterMarkTypeface).apply {
+            WaterMarker(this@SasukeAccessibilityService,TextView(this@SasukeAccessibilityService).typeface).apply {
                 var userName = PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME,"Android ${android.os.Build.VERSION.RELEASE}")
                                                             .run { if (isNotBlank()) "${this}@" else "" }
                 val phoneModel = PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)
