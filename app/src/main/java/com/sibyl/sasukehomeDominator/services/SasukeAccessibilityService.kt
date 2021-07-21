@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Handler
 import android.view.accessibility.AccessibilityEvent
+import android.widget.TextView
 import com.sibyl.sasukehomeDominator.util.*
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_IS_SHOW_WATERMARK
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
@@ -34,6 +35,9 @@ class SasukeAccessibilityService : AccessibilityService() {
     val handler by lazy { Handler() }
     //跳转封装
     val jumpWrapper by lazy { JumpWrapper(this) }
+
+    val waterMarkTypeface by lazy { TextView(this).typeface }
+
 
     override fun onCreate() {
         super.onCreate()
@@ -100,7 +104,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         if (!PreferHelper.getInstance().getBoolean(KEY_IS_SHOW_WATERMARK, true)) return
         doAsync {
 //            Thread.sleep(1500)//有些垃圾系统截图时写入磁盘比较慢，所以这边要等一下。
-            WaterMarker(this@SasukeAccessibilityService).apply {
+            WaterMarker(this@SasukeAccessibilityService,waterMarkTypeface).apply {
                 var userName = PreferHelper.getInstance().getString(StaticVar.KEY_USER_NAME,"Android ${android.os.Build.VERSION.RELEASE}")
                                                             .run { if (isNotBlank()) "${this}@" else "" }
                 val phoneModel = PreferHelper.getInstance().getString(StaticVar.KEY_PHONE_MODEL, StaticVar.deviceModel)

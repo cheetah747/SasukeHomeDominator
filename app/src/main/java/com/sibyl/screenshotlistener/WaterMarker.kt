@@ -3,6 +3,7 @@ package com.sibyl.screenshotlistener
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.widget.TextView
 import com.sibyl.sasukehomeDominator.R
 import com.sibyl.sasukehomeDominator.SasukeApplication
 import com.sibyl.sasukehomeDominator.ScrShotSettingAct
@@ -16,6 +17,10 @@ import java.io.*
  * @author Sasuke on 2019-6-25 0025.
  */
 class WaterMarker(val context: Context) {
+    var waterMarkTypeface: Typeface? = null
+    constructor(context: Context,waterMarkTypeface: Typeface) : this(context) {
+        this.waterMarkTypeface = waterMarkTypeface
+    }
     companion object{
         /**
          * 将bitmap宽适应屏幕
@@ -73,7 +78,7 @@ class WaterMarker(val context: Context) {
     val textPaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG).apply {
             textSize = TEXT_PAINT_SIZE
-//            typeface = context.resources.getFont(R.font.google_product_sans)
+            typeface = waterMarkTypeface//context.resources.getFont(R.font.google_product_sans)
             color = Color.WHITE
             //如果不显示水印卡片，那就加阴影，否则不加
             setShadowLayer(4f, 1f, 1f,Color.BLACK)
@@ -84,7 +89,7 @@ class WaterMarker(val context: Context) {
     val textPaintInCard by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG or Paint.DEV_KERN_TEXT_FLAG).apply {
             textSize = TEXT_PAINT_SIZE
-//            typeface = context.resources.getFont(R.font.google_product_sans)
+            typeface = waterMarkTypeface//context.resources.getFont(R.font.google_product_sans)
             color = textPaintColor
             //如果不显示水印卡片，那就加阴影，否则不加
 //            if ( !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_SHOW_WATER_CARD, false)){
