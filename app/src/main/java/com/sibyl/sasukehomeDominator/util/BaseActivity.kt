@@ -3,6 +3,7 @@ package com.sibyl.sasukehomeDominator.util
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -35,6 +36,17 @@ open class BaseActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //着色导航栏
         getWindow().setNavigationBarColor(resources.getColor(R.color.main_activity_background_color,null))
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            android.R.id.home  ->{
+                finish()
+                return true
+            }
+            else ->{}
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     //适配黑暗模式 https://www.jianshu.com/p/ba62cbcc9075
