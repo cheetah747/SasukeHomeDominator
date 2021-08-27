@@ -116,7 +116,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                     drawWaterMark(imagePath, phoneInfo, SimpleDateFormat("yyyy-MM-dd  HH:mm:ss",Locale.ENGLISH).format(Date()))
                 //画完了，保存（如果为空就不保存）
                 //不知道为什么，一截屏马上就删除的话，就很容易未响应。。这里加一个 doAsync 会稍微好一点。
-                doAsync { psResultShot?.let { saveBmp2File(it, File(imagePath), Bitmap.CompressFormat.PNG)} }
+                doAsync { psResultShot?.let { saveBmp2File(it, File(imagePath), getFormatByPath(imagePath))} }
 //                        File(imagePath).renameTo(File(imagePath?.replace(".png",".jpg")))//改文件名，png改成jpg
 
 //                        imagePath?.let {
@@ -125,6 +125,15 @@ class SasukeAccessibilityService : AccessibilityService() {
             }
         }
     }
+
+
+    fun getFormatByPath(imagePath: String?) = imagePath?.let {
+        when(File(it).extension.toUpperCase(Locale.getDefault())) {
+            "PNG" -> Bitmap.CompressFormat.PNG
+            "WEBP" ->Bitmap.CompressFormat.WEBP
+            else -> Bitmap.CompressFormat.JPEG
+        }
+    } ?: Bitmap.CompressFormat.JPEG
 
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
