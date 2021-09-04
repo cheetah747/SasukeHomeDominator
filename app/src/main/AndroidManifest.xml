@@ -71,6 +71,10 @@
                 android:theme="@style/BridgeAct">
         </activity>
         <activity
+                android:name=".shortcutactivity.SharinganShortCutAct"
+                android:theme="@style/BridgeAct">
+        </activity>
+        <activity
                 android:name=".shortcutactivity.ChangeFileNameAct"
                 android:theme="@style/BridgeAct">
         </activity>

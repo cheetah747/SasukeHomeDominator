@@ -28,6 +28,20 @@
         <!--<categories android:name="android.shortcut.conversation" />-->
     </shortcut>
 
+    <shortcut
+            android:enabled="true"
+            android:icon="@mipmap/any_tile_shotcut"
+            android:shortcutDisabledMessage="@string/unavailable"
+            android:shortcutId="anytile"
+            android:shortcutLongLabel="@string/any_tile"
+            android:shortcutShortLabel="@string/any_tile">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.sibyl.sasukehomeDominator.shortcutactivity.SharinganShortCutAct"
+                android:targetPackage="com.sibyl.sasukehomeDominator" />
+        <!--<categories android:name="android.shortcut.conversation" />-->
+    </shortcut>
+
     <!--<shortcut-->
             <!--android:enabled="true"-->
             <!--android:icon="@mipmap/change_file_shotcut"-->

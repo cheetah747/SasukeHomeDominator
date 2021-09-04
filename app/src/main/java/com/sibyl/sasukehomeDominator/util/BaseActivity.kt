@@ -38,7 +38,7 @@ open class BaseActivity: AppCompatActivity() {
         getWindow().setNavigationBarColor(resources.getColor(R.color.main_activity_background_color,null))
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             android.R.id.home  ->{
                 finish()
@@ -51,7 +51,7 @@ open class BaseActivity: AppCompatActivity() {
 
     //适配黑暗模式 https://www.jianshu.com/p/ba62cbcc9075
     //当更改系统主题设置后，执行这里。
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         // 切换到 深色主题
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)

@@ -76,6 +76,7 @@ class SasukeAccessibilityService : AccessibilityService() {
             }
             StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);return Service.START_STICKY }
             StaticVar.STRONG_POWER_LONGPRESS -> { performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY }
+            StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump();return Service.START_STICKY  }
         }
 
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
