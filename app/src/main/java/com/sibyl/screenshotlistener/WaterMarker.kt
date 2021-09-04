@@ -3,11 +3,14 @@ package com.sibyl.screenshotlistener
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.os.Build
+import android.util.Log
 import android.widget.TextView
 import com.sibyl.sasukehomeDominator.R
 import com.sibyl.sasukehomeDominator.SasukeApplication
 import com.sibyl.sasukehomeDominator.ScrShotSettingAct
 import com.sibyl.sasukehomeDominator.util.FileData
+import com.sibyl.sasukehomeDominator.util.FuckGoogleAdaptUtil
 import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 import java.io.*
@@ -143,7 +146,7 @@ class WaterMarker(val context: Context) {
                     val cardFile = FileData.waterCardFile(SasukeApplication.app!!)
                     //拿出图片bitmap实例，然后run进行与屏幕宽的适配缩放
                     val bottomCard = (if (cardFile.exists()) BitmapFactory.decodeFile(cardFile.absolutePath) else readBitmapRes(context, defaultCardResId)).run {
-                        resizeBitmap(this, shotBmp.width, this.height * shotBmp.width / this.width)
+                        this?.let { it1 -> resizeBitmap(it1, shotBmp.width, this.height * shotBmp.width / this.width) }
                     }
 
                     val topShadow = readBitmapRes(context, topShadowResId)
@@ -154,7 +157,7 @@ class WaterMarker(val context: Context) {
                     val canvas = createBmpCanvas(bottomCard, newBitmap, topShadow)
                     //绘制文字的起始水平线高度
                     var textStartY = desHeight / 2 - infos.size * heightUnit / 2 + heightUnit * 0.66
-                    myDrawText(canvas, bottomCard.width, textStartY.toFloat(), true ,*infos)
+                    bottomCard?.let { it1 -> myDrawText(canvas, it1.width, textStartY.toFloat(), true ,*infos) }
                     bottomCard?.takeIf { !it.isRecycled }?.run { this.recycle()}
                     topShadow?.takeIf { !it.isRecycled }?.run { this.recycle()}
 
@@ -177,10 +180,10 @@ class WaterMarker(val context: Context) {
      * 用一个bitmap创建一个Canvas
      * 注： 把srcBitmap画到desBitmap里，这里的desBitmap一般是个空bitmap
      */
-    fun createBmpCanvas(srcBitmap: Bitmap?,desBitmap: Bitmap?,topShadow: Bitmap? = null): Canvas{
+    fun createBmpCanvas(srcBitmap: Bitmap?,desBitmap: Bitmap,topShadow: Bitmap? = null): Canvas{
         val canvas = Canvas(desBitmap)
-        val src = Rect(0, 0, desBitmap?.width ?: 0, desBitmap?.height ?:0)
-        val dst = Rect(0, 0, desBitmap?.width ?: 0, desBitmap?.height ?:0)
+        val src = Rect(0, 0, desBitmap.width , desBitmap.height)
+        val dst = Rect(0, 0, desBitmap.width , desBitmap.height)
         srcBitmap?.let { canvas.drawBitmap(srcBitmap, src, dst, bitmapPaint) }
         topShadow?.let { canvas.drawBitmap(topShadow, src, dst, bitmapPaint) }
         return canvas
@@ -279,7 +282,7 @@ class WaterMarker(val context: Context) {
     /**
      * 通过流的方式，可以使调用底层JNI来实现减少Java层的内存消耗。
      */
-    fun readBitmapRes(context: Context, resId: Int): Bitmap {
+    fun readBitmapRes(context: Context, resId: Int): Bitmap? {
         val opt = BitmapFactory.Options().apply {
             inPreferredConfig = Bitmap.Config.RGB_565
             inPurgeable = true
@@ -317,7 +320,14 @@ class WaterMarker(val context: Context) {
         var os: OutputStream? = null
         var ret = false
         try {
-            os = BufferedOutputStream(FileOutputStream(file))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                file.delete()//要删除老的文件，否则MediaStore会创建新的（1）文件
+                os = FuckGoogleAdaptUtil.createRImgUri(context, file)?.let {
+                    context.contentResolver.openOutputStream(it,"rwt")//覆盖模式
+                }
+            }else{
+                os = BufferedOutputStream(FileOutputStream(file))
+            }
             ret = src.compress(format, 100, os)
             if ( !src.isRecycled)
                 src.recycle()

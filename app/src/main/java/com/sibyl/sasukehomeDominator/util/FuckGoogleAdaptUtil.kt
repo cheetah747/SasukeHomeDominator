@@ -1,15 +1,15 @@
 package com.sibyl.sasukehomeDominator.util
 
-import android.content.ActivityNotFoundException
-import android.content.ContentResolver
-import android.content.Context
-import android.content.Intent
+import android.content.*
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.provider.Settings
+import android.util.Log
 import androidx.core.content.FileProvider
 import java.io.File
+import java.util.*
 
 
 /**
@@ -131,9 +131,9 @@ class FuckGoogleAdaptUtil {
             var scheme = uri.getScheme()
             var data = ""
             if (scheme == null) {
-                data = uri.getPath()
+                data = uri.getPath().toString()
             } else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-                data = uri.getPath();
+                data = uri.getPath().toString()
             } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
                 var cursor = context.getContentResolver().query(uri, arrayOf(MediaStore.Images.ImageColumns.DATA), null, null, null);
                 if (null != cursor) {
@@ -148,8 +148,32 @@ class FuckGoogleAdaptUtil {
             }
             return data
         }
-
-
+        
+        
+        @JvmStatic
+        /**Android11 Media API
+         * isCrop : 裁剪状态和取照片状态的地址不同
+         */
+        fun createRImgUri(context: Context,file: File): Uri? {
+            //设置保存参数到ContentValues中
+            val contentValues = ContentValues()
+            //设置文件名
+            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, file.getName())
+            //android Q中不再使用DATA字段，而用RELATIVE_PATH代替
+            //RELATIVE_PATH是相对路径不是绝对路径;照片存储的地方为：存储/Pictures
+            val dirs = file.parent.split(File.separator)
+            contentValues.put(MediaStore.Images.Media.RELATIVE_PATH,dirs[dirs.size - 2] + File.separator + dirs[dirs.size - 1])
+            //设置文件类型
+            contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/"+ when(file.extension.toUpperCase(Locale.ROOT)){
+                "PNG" -> "PNG"
+                "WEBP" -> "WEBP"
+                else -> "JPEG"
+            })
+            //执行insert操作，向系统文件夹中添加文件
+            //EXTERNAL_CONTENT_URI代表外部存储器，该值不变
+//            return context.getContentResolver().insert(MediaStore.Images.Media.getContentUri("external"), contentValues)
+            return context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        }
     }
 
 
