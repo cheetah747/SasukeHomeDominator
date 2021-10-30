@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Handler
+import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import com.sibyl.sasukehomeDominator.util.*
@@ -32,7 +33,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         }
     }
 
-    val handler by lazy { Handler() }
+    val handler by lazy { Handler(Looper.getMainLooper()) }
     //跳转封装
     val jumpWrapper by lazy { JumpWrapper(this) }
 

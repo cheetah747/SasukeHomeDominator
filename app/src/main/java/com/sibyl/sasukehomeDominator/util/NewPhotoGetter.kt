@@ -2,6 +2,7 @@ package com.sibyl.sasukehomeDominator.util
 
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 
 /**
@@ -17,7 +18,7 @@ class NewPhotoGetter(val context: Context,val dealWork: (String) -> Unit) {
         lastPathHistory = getLatest(context)
     }
 
-    val handler by lazy { Handler() }
+    val handler by lazy { Handler(Looper.getMainLooper()) }
 
     /**循环检查*/
     fun checkAndDeal() {
@@ -51,7 +52,7 @@ class NewPhotoGetter(val context: Context,val dealWork: (String) -> Unit) {
 
             //读取扫描到的图片
             var pathTemp = ""
-            if (mCursor.moveToNext()) {
+            if (mCursor != null && mCursor.moveToNext()) {
                 // 获取图片的路径
                 val path = mCursor.getString(
                     mCursor.getColumnIndex(MediaStore.Images.Media.DATA)
@@ -66,7 +67,7 @@ class NewPhotoGetter(val context: Context,val dealWork: (String) -> Unit) {
                     mCursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED)
                 )
             }
-            mCursor.close()
+            mCursor?.close()
             return pathTemp
         }
     }
