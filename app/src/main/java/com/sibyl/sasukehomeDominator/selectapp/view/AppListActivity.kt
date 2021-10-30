@@ -55,6 +55,7 @@ class AppListActivity : BaseActivity() , CountDownDominator.CountDownCallback{
         searchInput.onTextChanged {
             pre.startCountDownSearch()
         }
+        searchInput.setOnEditorActionListener { textView, i, keyEvent -> /*KeyboardUtil.dismissKeyboard(this,searchInput);*/true }
     }
 
     /**刷新列表显示*/

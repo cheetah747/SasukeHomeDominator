@@ -28,6 +28,8 @@
             <EditText
                 android:id="@+id/searchInput"
                 android:hint="@string/search_hint"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
                 android:textColorHint="@color/hint_color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

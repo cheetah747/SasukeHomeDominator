@@ -8,6 +8,10 @@ import com.sibyl.sasukehomeDominator.R
 import com.sibyl.sasukehomeDominator.SasukeApplication
 import com.sibyl.sasukehomeDominator.util.*
 import kotlinx.android.synthetic.main.activity_list_activity.*
+import kotlinx.android.synthetic.main.activity_list_activity.dataRv
+import kotlinx.android.synthetic.main.activity_list_activity.rootLayout
+import kotlinx.android.synthetic.main.activity_list_activity.searchInput
+import kotlinx.android.synthetic.main.app_list_activity.*
 import java.util.*
 
 /**
@@ -59,6 +63,7 @@ class ActivityListActivity: BaseActivity(), CountDownDominator.CountDownCallback
         searchInput.onTextChanged {
             counter?.start(SEARCH_PERIOD)
         }
+        searchInput.setOnEditorActionListener { textView, i, keyEvent -> /*KeyboardUtil.dismissKeyboard(this,searchInput);*/true }
     }
 
     override fun doWorkWhenTimeUp(tag: Int) {
