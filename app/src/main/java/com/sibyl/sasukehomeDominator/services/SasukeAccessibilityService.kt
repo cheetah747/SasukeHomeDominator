@@ -3,6 +3,7 @@ package com.sibyl.sasukehomeDominator.services
 import android.accessibilityservice.AccessibilityService
 import android.app.Service
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
@@ -40,19 +41,22 @@ class SasukeAccessibilityService : AccessibilityService() {
 
 //    val waterMarkTypeface by lazy { TextView(this).typeface }
 
+    //用来接收瓷贴们的跳转
+    val tileReceiver by lazy { ForTileBroadcastReceiver(this) }
 
     override fun onCreate() {
         super.onCreate()
+        registerReceiver(tileReceiver, IntentFilter().apply {
+            addAction(StaticVar.TILE_BROADCAST)
+        })
 //        mContext = applicationContext
         manager.startListen()
 //        EventBus.getDefault().register(this)
     }
 
 
-
-
-
     override fun onDestroy() {
+        unregisterReceiver(tileReceiver)
         handler.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
@@ -62,24 +66,6 @@ class SasukeAccessibilityService : AccessibilityService() {
         ClipboardUtil.clear(SasukeApplication.app)
         //截图延时
         val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
-
-        //从通知栏瓷贴点击过来的（默认false）
-        when (intent.getStringExtra(StaticVar.KEY_ACCESSIBILITY_TYPE)) {
-            //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
-            StaticVar.STRONG_SCRSHOT -> {
-//                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
-//                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
-//                }
-                handler.postDelayed(
-                    { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
-                    500 + scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
-                );return Service.START_STICKY
-            }
-            StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);return Service.START_STICKY }
-            StaticVar.STRONG_POWER_LONGPRESS -> { performGlobalAction(GLOBAL_ACTION_POWER_DIALOG);return Service.START_STICKY }
-            StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump();return Service.START_STICKY  }
-        }
-
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         //常规长按HOME键过来的
         when (selected) {
@@ -96,6 +82,31 @@ class SasukeAccessibilityService : AccessibilityService() {
             StaticVar.SHARINGAN -> jumpWrapper.jump()
         }
         return Service.START_STICKY
+    }
+
+
+    /**从瓷贴点击跳过来*/
+    fun tilesClick(intent: Intent?){
+        //清空剪切板，保护隐私
+        ClipboardUtil.clear(SasukeApplication.app)
+        if (intent == null) return
+        val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
+        //从通知栏瓷贴点击过来的（默认false）
+        when (intent.getStringExtra(StaticVar.KEY_ACCESSIBILITY_TYPE)) {
+            //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
+            StaticVar.STRONG_SCRSHOT -> {
+//                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
+//                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
+//                }
+                handler.postDelayed(
+                    { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
+                    500 + scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
+                )
+            }
+            StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN) }
+            StaticVar.STRONG_POWER_LONGPRESS -> { performGlobalAction(GLOBAL_ACTION_POWER_DIALOG) }
+            StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump()  }
+        }
     }
 
     /**截图监听响应回调*/
@@ -164,10 +175,12 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {
     }
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        handler.removeCallbacksAndMessages(null)
-        return super.onUnbind(intent)
-    }
+    //多次反注册会导致失效
+//    override fun onUnbind(intent: Intent?): Boolean {
+//        unregisterReceiver(tileReceiver)
+//        handler.removeCallbacksAndMessages(null)
+//        return super.onUnbind(intent)
+//    }
 
     //    class LockScreenMsg
 

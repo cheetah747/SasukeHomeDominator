@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
+import android.util.Log
 import com.sibyl.sasukehomeDominator.util.StaticVar
 
 /**
@@ -16,7 +17,11 @@ class ScreenShotTileService: TileService() {
         //收起通知栏
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
 
-        startForegroundService(Intent(this, SasukeAccessibilityService::class.java).apply {
+//        startForegroundService(Intent(this, SasukeAccessibilityService::class.java).apply {
+//            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SCRSHOT)
+//        })
+        sendBroadcast(Intent().apply {
+            setAction(StaticVar.TILE_BROADCAST)
             putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SCRSHOT)
         })
     }

@@ -68,6 +68,9 @@ class StaticVar {
         /**水印位置设置*/
         const val KEY_POS_SELECT = "KEY_POS_SELECT"
 
+        /**从瓷贴点击时发送的广播*/
+        const val TILE_BROADCAST = "TILE_BROADCAST"
+
 
         /**手机型号*/
         var deviceModel = ""
