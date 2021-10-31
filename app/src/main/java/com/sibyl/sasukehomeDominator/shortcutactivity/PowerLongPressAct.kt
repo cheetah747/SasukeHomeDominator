@@ -13,8 +13,12 @@ class PowerLongPressAct: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startService(Intent(this, SasukeAccessibilityService::class.java).apply {
-            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE, StaticVar.STRONG_POWER_LONGPRESS)
+//        startService(Intent(this, SasukeAccessibilityService::class.java).apply {
+//            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE, StaticVar.STRONG_POWER_LONGPRESS)
+//        })
+        sendBroadcast(Intent().apply {
+            setAction(StaticVar.TILE_BROADCAST)
+            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_POWER_LONGPRESS)
         })
         finish()
     }
