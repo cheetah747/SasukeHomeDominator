@@ -8,6 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
+import com.sibyl.sasukehomeDominator.SasukeApplication
 import com.sibyl.sasukehomeDominator.util.*
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_IS_SHOW_WATERMARK
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
@@ -57,9 +58,8 @@ class SasukeAccessibilityService : AccessibilityService() {
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-
-
-
+        //清空剪切板，保护隐私
+        ClipboardUtil.clear(SasukeApplication.app)
         //截图延时
         val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
 
