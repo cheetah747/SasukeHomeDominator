@@ -80,6 +80,7 @@ class AppListActivity : BaseActivity() , CountDownDominator.CountDownCallback{
 
     /**1秒延时后才真正开始搜索*/
     override fun doWorkWhenTimeUp(tag: Int) {
+        if (isFinishing) return
         loadWait.show(LoadWaitDominator.LOADING)
         SasukeApplication.app.executor.submit {
             val newData = pre.realSearchApp(searchInput.text.toString(),isIncludeSystem)

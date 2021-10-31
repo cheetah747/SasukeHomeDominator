@@ -67,6 +67,7 @@ class ActivityListActivity: BaseActivity(), CountDownDominator.CountDownCallback
     }
 
     override fun doWorkWhenTimeUp(tag: Int) {
+        if (isFinishing) return
         activities?.let {
             loadWait.show(LoadWaitDominator.LOADING)
             (dataRv.adapter as ActivityListAdapter).run {

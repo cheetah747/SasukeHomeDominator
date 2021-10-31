@@ -35,7 +35,7 @@ class AppListAdapter(val context: Activity): RecyclerView.Adapter<AppListAdapter
             if (data.appIcon == null){
                 SasukeApplication.app.executor.submit {
                     data.appIcon = bitmap2Bytes(drawable2Bitmap(data.appInfo?.loadIcon(context.packageManager)))
-                    context.runOnUiThread { Glide.with(context).loadNoCache(data.appIcon).into(appIconIv) }
+                    context.runOnUiThread { if (!context.isFinishing) Glide.with(context).loadNoCache(data.appIcon).into(appIconIv) }
                 }
             }else{
                 Glide.with(context).loadNoCache(data.appIcon).into(appIconIv)
