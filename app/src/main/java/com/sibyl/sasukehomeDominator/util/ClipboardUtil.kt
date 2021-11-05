@@ -12,8 +12,9 @@ class ClipboardUtil {
     companion object{
         /**清空剪切板*/
         @JvmStatic
-        fun clear(context: Context) = (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
-            ClipData.newPlainText("","")
-        )
+        fun clear(context: Context) = (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).clearPrimaryClip()
+//        fun clear(context: Context) = (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
+//            ClipData.newPlainText("","")
+//        )
     }
 }
