@@ -51,6 +51,7 @@
                 android:focusableInTouchMode="false"
                 android:text="@string/select_activity"
                 android:textColor="@color/white"
+                android:maxLines="1"
                 android:ellipsize="marquee"
                 android:textSize="16sp"
                 android:textAllCaps="false"

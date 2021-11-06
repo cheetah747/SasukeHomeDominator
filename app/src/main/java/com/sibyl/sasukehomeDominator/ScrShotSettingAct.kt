@@ -89,7 +89,7 @@ class ScrShotSettingAct : BaseActivity() {
         waterCardImg.setOnLongClickListener {
             AlertDialog.Builder(this).setMessage(resources.getString(R.string.is_resume_default_card))
                 .setPositiveButton(resources.getString(R.string.yes),{ dialog, which ->
-                    waterCardImg.setImageResource(R.mipmap.default_card_background)//恢复默认显示
+                    Glide.with(this).load(R.mipmap.default_card_background).into(waterCardImg)//恢复默认显示
                     FileData.waterCardFile(this).takeIf { it.exists() }?.let { it.delete() }//删除
                 }).show()
             true
@@ -303,7 +303,7 @@ class ScrShotSettingAct : BaseActivity() {
                     val photo = BitmapFactory.decodeStream(getContentResolver().openInputStream(File(it).toUri()),null,BitmapFactory.Options().apply {
                         inMutable = true
                     })
-                    val cardBmp = WaterMarker.trasBmp2Card(photo, IMG_CARD_HEIGHT_FACTORS)
+                    val cardBmp = photo?.let { WaterMarker.trasBmp2Card(it, IMG_CARD_HEIGHT_FACTORS) }
                     photoPathTemp?.takeIf { File(it).exists() }?.let { File(it).delete() }
                     FileCache.saveBitmap(cardBmp,FileData.waterCardFile(this))
                     waterCardImg.setImageBitmap(cardBmp)

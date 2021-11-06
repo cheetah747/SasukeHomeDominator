@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -32,7 +33,7 @@ class MainPre(val activity: MainActivity,val cardViews: List<View>) {
 
     fun setupCardView(){
         cardDataList.forEach { cardData ->
-            (cardData.cardView?.findViewById(R.id.cardIcon) as ImageView).setImageResource(cardData.iconId)
+            Glide.with(activity).load(cardData.iconId).into(cardData.cardView?.findViewById(R.id.cardIcon) as ImageView)
             (cardData.cardView?.findViewById(R.id.cardText) as TextView).run {
                 setText(activity.resources.getString( cardData.titleTextId))
                 if (cardData.textColor != null){//当文字有颜色，说明是设置按钮
