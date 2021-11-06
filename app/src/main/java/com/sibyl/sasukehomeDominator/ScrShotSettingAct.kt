@@ -89,7 +89,7 @@ class ScrShotSettingAct : BaseActivity() {
         waterCardImg.setOnLongClickListener {
             AlertDialog.Builder(this).setMessage(resources.getString(R.string.is_resume_default_card))
                 .setPositiveButton(resources.getString(R.string.yes),{ dialog, which ->
-                    Glide.with(this).load(R.mipmap.default_card_background).into(waterCardImg)//恢复默认显示
+                    waterCardImg.setImageResource(R.mipmap.default_card_background)//恢复默认显示
                     FileData.waterCardFile(this).takeIf { it.exists() }?.let { it.delete() }//删除
                 }).show()
             true

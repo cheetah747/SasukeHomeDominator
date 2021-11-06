@@ -33,7 +33,7 @@ class MainPre(val activity: MainActivity,val cardViews: List<View>) {
 
     fun setupCardView(){
         cardDataList.forEach { cardData ->
-            Glide.with(activity).load(cardData.iconId).into(cardData.cardView?.findViewById(R.id.cardIcon) as ImageView)
+            (cardData.cardView?.findViewById(R.id.cardIcon) as ImageView).setImageResource(cardData.iconId)
             (cardData.cardView?.findViewById(R.id.cardText) as TextView).run {
                 setText(activity.resources.getString( cardData.titleTextId))
                 if (cardData.textColor != null){//当文字有颜色，说明是设置按钮
