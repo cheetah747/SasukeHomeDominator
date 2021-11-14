@@ -63,7 +63,8 @@ class MainActivity : BaseActivity() {
             screenShotSettingCard,
             powerLongPressCard.apply { setTag(StaticVar.POWER_LONGPRESS) },
             sharinganCard.apply { setTag(StaticVar.SHARINGAN) },
-            sharinganSettingCard
+            sharinganSettingCard,
+            notifiCard.apply { setTag(StaticVar.NOTIFI) }
         ))
 
         setupUI()
@@ -81,7 +82,7 @@ class MainActivity : BaseActivity() {
     fun refreshUIbySelected(isAnime: Boolean) {
         //刷新卡片激活状态
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
-        arrayOf(screenShotCard,lockScreenCard,powerLongPressCard,sharinganCard).forEach {
+        arrayOf(screenShotCard,lockScreenCard,powerLongPressCard,sharinganCard,notifiCard).forEach {
             changeBtnColor(it,selected == it.tag as String)
         }
 
@@ -132,7 +133,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun setListeners() {
-        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard, sharinganCard).forEach {
+        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard, sharinganCard,notifiCard).forEach {
             it.setOnClickListener {
                 PreferHelper.getInstance().setStringCommit(
                     StaticVar.KEY_SELECTED_ITEM,

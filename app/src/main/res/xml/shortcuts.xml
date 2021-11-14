@@ -42,6 +42,21 @@
         <!--<categories android:name="android.shortcut.conversation" />-->
     </shortcut>
 
+
+    <shortcut
+            android:enabled="true"
+            android:icon="@mipmap/notifi_shotcut"
+            android:shortcutDisabledMessage="@string/unavailable"
+            android:shortcutId="notifi"
+            android:shortcutLongLabel="@string/notifi"
+            android:shortcutShortLabel="@string/notifi">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.sibyl.sasukehomeDominator.shortcutactivity.NotifiAct"
+                android:targetPackage="com.sibyl.sasukehomeDominator" />
+        <!--<categories android:name="android.shortcut.conversation" />-->
+    </shortcut>
+
     <!--<shortcut-->
             <!--android:enabled="true"-->
             <!--android:icon="@mipmap/change_file_shotcut"-->

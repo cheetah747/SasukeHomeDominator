@@ -16,6 +16,7 @@
     <string name="screen_lock">スクリーンロック</string>
     <string name="screen_shot">スクリーンショット</string>
     <string name="settings">設定</string>
+    <string name="notifi">通知領域</string>
     <string name="power_menu">パワーメニュー</string>
     <string name="setting_success">に設定しました</string>
     <string name="turn_on_dialog_alert">本アプリは無障害の特性を利用するため、スイッチをONにして下さい</string>
@@ -23,7 +24,7 @@
     <string name="permission_allow">パーミッションを許可してください</string>
     <string name="water_mark">ウォーターマーク</string>
     <string name="timeout">遅延</string>
-    <string name="home_dominator_service">HOMEドミネーター用のサービス(SasukeAccessibilityService)</string>
+    <string name="home_dominator_service">HOMEドミネーター用のサービス</string>
     <string name="scr_shot_tile">クソスクショ</string>
     <string name="lock_scr_tile">クソロック</string>
     <string name="any_tile">万能タイル</string>

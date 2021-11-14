@@ -80,12 +80,13 @@ class SasukeAccessibilityService : AccessibilityService() {
             }
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
             StaticVar.SHARINGAN -> jumpWrapper.jump()
+            StaticVar.NOTIFI -> performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS)
         }
         return Service.START_STICKY
     }
 
 
-    /**从瓷贴点击跳过来*/
+    /**从瓷贴点击跳过来（其实现在不局限于瓷贴，也可能是快捷方式）*/
     fun tilesClick(intent: Intent?){
         //清空剪切板，保护隐私
         ClipboardUtil.clear(SasukeApplication.app)
@@ -106,6 +107,7 @@ class SasukeAccessibilityService : AccessibilityService() {
             StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN) }
             StaticVar.STRONG_POWER_LONGPRESS -> { performGlobalAction(GLOBAL_ACTION_POWER_DIALOG) }
             StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump()  }
+            StaticVar.STRONG_NOTIFI -> performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS)
         }
     }
 

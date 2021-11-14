@@ -14,6 +14,7 @@
     <string name="screen_lock">锁屏</string>
     <string name="screen_shot">截屏</string>
     <string name="settings">设置</string>
+    <string name="notifi">通知栏</string>
     <string name="power_menu">电源菜单</string>
     <string name="setting_success">设置成功</string>
     <string name="turn_on_dialog_alert">本应用需利用辅助功能特性、请前往打开服务</string>
@@ -21,7 +22,7 @@
     <string name="permission_allow">请允许权限</string>
     <string name="water_mark">截屏水印</string>
     <string name="timeout">截屏延时</string>
-    <string name="home_dominator_service">HOME键支配者服务(SasukeAccessibilityService)</string>
+    <string name="home_dominator_service">HOME键支配者服务</string>
     <string name="scr_shot_tile">截他妈的</string>
     <string name="lock_scr_tile">锁他妈的</string>
     <string name="any_tile">万能瓷贴</string>

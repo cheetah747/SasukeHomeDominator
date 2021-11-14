@@ -4,8 +4,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -19,7 +17,8 @@ class MainPre(val activity: MainActivity,val cardViews: List<View>) {
             CardData(null,R.string.settings,R.drawable.screen_shot_setting_30dp,R.color.big_btn_text_color),
             CardData(null,R.string.power_menu,R.drawable.power_longpress_30dp),
             CardData(null,R.string.any_tile,R.mipmap.ic_any_tile),
-            CardData(null,R.string.settings,R.drawable.screen_shot_setting_30dp,R.color.big_btn_text_color)
+            CardData(null,R.string.settings,R.drawable.screen_shot_setting_30dp,R.color.big_btn_text_color),
+            CardData(null,R.string.notifi,R.drawable.notifi_icon_30dp)
          )
     }
 

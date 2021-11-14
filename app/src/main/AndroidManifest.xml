@@ -75,6 +75,11 @@
                 android:theme="@style/BridgeAct">
         </activity>
         <activity
+                android:name=".shortcutactivity.NotifiAct"
+                android:theme="@style/BridgeAct">
+        </activity>
+
+        <activity
                 android:name=".shortcutactivity.ChangeFileNameAct"
                 android:theme="@style/BridgeAct">
         </activity>

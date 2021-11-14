@@ -12,6 +12,8 @@ class StaticVar {
         const val LOCK_SCREEN = "LOCK_SCREEN"
         const val POWER_LONGPRESS = "POWER_LONGPRESS"
         const val SHARINGAN = "SHARINGAN"
+        const val NOTIFI = "NOTIFI"
+
 
         const val LEFT = "LEFT"
         const val RIGHT = "RIGHT"
@@ -61,6 +63,8 @@ class StaticVar {
         /**【万能瓷贴】启动Service时传Intent的传值 */
         const val STRONG_SHARINGAN = "STRONG_SHARINGAN"
 
+        /**【展开通知栏】启动Service时传Intent的传值 */
+        const val STRONG_NOTIFI = "STRONG_NOTIFI"
 
         /**根据监听到的截屏，来获取截图目录，因为很多手机不一样*/
         const val KEY_SCREEN_SHOT_DIR = "KEY_SCREEN_SHOT_DIR"
