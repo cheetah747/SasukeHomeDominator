@@ -28,6 +28,7 @@ import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.sharingan_dialog_view.view.*
 import org.jetbrains.anko.*
 
 
@@ -41,6 +42,21 @@ class MainActivity : BaseActivity() {
             //点击跳转选取APP
             findViewById<CardView>(R.id.selectActivityCard).setOnClickListener {
                 startActivity(Intent(this@MainActivity, AppListActivity::class.java))
+            }
+            //点击切换联动【亮你妈】状态
+            findViewById<CardView>(R.id.withFuckBrightness). setOnClickListener {
+                    val newState = !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
+                    PreferHelper.getInstance().setBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, newState)
+                    (it as CardView).setCardBackgroundColor(if (newState) getColor(R.color.progressbar_color) else getColor(R.color.gray))
+                    showSnackbar(if (newState) getString(R.string.fuck_brightness_setting_success) else getString(R.string.fuck_brightness_setting_cancel) )
+            }
+            //长按按钮清除设置
+            findViewById<TextView>(R.id.selectActivityTv).setOnLongClickListener {
+                    PreferHelper.getInstance().setString(StaticVar.KEY_ANY_TILE,"")
+                    (it as TextView).text = getString(R.string.select_activity)
+                    appNameTv.visibility = View.GONE
+                    findViewById<CircleImageView>(R.id.appIconIv).setImageResource(R.color.gray)
+                    true
             }
         }
     }
@@ -191,25 +207,11 @@ class MainActivity : BaseActivity() {
             //显示按钮文字
             sharinganDialogView.findViewById<TextView>(R.id.selectActivityTv).apply {
                 text = activityName
-                //长按按钮清除设置
-                setOnLongClickListener {
-                    PreferHelper.getInstance().setString(StaticVar.KEY_ANY_TILE,"")
-                    text = getString(R.string.select_activity)
-                    sharinganDialogView.findViewById<CircleImageView>(R.id.appIconIv).setImageResource(R.color.gray)
-                    true
-                }
             }
             //设置 联动亮你妈
             sharinganDialogView.findViewById<CardView>(R.id.withFuckBrightness).apply {
                 val withFuckBrightness = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
                 setCardBackgroundColor(if (withFuckBrightness) getColor(R.color.progressbar_color) else getColor(R.color.gray))
-                //点击切换联动状态
-                setOnClickListener {
-                    val newState = !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
-                    PreferHelper.getInstance().setBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, newState)
-                    (it as CardView).setCardBackgroundColor(if (newState) getColor(R.color.progressbar_color) else getColor(R.color.gray))
-                    showSnackbar(if (newState) getString(R.string.fuck_brightness_setting_success) else getString(R.string.fuck_brightness_setting_cancel) )
-                }
             }
             //显示ROOT背景
             sharinganDialogView.findViewById<ImageView>(R.id.rootImg).visibility = if (isRoot) View.VISIBLE else View.GONE
