@@ -25,7 +25,7 @@
     <string name="home_dominator_service">HOME键支配者服务</string>
     <string name="scr_shot_tile">截他妈的</string>
     <string name="lock_scr_tile">锁他妈的</string>
-    <string name="fuck_brightness_tile">亮你妈</string>
+    <string name="fuck_brightness_tile">暴力低亮</string>
     <string name="any_tile">万能瓷贴</string>
     <string name="power_long_tile">电他妈的</string>
     <string name="setting_success_toast">设置保存成功</string>
@@ -41,7 +41,7 @@
     <string name="search_hint">搜索</string>
     <string name="select_activity">选择ACTIVITY</string>
     <string name="root_pls">打开该Activity需要root权限</string>
-    <string name="fuck_brightness_setting_success">开启与【亮你妈】的联动！</string>
-    <string name="fuck_brightness_setting_cancel">取消与【亮你妈】的联动！</string>
+    <string name="fuck_brightness_setting_success">开启与【暴力低亮】的联动！</string>
+    <string name="fuck_brightness_setting_cancel">取消与【暴力低亮】的联动！</string>
 
 </resources>

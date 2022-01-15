@@ -27,7 +27,7 @@
     <string name="home_dominator_service">HOMEドミネーター用のサービス</string>
     <string name="scr_shot_tile">クソスクショ</string>
     <string name="lock_scr_tile">クソロック</string>
-    <string name="fuck_brightness_tile">クソ輝度</string>
+    <string name="fuck_brightness_tile">輝度覆し</string>
     <string name="any_tile">万能タイル</string>
     <string name="power_long_tile">クソパワー</string>
     <string name="setting_success_toast">設定が保存されました</string>
