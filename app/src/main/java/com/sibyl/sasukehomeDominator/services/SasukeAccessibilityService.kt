@@ -10,6 +10,7 @@ import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.widget.TextView
 import com.sibyl.sasukehomeDominator.SasukeApplication
+import com.sibyl.sasukehomeDominator.shortcutactivity.FuckMaxBrightnessAct
 import com.sibyl.sasukehomeDominator.util.*
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_IS_SHOW_WATERMARK
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
@@ -81,6 +82,7 @@ class SasukeAccessibilityService : AccessibilityService() {
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
             StaticVar.SHARINGAN -> jumpWrapper.jump()
             StaticVar.NOTIFI -> performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS)
+            StaticVar.FUCKBRIGHTNESS -> { startActivity(Intent(this, FuckMaxBrightnessAct::class.java).apply { setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })}
         }
         return Service.START_STICKY
     }
@@ -108,6 +110,7 @@ class SasukeAccessibilityService : AccessibilityService() {
             StaticVar.STRONG_POWER_LONGPRESS -> { performGlobalAction(GLOBAL_ACTION_POWER_DIALOG) }
             StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump()  }
             StaticVar.STRONG_NOTIFI -> performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS)
+            StaticVar.STRONG_FUCK_BRIGHTNESS -> { startActivity(Intent(this, FuckMaxBrightnessAct::class.java).apply { setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })}
         }
     }
 

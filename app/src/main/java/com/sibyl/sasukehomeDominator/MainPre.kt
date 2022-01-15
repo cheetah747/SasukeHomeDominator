@@ -18,6 +18,7 @@ class MainPre(val activity: MainActivity,val cardViews: List<View>) {
             CardData(null,R.string.power_menu,R.drawable.power_longpress_30dp),
             CardData(null,R.string.any_tile,R.mipmap.ic_any_tile),
             CardData(null,R.string.settings,R.drawable.screen_shot_setting_30dp,R.color.big_btn_text_color),
+            CardData(null,R.string.fuck_brightness_tile,R.drawable.ic_fuck_brightness_30),
             CardData(null,R.string.notifi,R.drawable.notifi_icon_30dp)
          )
     }

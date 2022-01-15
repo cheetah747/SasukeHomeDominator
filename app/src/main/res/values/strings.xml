@@ -27,6 +27,7 @@
     <string name="home_dominator_service">HOMEドミネーター用のサービス</string>
     <string name="scr_shot_tile">クソスクショ</string>
     <string name="lock_scr_tile">クソロック</string>
+    <string name="fuck_brightness_tile">クソ輝度</string>
     <string name="any_tile">万能タイル</string>
     <string name="power_long_tile">クソパワー</string>
     <string name="setting_success_toast">設定が保存されました</string>
@@ -42,7 +43,8 @@
     <string name="search_hint">検索</string>
     <string name="select_activity">ACTIVITYを選択します</string>
     <string name="root_pls">Rootクレメンス！</string>
-
+    <string name="fuck_brightness_setting_success">ファック輝度とのコラボ完了しました！</string>
+    <string name="fuck_brightness_setting_cancel">ファック輝度とのコラボ取り消ししました！</string>
 
 
 

@@ -75,6 +75,13 @@
                 android:theme="@style/BridgeAct">
         </activity>
         <activity
+                android:name=".shortcutactivity.FuckMaxBrightnessAct"
+                android:launchMode="singleInstance"
+                android:excludeFromRecents="true"
+                android:exported="true"
+                android:theme="@style/BridgeAct">
+        </activity>
+        <activity
                 android:name=".shortcutactivity.NotifiAct"
                 android:theme="@style/BridgeAct">
         </activity>
@@ -120,6 +127,16 @@
                 android:name=".services.LockScreenTileService"
                 android:label="@string/lock_scr_tile"
                 android:icon="@mipmap/ic_lock_screen"
+                android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+
+        <service
+                android:name=".services.FuckMaxBrightnessTileService"
+                android:label="@string/fuck_brightness_tile"
+                android:icon="@mipmap/ic_fuck_brightness"
                 android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE"/>

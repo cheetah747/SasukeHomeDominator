@@ -4,10 +4,13 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
 import com.sibyl.sasukehomeDominator.R
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 /**
@@ -47,6 +50,14 @@ open class BaseActivity: AppCompatActivity() {
             else ->{}
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun showSnackbar(msg: String){
+        Snackbar.make(
+            root,
+            msg,
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     //适配黑暗模式 https://www.jianshu.com/p/ba62cbcc9075

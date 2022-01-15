@@ -15,10 +15,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
 import com.sibyl.sasukehomeDominator.selectapp.view.AppListActivity
@@ -28,10 +28,7 @@ import com.sibyl.sasukehomeDominator.util.PreferHelper
 import com.sibyl.sasukehomeDominator.util.StaticVar
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 
 
 class MainActivity : BaseActivity() {
@@ -64,6 +61,7 @@ class MainActivity : BaseActivity() {
             powerLongPressCard.apply { setTag(StaticVar.POWER_LONGPRESS) },
             sharinganCard.apply { setTag(StaticVar.SHARINGAN) },
             sharinganSettingCard,
+            fuckBrightnessCard.apply { setTag(StaticVar.FUCKBRIGHTNESS) },
             notifiCard.apply { setTag(StaticVar.NOTIFI) }
         ))
 
@@ -82,7 +80,7 @@ class MainActivity : BaseActivity() {
     fun refreshUIbySelected(isAnime: Boolean) {
         //刷新卡片激活状态
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
-        arrayOf(screenShotCard,lockScreenCard,powerLongPressCard,sharinganCard,notifiCard).forEach {
+        arrayOf(screenShotCard,lockScreenCard,powerLongPressCard,sharinganCard,fuckBrightnessCard,notifiCard).forEach {
             changeBtnColor(it,selected == it.tag as String)
         }
 
@@ -133,14 +131,13 @@ class MainActivity : BaseActivity() {
     }
 
     fun setListeners() {
-        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard, sharinganCard,notifiCard).forEach {
+        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard, sharinganCard,fuckBrightnessCard,notifiCard).forEach {
             it.setOnClickListener {
                 PreferHelper.getInstance().setStringCommit(
                     StaticVar.KEY_SELECTED_ITEM,
                     it.tag as String
                 )
-                Snackbar.make(root, "【${it.findViewById<TextView>(R.id.cardText).text}】${resources.getString(R.string.setting_success)}", Snackbar.LENGTH_SHORT)
-                    .show()
+                showSnackbar("【${it.findViewById<TextView>(R.id.cardText).text}】${resources.getString(R.string.setting_success)}")
                 refreshUIbySelected(true)//再刷新一下页面
             }
         }
@@ -192,7 +189,28 @@ class MainActivity : BaseActivity() {
             val isRoot = PreferHelper.getInstance().getBoolean(StaticVar.KEY_ANY_TILE_IS_ROOT,false)
 
             //显示按钮文字
-            sharinganDialogView.findViewById<TextView>(R.id.selectActivityTv).text = activityName
+            sharinganDialogView.findViewById<TextView>(R.id.selectActivityTv).apply {
+                text = activityName
+                //长按按钮清除设置
+                setOnLongClickListener {
+                    PreferHelper.getInstance().setString(StaticVar.KEY_ANY_TILE,"")
+                    text = getString(R.string.select_activity)
+                    sharinganDialogView.findViewById<CircleImageView>(R.id.appIconIv).setImageResource(R.color.gray)
+                    true
+                }
+            }
+            //设置 联动亮你妈
+            sharinganDialogView.findViewById<CardView>(R.id.withFuckBrightness).apply {
+                val withFuckBrightness = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
+                setCardBackgroundColor(if (withFuckBrightness) getColor(R.color.progressbar_color) else getColor(R.color.gray))
+                //点击切换联动状态
+                setOnClickListener {
+                    val newState = !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
+                    PreferHelper.getInstance().setBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, newState)
+                    (it as CardView).setCardBackgroundColor(if (newState) getColor(R.color.progressbar_color) else getColor(R.color.gray))
+                    showSnackbar(if (newState) getString(R.string.fuck_brightness_setting_success) else getString(R.string.fuck_brightness_setting_cancel) )
+                }
+            }
             //显示ROOT背景
             sharinganDialogView.findViewById<ImageView>(R.id.rootImg).visibility = if (isRoot) View.VISIBLE else View.GONE
             //显示按钮颜色

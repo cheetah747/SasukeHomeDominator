@@ -58,6 +58,11 @@ public class PreferHelper {
         editor.apply();
     }
 
+    public void setFloat(String key, float value) {
+        editor.putFloat(key, value);
+        editor.apply();
+    }
+
     /**
      * 用于切换环境之类的这种需要同步执行的操作
      * @param key
@@ -105,6 +110,10 @@ public class PreferHelper {
 
     public int getInt(String key, int defaultInt) {
         return sp.getInt(key, defaultInt);
+    }
+
+    public float getFloat(String key, float defaultFloat) {
+        return sp.getFloat(key, defaultFloat);
     }
 
     public long getLong(String key) {
