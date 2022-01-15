@@ -64,6 +64,9 @@ class StaticVar {
         /**【万能瓷贴】启动Service时传Intent的传值 */
         const val STRONG_SHARINGAN = "STRONG_SHARINGAN"
 
+        /**【万能瓷贴从shortcut进入】启动Service时传Intent的传值 */
+        const val STRONG_SHARINGAN_SHORTCUT = "STRONG_SHARINGAN_SHORTCUT"
+
         /**【展开通知栏】启动Service时传Intent的传值 */
         const val STRONG_NOTIFI = "STRONG_NOTIFI"
 
