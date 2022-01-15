@@ -51,10 +51,10 @@ class MainActivity : BaseActivity() {
                     showSnackbar(if (newState) getString(R.string.fuck_brightness_setting_success) else getString(R.string.fuck_brightness_setting_cancel) )
             }
             //长按按钮清除设置
-            findViewById<TextView>(R.id.selectActivityTv).setOnLongClickListener {
+            findViewById<CardView>(R.id.selectActivityCard).setOnLongClickListener {
                     PreferHelper.getInstance().setString(StaticVar.KEY_ANY_TILE,"")
-                    (it as TextView).text = getString(R.string.select_activity)
-                    appNameTv.visibility = View.GONE
+                    findViewById<TextView>(R.id.selectActivityTv).text = getString(R.string.select_activity)
+                    findViewById<TextView>(R.id.appNameTv).visibility = View.GONE
                     findViewById<CircleImageView>(R.id.appIconIv).setImageResource(R.color.gray)
                     true
             }
