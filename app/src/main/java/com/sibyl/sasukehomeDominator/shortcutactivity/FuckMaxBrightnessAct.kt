@@ -34,23 +34,24 @@ class FuckMaxBrightnessAct: BaseActivity() {
 //            setAction(StaticVar.TILE_BROADCAST)
 //            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SHARINGAN)
 //        })
-        brightness = PreferHelper.getInstance().getInt(StaticVar.DEFAULT_BRIGHTNESS, StaticVar.BRIGHTNESS_SYSTEM)
-        if (brightness == StaticVar.BRIGHTNESS_SYSTEM){
-            brightness = getSystemBrightness(this)
-        }
-        newBrightness = brightness
-        setAppScreenBrightness(this, brightness)
 //        finish()
     }
 
 
     override fun onResume() {
         super.onResume()
-        resumeCount++
-        //如果是联动亮你妈，并且第二次onResume了，那就关闭掉（联动状态下，不要长时间占用屏幕）
-        if (resumeCount >= 2 && PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS,false)){
-            finish()
+        brightness = PreferHelper.getInstance().getInt(StaticVar.DEFAULT_BRIGHTNESS, StaticVar.BRIGHTNESS_SYSTEM)
+        if (brightness == StaticVar.BRIGHTNESS_SYSTEM){
+            brightness = getSystemBrightness(this)
         }
+        newBrightness = brightness
+        setAppScreenBrightness(this, brightness)
+
+//        resumeCount++
+//        //如果是联动亮你妈，并且第二次onResume了，那就关闭掉（联动状态下，不要长时间占用屏幕）
+//        if (resumeCount >= 2 && PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS,false)){
+//            finish()
+//        }
     }
 
     //手指按下的点为(x1, y1)手指离开屏幕的点为(x2, y2)
