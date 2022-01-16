@@ -184,6 +184,7 @@ class MainActivity : BaseActivity() {
             sharinganDialog.window?.apply {
                 setContentView(sharinganDialogView)
                 attributes = attributes.apply { width = dip(300) }
+                refreshSharinganDialogData()
             }
         }
     }

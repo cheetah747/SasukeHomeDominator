@@ -56,9 +56,13 @@ class FuckMaxBrightnessAct: BaseActivity() {
 
     //手指按下的点为(x1, y1)手指离开屏幕的点为(x2, y2)
     var x1 = 0f
-    var x2 = 0f
     var y1 = 0f
+    var x2 = 0f
     var y2 = 0f
+
+    var x11 = -1f//手指按下后，第一次的滑动，用于计算初速度角度，判断滑动是横向还是纵向
+    var y11 = -1f
+
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         //继承了Activity的onTouchEvent方法，直接监听点击事件
@@ -71,6 +75,18 @@ class FuckMaxBrightnessAct: BaseActivity() {
             MotionEvent.ACTION_MOVE ->{
                 x2 = event.x
                 y2 = event.y
+
+                //判断初始速度方向，只有纵向才修改亮度
+                if (x11 == -1f){
+                    x11 = event.x
+                }
+                if (y11 == -1f){
+                    y11 = event.y
+                }
+                if (Math.abs(y11 - y1) < Math.abs(x11 - x1)){
+                    return super.onTouchEvent(event)
+                }
+
                 newBrightness = brightness + ((y1 - y2) / getScreenHeight() * 255f).toInt()
                 if (newBrightness > 255f){
                     newBrightness = 255
@@ -86,6 +102,9 @@ class FuckMaxBrightnessAct: BaseActivity() {
             }
             MotionEvent.ACTION_UP ->{
                 //当手指离开的时候
+                x11 = -1f
+                y11 = -1f
+
                 brightnessTv.visibility = View.GONE
                 brightness = newBrightness
                 PreferHelper.getInstance().setInt(StaticVar.DEFAULT_BRIGHTNESS,newBrightness)
