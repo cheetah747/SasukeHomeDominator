@@ -25,7 +25,8 @@ class FuckMaxBrightnessAct: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fuck_max_brightness)
+        finish()
+//        setContentView(R.layout.activity_fuck_max_brightness)
 
 //        startService(Intent(this, SasukeAccessibilityService::class.java).apply {
 //            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE, StaticVar.STRONG_SHARINGAN)

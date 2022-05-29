@@ -68,13 +68,13 @@
             </LinearLayout>
 
 <!--亮你妈-->
-            <include
-                    android:id="@+id/fuckBrightnessCard"
-                    layout="@layout/card_unit_big"/>
+<!--            <include-->
+<!--                    android:id="@+id/fuckBrightnessCard"-->
+<!--                    layout="@layout/card_unit_big"/>-->
 
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"/>
+<!--            <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="10dp"/>-->
 <!--通知栏-->
             <include
                     android:id="@+id/notifiCard"

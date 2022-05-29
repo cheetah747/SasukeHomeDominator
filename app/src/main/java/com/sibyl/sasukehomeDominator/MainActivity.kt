@@ -76,7 +76,7 @@ class MainActivity : BaseActivity() {
             powerLongPressCard.apply { setTag(StaticVar.POWER_LONGPRESS) },
             sharinganCard.apply { setTag(StaticVar.SHARINGAN) },
             sharinganSettingCard,
-            fuckBrightnessCard.apply { setTag(StaticVar.FUCKBRIGHTNESS) },
+//            fuckBrightnessCard.apply { setTag(StaticVar.FUCKBRIGHTNESS) },
             notifiCard.apply { setTag(StaticVar.NOTIFI) }
         ))
 
@@ -95,7 +95,7 @@ class MainActivity : BaseActivity() {
     fun refreshUIbySelected(isAnime: Boolean) {
         //刷新卡片激活状态
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
-        arrayOf(screenShotCard,lockScreenCard,powerLongPressCard,sharinganCard,fuckBrightnessCard,notifiCard).forEach {
+        arrayOf(screenShotCard,lockScreenCard,powerLongPressCard,sharinganCard,/*fuckBrightnessCard,*/notifiCard).forEach {
             changeBtnColor(it,selected == it.tag as String)
         }
 
@@ -146,7 +146,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun setListeners() {
-        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard, sharinganCard,fuckBrightnessCard,notifiCard).forEach {
+        arrayOf(lockScreenCard, screenShotCard, powerLongPressCard, sharinganCard,/*fuckBrightnessCard,*/notifiCard).forEach {
             it.setOnClickListener {
                 PreferHelper.getInstance().setStringCommit(
                     StaticVar.KEY_SELECTED_ITEM,
