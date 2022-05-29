@@ -7,5 +7,5 @@
                        android:accessibilityFeedbackType="feedbackAllMask"
                        android:notificationTimeout="100"
                        android:canRetrieveWindowContent="true"
-                       android:settingsActivity="com.sibyl.sasukehomeDominator.BridgeAct"
+                       android:settingsActivity="com.sibyl.sasukehomeDominator.AssistBridgeAct"
         />

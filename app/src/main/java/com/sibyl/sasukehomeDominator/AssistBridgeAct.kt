@@ -8,7 +8,7 @@ import com.sibyl.sasukehomeDominator.util.BaseActivity
 /**
  * @author Sasuke on 2019/6/23.
  */
-class BridgeAct : BaseActivity() {
+class AssistBridgeAct : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //把服务跑起来

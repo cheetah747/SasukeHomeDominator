@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.animation.TypeEvaluator
 import android.app.ActivityOptions
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -22,10 +23,8 @@ import com.bumptech.glide.Glide
 import com.hjq.permissions.OnPermission
 import com.hjq.permissions.XXPermissions
 import com.sibyl.sasukehomeDominator.selectapp.view.AppListActivity
-import com.sibyl.sasukehomeDominator.util.BaseActivity
-import com.sibyl.sasukehomeDominator.util.CheckAccessibility
-import com.sibyl.sasukehomeDominator.util.PreferHelper
-import com.sibyl.sasukehomeDominator.util.StaticVar
+import com.sibyl.sasukehomeDominator.util.*
+import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_ACCESSIBILITY_TYPE
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.sharingan_dialog_view.view.*
@@ -155,6 +154,17 @@ class MainActivity : BaseActivity() {
                 )
                 showSnackbar("【${it.findViewById<TextView>(R.id.cardText).text}】${resources.getString(R.string.setting_success)}")
                 refreshUIbySelected(true)//再刷新一下页面
+            }
+            it.setOnLongClickListener { cardView ->
+                val shortcutIconId = pre?.cardDataList?.find { it.cardView == cardView }?.shortcutIconId
+                if (shortcutIconId == null) return@setOnLongClickListener true
+                val shortcutName = getString(pre?.cardDataList?.find { it.cardView == cardView }?.titleTextId ?:R.string.app_name)
+                //添加快捷方式到桌面
+                sendShortcut(this,shortcutName, BitmapFactory.decodeResource(resources,shortcutIconId) , BridgeActivity.javaClass.canonicalName ,Intent().apply {
+                    BridgeActivity.initClassIntent(this)
+                    putExtra(KEY_ACCESSIBILITY_TYPE, cardView.tag as String)
+                })
+                true
             }
         }
 
