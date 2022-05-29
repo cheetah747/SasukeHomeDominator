@@ -17,15 +17,15 @@ class JumpWrapper(val context: Context) {
     }
 
     fun jump(isFromShortcut: Boolean){
-        if (!isFromShortcut){//从shortcut进来的话，就不联动了
-            //是否与亮你妈联动
-            PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS,false).takeIf { it == true }?.run {
-                context.startActivity(Intent(context, FuckMaxBrightnessAct::class.java).apply {
-                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                )
-            }
-        }
+//        if (!isFromShortcut){//从shortcut进来的话，就不联动了
+//            //是否与亮你妈联动
+//            PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS,false).takeIf { it == true }?.run {
+//                context.startActivity(Intent(context, FuckMaxBrightnessAct::class.java).apply {
+//                    setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                }
+//                )
+//            }
+//        }
 
 
         PreferHelper.getInstance().getString(StaticVar.KEY_ANY_TILE, "")?.takeIf { it.isNotEmpty() && it.split("/").size == 2 }?.run {

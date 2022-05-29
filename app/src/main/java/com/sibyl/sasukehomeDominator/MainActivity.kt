@@ -43,12 +43,12 @@ class MainActivity : BaseActivity() {
                 startActivity(Intent(this@MainActivity, AppListActivity::class.java))
             }
             //点击切换联动【亮你妈】状态
-            findViewById<CardView>(R.id.withFuckBrightness). setOnClickListener {
-                    val newState = !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
-                    PreferHelper.getInstance().setBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, newState)
-                    (it as CardView).setCardBackgroundColor(if (newState) getColor(R.color.progressbar_color) else getColor(R.color.gray))
-                    showSnackbar(if (newState) getString(R.string.fuck_brightness_setting_success) else getString(R.string.fuck_brightness_setting_cancel) )
-            }
+//            findViewById<CardView>(R.id.withFuckBrightness). setOnClickListener {
+//                    val newState = !PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
+//                    PreferHelper.getInstance().setBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, newState)
+//                    (it as CardView).setCardBackgroundColor(if (newState) getColor(R.color.progressbar_color) else getColor(R.color.gray))
+//                    showSnackbar(if (newState) getString(R.string.fuck_brightness_setting_success) else getString(R.string.fuck_brightness_setting_cancel) )
+//            }
             //长按按钮清除设置
             findViewById<CardView>(R.id.selectActivityCard).setOnLongClickListener {
                     PreferHelper.getInstance().setString(StaticVar.KEY_ANY_TILE,"")
@@ -220,10 +220,10 @@ class MainActivity : BaseActivity() {
                 text = activityName
             }
             //设置 联动亮你妈
-            sharinganDialogView.findViewById<CardView>(R.id.withFuckBrightness).apply {
-                val withFuckBrightness = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
-                setCardBackgroundColor(if (withFuckBrightness) getColor(R.color.progressbar_color) else getColor(R.color.gray))
-            }
+//            sharinganDialogView.findViewById<CardView>(R.id.withFuckBrightness).apply {
+//                val withFuckBrightness = PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS, false)
+//                setCardBackgroundColor(if (withFuckBrightness) getColor(R.color.progressbar_color) else getColor(R.color.gray))
+//            }
             //显示ROOT背景
             sharinganDialogView.findViewById<ImageView>(R.id.rootImg).visibility = if (isRoot) View.VISIBLE else View.GONE
             //显示按钮颜色
