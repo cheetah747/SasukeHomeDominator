@@ -64,6 +64,7 @@ public class ScreenShotListenManager {
 
     private static final String TAG = "ScreenShotListenManager";
 
+    private String pathCache = "";
     /**
      * 读取媒体数据库时需要读取的列
      */
@@ -223,6 +224,14 @@ public class ScreenShotListenManager {
 
             // 获取各列的索引
             int dataIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            String data = cursor.getString(dataIndex);
+
+            //如果是空的，或者跟之前的路径重复了，那就不需要继续往下做了
+            if (TextUtils.isEmpty(data) || pathCache.equals(data)){
+                return;
+            }
+            pathCache = data;
+
             int dateTakenIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN);
             int widthIndex = -1;
             int heightIndex = -1;
@@ -232,7 +241,6 @@ public class ScreenShotListenManager {
             }
 
             // 获取行数据
-            String data = cursor.getString(dataIndex);
             long dateTaken = cursor.getLong(dateTakenIndex);
             int width = 0;
             int height = 0;
