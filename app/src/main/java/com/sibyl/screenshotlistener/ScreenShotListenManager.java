@@ -230,6 +230,7 @@ public class ScreenShotListenManager {
             if (TextUtils.isEmpty(data) || pathCache.equals(data)){
                 return;
             }
+            pathCache = data;
 
             int dateTakenIndex = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATE_TAKEN);
             int widthIndex = -1;
