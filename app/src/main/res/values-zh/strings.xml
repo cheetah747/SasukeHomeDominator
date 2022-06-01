@@ -43,5 +43,7 @@
     <string name="root_pls">打开该Activity需要root权限</string>
     <string name="fuck_brightness_setting_success">开启与【暴力低亮】的联动！</string>
     <string name="fuck_brightness_setting_cancel">取消与【暴力低亮】的联动！</string>
+    <string name="shortcut_create">创建了快捷方式</string>
+
 
 </resources>

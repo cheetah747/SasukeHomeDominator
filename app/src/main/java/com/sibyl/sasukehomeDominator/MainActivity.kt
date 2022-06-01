@@ -164,6 +164,7 @@ class MainActivity : BaseActivity() {
                     BridgeActivity.initClassIntent(this)
                     putExtra(KEY_ACCESSIBILITY_TYPE, cardView.tag as String)
                 })
+                showSnackbar(getString(R.string.shortcut_create))
                 true
             }
         }
