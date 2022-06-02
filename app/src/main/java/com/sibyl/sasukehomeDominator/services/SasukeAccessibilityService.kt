@@ -103,7 +103,7 @@ class SasukeAccessibilityService : AccessibilityService() {
 //                }
                 handler.postDelayed(
                     { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
-                    /*500 + */scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
+                    500 + scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
                 )
             }
             StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN) }
