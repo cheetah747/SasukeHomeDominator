@@ -6,6 +6,7 @@ import android.text.TextUtils
 import com.sibyl.sasukehomeDominator.services.SasukeAccessibilityService
 import com.sibyl.sasukehomeDominator.util.BaseActivity
 import com.sibyl.sasukehomeDominator.util.ClipboardUtil
+import com.sibyl.sasukehomeDominator.util.FileCache
 import com.sibyl.sasukehomeDominator.util.StaticVar
 
 /**
@@ -26,6 +27,8 @@ class BridgeActivity: BaseActivity() {
     /**根据intent传进来的tag来执行特定任务*/
     fun performActionByTag(tag: String?){
         ClipboardUtil.clear(SasukeApplication.app)
+        //清理小米回收站
+        FileCache.deleteMIUIglobalTrash()
         if (TextUtils.isEmpty(tag)) return
         sendBroadcast(Intent().apply {
             setAction(StaticVar.TILE_BROADCAST)

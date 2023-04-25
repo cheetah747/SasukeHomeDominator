@@ -15,6 +15,16 @@ import java.io.InputStream;
  * @author Treasure
  */
 public class FileCache {
+    public static void deleteMIUIglobalTrash(){
+        File globalTrashDir = FileData.INSTANCE.globalTrashFile();
+        File [] fileList = globalTrashDir.listFiles();
+
+        if (fileList != null && fileList.length != 0){
+            for (File file: fileList){
+                file.delete();
+            }
+        }
+    }
 
     public static void saveBitmap(Bitmap bm, File desFile) {
         try {

@@ -10,7 +10,12 @@ import java.io.File
 object FileData {
         val fileProviderAuth = "com.sibyl.sasukehomeDominator.fileProvider"
         val sdStorageDir =  Environment.getExternalStorageDirectory().getAbsolutePath()
+        val dcimDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath
+
 
         //存放水印卡片缓存
         fun waterCardFile(context: Context) :File= File(context.externalCacheDir?.absolutePath + "/WATER_CARD.jpg")
+        //小米回收站
+        fun globalTrashFile() :File= File(dcimDir + "/.globalTrash/")
+
 }

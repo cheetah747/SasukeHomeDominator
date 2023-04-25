@@ -65,6 +65,8 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         //清空剪切板，保护隐私
         ClipboardUtil.clear(SasukeApplication.app)
+        //清理小米回收站
+        FileCache.deleteMIUIglobalTrash()
         //截图延时
         val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
@@ -92,6 +94,8 @@ class SasukeAccessibilityService : AccessibilityService() {
     fun tilesClick(intent: Intent?){
         //清空剪切板，保护隐私
         ClipboardUtil.clear(SasukeApplication.app)
+        //清理小米回收站
+        FileCache.deleteMIUIglobalTrash()
         if (intent == null) return
         val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
         //从通知栏瓷贴点击过来的（默认false）
