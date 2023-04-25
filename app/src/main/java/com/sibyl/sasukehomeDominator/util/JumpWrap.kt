@@ -12,11 +12,11 @@ class JumpWrapper(val context: Context) {
     var pkgName = ""
     var activityName = ""
 
-    fun jump(){
-        jump(false)
-    }
+//    fun jump(){
+//        jump(false)
+//    }
 
-    fun jump(isFromShortcut: Boolean){
+    fun jump(/*isFromShortcut: Boolean*/){
 //        if (!isFromShortcut){//从shortcut进来的话，就不联动了
 //            //是否与亮你妈联动
 //            PreferHelper.getInstance().getBoolean(StaticVar.KEY_IS_WITH_FUCK_BRIGHTNESS,false).takeIf { it == true }?.run {

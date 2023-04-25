@@ -108,8 +108,8 @@ class SasukeAccessibilityService : AccessibilityService() {
             }
             StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN) }
             StaticVar.STRONG_POWER_LONGPRESS -> { performGlobalAction(GLOBAL_ACTION_POWER_DIALOG) }
-//            StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump()  }
-            StaticVar.STRONG_SHARINGAN_SHORTCUT -> { jumpWrapper.jump(true)}
+            StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump()  }
+//            StaticVar.STRONG_SHARINGAN_SHORTCUT -> { jumpWrapper.jump(true)}
             StaticVar.STRONG_NOTIFI -> performGlobalAction(GLOBAL_ACTION_NOTIFICATIONS)
             StaticVar.STRONG_FUCK_BRIGHTNESS -> { startActivity(Intent(this, FuckMaxBrightnessAct::class.java).apply { setFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })}
         }

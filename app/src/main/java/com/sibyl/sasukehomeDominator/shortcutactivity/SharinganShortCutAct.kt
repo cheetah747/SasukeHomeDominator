@@ -18,7 +18,7 @@ class SharinganShortCutAct: BaseActivity() {
 //        })
         sendBroadcast(Intent().apply {
             setAction(StaticVar.TILE_BROADCAST)
-            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SHARINGAN_SHORTCUT)
+            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SHARINGAN)
         })
         finish()
     }

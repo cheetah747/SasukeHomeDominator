@@ -21,7 +21,12 @@ class AnyTileService : TileService() {
         super.onClick()
         //收起通知栏
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        jumpWrapper.jump()
+//        jumpWrapper.jump()
+
+        sendBroadcast(Intent().apply {
+            setAction(StaticVar.TILE_BROADCAST)
+            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE, StaticVar.STRONG_SHARINGAN)
+        })
     }
 
 

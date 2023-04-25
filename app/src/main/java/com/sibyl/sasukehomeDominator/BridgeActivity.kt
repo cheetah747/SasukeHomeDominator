@@ -36,7 +36,7 @@ class BridgeActivity: BaseActivity() {
     private fun tag2StrongType(tag: String?): String? = when(tag){
         StaticVar.LOCK_SCREEN -> StaticVar.STRONG_LOCKSCREEN
         StaticVar.POWER_LONGPRESS -> StaticVar.STRONG_POWER_LONGPRESS
-        StaticVar.SHARINGAN -> StaticVar.STRONG_SHARINGAN_SHORTCUT
+        StaticVar.SHARINGAN -> StaticVar.STRONG_SHARINGAN
         StaticVar.NOTIFI -> StaticVar.STRONG_NOTIFI
         StaticVar.FUCKBRIGHTNESS -> StaticVar.STRONG_FUCK_BRIGHTNESS
         else -> null
