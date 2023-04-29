@@ -65,20 +65,24 @@ class SasukeAccessibilityService : AccessibilityService() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         //清空剪切板，保护隐私
         ClipboardUtil.clear(SasukeApplication.app)
-        //清理小米回收站
-        FileCache.deleteMIUIglobalTrash()
         //截图延时
         val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         //常规长按HOME键过来的
         when (selected) {
-            StaticVar.LOCK_SCREEN -> performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
+            StaticVar.LOCK_SCREEN -> {
+                performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
+                //锁屏时清理小米回收站
+                FileCache.deleteMIUIglobalTrash()
+            }
             StaticVar.SCREEN_SHOT -> {
 //                if (android.os.Build.VERSION.RELEASE.toDouble() >= 10) {//专门为安卓10开启循环检测
 //                    NewPhotoGetter(this, { imagePath: String -> screenShotCallback(imagePath) }).checkAndDeal()
 //                }
                 handler.postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
-                    /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/if (scrShotDelay == 1000L) 1500 else (700 + scrShotDelay)//安卓10的语音助手比较快，不需要1500秒
+                    /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/
+//                    if (scrShotDelay == 1000L) 1500 else (700 + scrShotDelay)//安卓10的语音助手比较快，不需要1500秒
+                    100 + scrShotDelay
                 )
             }
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
@@ -94,8 +98,6 @@ class SasukeAccessibilityService : AccessibilityService() {
     fun tilesClick(intent: Intent?){
         //清空剪切板，保护隐私
         ClipboardUtil.clear(SasukeApplication.app)
-        //清理小米回收站
-        FileCache.deleteMIUIglobalTrash()
         if (intent == null) return
         val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
         //从通知栏瓷贴点击过来的（默认false）
@@ -107,10 +109,14 @@ class SasukeAccessibilityService : AccessibilityService() {
 //                }
                 handler.postDelayed(
                     { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
-                    500 + scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
+                    100 + scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
                 )
             }
-            StaticVar.STRONG_LOCKSCREEN -> {performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN) }
+            StaticVar.STRONG_LOCKSCREEN -> {
+                performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN)
+                //锁屏时清理小米回收站
+                FileCache.deleteMIUIglobalTrash()
+            }
             StaticVar.STRONG_POWER_LONGPRESS -> { performGlobalAction(GLOBAL_ACTION_POWER_DIALOG) }
             StaticVar.STRONG_SHARINGAN ->{ jumpWrapper.jump()  }
 //            StaticVar.STRONG_SHARINGAN_SHORTCUT -> { jumpWrapper.jump(true)}

@@ -28,7 +28,7 @@ class BridgeActivity: BaseActivity() {
     fun performActionByTag(tag: String?){
         ClipboardUtil.clear(SasukeApplication.app)
         //清理小米回收站
-        FileCache.deleteMIUIglobalTrash()
+//        FileCache.deleteMIUIglobalTrash()
         if (TextUtils.isEmpty(tag)) return
         sendBroadcast(Intent().apply {
             setAction(StaticVar.TILE_BROADCAST)
