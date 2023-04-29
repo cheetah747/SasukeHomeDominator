@@ -46,6 +46,9 @@ class StaticVar {
         /**截图延时时长*/
         const val KEY_TIME_TO_SCRSHOT = "KEY_TIME_TO_SCRSHOT"
 
+        /**截图延时时长Float*/
+        const val KEY_TIME_TO_SCRSHOT_FLOAT = "KEY_TIME_TO_SCRSHOT_Float"
+
         /**用于Preference的键值*/
         const val KEY_SELECTED_ITEM = "KEY_SELECTED_ITEM"
 

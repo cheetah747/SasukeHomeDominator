@@ -10,8 +10,8 @@ android {
         applicationId "com.sibyl.sasukehomeDominator"
         minSdkVersion 28
         targetSdkVersion 28
-        versionCode 44
-        versionName "2.8.0"
+        versionCode 45
+        versionName "3.0.0"
         setProperty("archivesBaseName", "$applicationId-$versionName")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +32,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation "com.xw.repo:bubbleseekbar:3.20-lite"
+
 
     implementation 'com.google.code.gson:gson:2.8.6'
 

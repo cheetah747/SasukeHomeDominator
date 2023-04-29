@@ -266,44 +266,86 @@
                 <TextView
                         android:text="@string/timeout"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginBottom="35dp"
                         android:textSize="18sp"
                         android:textColor="@color/red"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                <RelativeLayout
-                        android:orientation="horizontal"
-                        android:paddingLeft="45dp"
-                        android:paddingRight="30dp"
+
+<!--                <com.xw.repo.BubbleSeekBar-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        app:bsb_bubble_color="@color/zi"-->
+<!--                        android:layout_marginStart="15dp"-->
+<!--                        android:layout_marginEnd="15dp"-->
+<!--                        app:bsb_bubble_text_color="@color/colorPrimaryDark"-->
+<!--                        app:bsb_max="5"-->
+<!--                        app:bsb_min="0"-->
+<!--                        app:bsb_progress="0"-->
+<!--                        app:bsb_auto_adjust_section_mark="false"-->
+<!--                        app:bsb_second_track_color="@color/zi"-->
+<!--                        app:bsb_section_count="50"-->
+<!--                        app:bsb_section_text_position="bottom_sides"-->
+<!--                        app:bsb_show_progress_in_float="true"-->
+<!--                        app:bsb_show_section_mark="true"-->
+<!--                        app:bsb_show_section_text="true"-->
+<!--                        app:bsb_show_thumb_text="true"-->
+<!--                        app:bsb_track_color="@color/color_red_light" />-->
+                <com.xw.repo.BubbleSeekBar
+                        android:id="@+id/delaySeekBar"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        app:bsb_min="0"
+                        app:bsb_max="3"
+                        app:bsb_progress="0.2"
+                        app:bsb_section_count="3"
+                        app:bsb_is_float_type="true"
+                        app:bsb_bubble_text_color="?android:attr/colorBackground"
+                        app:bsb_second_track_color="@color/zi"
+                        app:bsb_track_color="@color/lighter_gray"
+                        app:bsb_section_text_position="below_section_mark"
+                        app:bsb_section_text_color="@color/lighter_gray"
+                        app:bsb_touch_to_seek="true"
+                        app:bsb_section_text_size="18sp"
+                        app:bsb_show_thumb_text="true"
+                        tools:ignore="RtlHardcoded" />
 
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/seconds0"
-                            android:layout_alignParentLeft="true"
-                            android:text="0秒"
-                            android:buttonTint="@color/zi"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+<!--                <RelativeLayout-->
+<!--                        android:visibility="gone"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:paddingLeft="45dp"-->
+<!--                        android:paddingRight="30dp"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
 
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/seconds1"
-                            android:buttonTint="@color/zi"
-                            android:layout_centerHorizontal="true"
-                            android:text="1秒"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+<!--                    <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                            android:id="@+id/seconds0"-->
+<!--                            android:layout_alignParentLeft="true"-->
+<!--                            android:text="0秒"-->
+<!--                            android:buttonTint="@color/zi"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content" />-->
 
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/seconds3"
-                            android:layout_alignParentRight="true"
-                            android:buttonTint="@color/zi"
-                            android:text="3秒"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                </RelativeLayout>
+<!--                    <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                            android:id="@+id/seconds1"-->
+<!--                            android:buttonTint="@color/zi"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:text="1秒"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content" />-->
+
+<!--                    <androidx.appcompat.widget.AppCompatCheckBox-->
+<!--                            android:id="@+id/seconds3"-->
+<!--                            android:layout_alignParentRight="true"-->
+<!--                            android:buttonTint="@color/zi"-->
+<!--                            android:text="3秒"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content" />-->
+<!--                </RelativeLayout>-->
 
 
                 <!--                <Button-->

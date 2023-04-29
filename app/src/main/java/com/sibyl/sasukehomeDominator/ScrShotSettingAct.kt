@@ -1,34 +1,27 @@
 package com.sibyl.sasukehomeDominator
 
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Resources
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.sibyl.sasukehomeDominator.util.*
 import com.sibyl.sasukehomeDominator.util.PhotoPickDominator.CROP_REQUEST
 import com.sibyl.sasukehomeDominator.util.PhotoPickDominator.PHOTO_REQUEST_GALLERY
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.CENTER
-import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.KEY_SCREEN_SHOT_DIR
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.LEFT
 import com.sibyl.sasukehomeDominator.util.StaticVar.Companion.RIGHT
 import com.sibyl.screenshotlistener.WaterMarker
+import com.xw.repo.BubbleSeekBar
+import com.xw.repo.BubbleSeekBar.OnProgressChangedListenerAdapter
 import kotlinx.android.synthetic.main.screen_shot_setting_act.*
 import org.jetbrains.anko.find
 import java.io.File
-import java.nio.file.Files
 
 
 /**
@@ -59,6 +52,8 @@ class ScrShotSettingAct : BaseActivity() {
 
     //图片选择器
     val imgPicker by lazy { PhotoPickDominator(this) }
+    //截屏延时
+    var scrshotDelay = 0.0f
 
     fun initTransitionName() {
         find<View>(R.id.toolbarBackView).transitionName = "cardView"
@@ -96,11 +91,23 @@ class ScrShotSettingAct : BaseActivity() {
         }
 
         //截屏延时 时长选取
-        arrayOf(seconds0, seconds1, seconds3).forEach {
-            it.setOnCheckedChangeListener { compoundButton, isChecked ->
-                if (isChecked) {
-                    refreshSecondsChecks(it)
-                }
+//        arrayOf(seconds0, seconds1, seconds3).forEach {
+//            it.setOnCheckedChangeListener { compoundButton, isChecked ->
+//                if (isChecked) {
+//                    refreshSecondsChecks(it)
+//                }
+//            }
+//        }
+
+        //截屏延时滑杆 监听
+        delaySeekBar.onProgressChangedListener = object: OnProgressChangedListenerAdapter(){
+            override fun getProgressOnActionUp(
+                bubbleSeekBar: BubbleSeekBar?,
+                progress: Int,
+                progressFloat: Float
+            ) {
+//                super.getProgressOnActionUp(bubbleSeekBar, progress, progressFloat)
+                scrshotDelay = progressFloat
             }
         }
         //监听文字变化
@@ -137,14 +144,15 @@ class ScrShotSettingAct : BaseActivity() {
                 //保存水印文字颜色
                 setBoolean(StaticVar.KEY_WATER_TEXT_IS_BLACK,waterTextColorCheck.isChecked)
                 //保存截屏延迟
-                setIntCommit(
-                    StaticVar.KEY_TIME_TO_SCRSHOT, when (true) {
-                        seconds0.isChecked -> SECONDS_0
-                        seconds1.isChecked -> SECONDS_1
-                        seconds3.isChecked -> SECONDS_3
-                        else -> SECONDS_0
-                    }
-                )
+                setFloat(StaticVar.KEY_TIME_TO_SCRSHOT_FLOAT, scrshotDelay * 1000)
+//                setIntCommit(
+//                    StaticVar.KEY_TIME_TO_SCRSHOT, when (true) {
+//                        seconds0.isChecked -> SECONDS_0
+//                        seconds1.isChecked -> SECONDS_1
+//                        seconds3.isChecked -> SECONDS_3
+//                        else -> SECONDS_0
+//                    }
+//                )
                 //保存万能瓷贴
 //                setStringCommit(StaticVar.KEY_ANY_TILE, anyTile.text.toString())
             }
@@ -231,14 +239,16 @@ class ScrShotSettingAct : BaseActivity() {
         //水印卡片显隐
         waterCardContainer.visibility = if(waterCardCheck.isChecked) View.VISIBLE else View.GONE
         //初始化秒数选择
-        refreshSecondsChecks(
-            when (PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0)) {
-                SECONDS_0 -> seconds0
-                SECONDS_1 -> seconds1
-                SECONDS_3 -> seconds3
-                else -> seconds0
-            }
-        )
+        scrshotDelay = PreferHelper.getInstance().getFloat(StaticVar.KEY_TIME_TO_SCRSHOT_FLOAT, 0.0f) / 1000
+        delaySeekBar.setProgress(scrshotDelay)
+//        refreshSecondsChecks(
+//            when (PreferHelper.getInstance().getFloat(StaticVar.KEY_TIME_TO_SCRSHOT, 0f)) {
+//                SECONDS_0 -> seconds0
+//                SECONDS_1 -> seconds1
+//                SECONDS_3 -> seconds3
+//                else -> seconds0
+//            }
+//        )
         //根据填写内容来判断如何显示@字符的颜色
         refreshAtTextVisibility()
         //水印卡片（高度设为宽的8分之一）
@@ -323,11 +333,11 @@ class ScrShotSettingAct : BaseActivity() {
     }
 
     /**刷新秒数选择的单选框状态*/
-    fun refreshSecondsChecks(checkBox: AppCompatCheckBox) {
-        arrayOf(seconds0, seconds1, seconds3).forEach {
-            it.isChecked = it == checkBox
-        }
-    }
+//    fun refreshSecondsChecks(checkBox: AppCompatCheckBox) {
+//        arrayOf(seconds0, seconds1, seconds3).forEach {
+//            it.isChecked = it == checkBox
+//        }
+//    }
 
     fun initToolbar() {
         val toolbar = findViewById(R.id.toolbar) as Toolbar

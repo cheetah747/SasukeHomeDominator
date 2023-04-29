@@ -66,7 +66,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         //清空剪切板，保护隐私
         ClipboardUtil.clear(SasukeApplication.app)
         //截图延时
-        val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
+        val scrShotDelay = PreferHelper.getInstance().getFloat(StaticVar.KEY_TIME_TO_SCRSHOT_FLOAT, 0f).toLong()
         var selected = PreferHelper.getInstance().getString(StaticVar.KEY_SELECTED_ITEM)
         //常规长按HOME键过来的
         when (selected) {
@@ -82,7 +82,7 @@ class SasukeAccessibilityService : AccessibilityService() {
                 handler.postDelayed( { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
                     /*(if(android.os.Build.VERSION.RELEASE.toDouble() >= 10) 700 else 1500)*/
 //                    if (scrShotDelay == 1000L) 1500 else (700 + scrShotDelay)//安卓10的语音助手比较快，不需要1500秒
-                    100 + scrShotDelay
+                    scrShotDelay
                 )
             }
             StaticVar.POWER_LONGPRESS -> performGlobalAction(GLOBAL_ACTION_POWER_DIALOG)
@@ -99,7 +99,7 @@ class SasukeAccessibilityService : AccessibilityService() {
         //清空剪切板，保护隐私
         ClipboardUtil.clear(SasukeApplication.app)
         if (intent == null) return
-        val scrShotDelay = PreferHelper.getInstance().getInt(StaticVar.KEY_TIME_TO_SCRSHOT, 0).toLong()
+        val scrShotDelay = PreferHelper.getInstance().getFloat(StaticVar.KEY_TIME_TO_SCRSHOT_FLOAT, 0f).toLong()
         //从通知栏瓷贴点击过来的（默认false）
         when (intent.getStringExtra(StaticVar.KEY_ACCESSIBILITY_TYPE)) {
             //是从瓷贴截屏按钮点击过来的，就强行执行，忽略掉selected主界面的选择
@@ -109,7 +109,7 @@ class SasukeAccessibilityService : AccessibilityService() {
 //                }
                 handler.postDelayed(
                     { performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT) },
-                    100 + scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
+                    scrShotDelay/*(if (scrShotDelay != 0L) scrShotDelay else 0)*/
                 )
             }
             StaticVar.STRONG_LOCKSCREEN -> {
