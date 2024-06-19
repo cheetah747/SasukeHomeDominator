@@ -22,7 +22,8 @@
         <!--uiMode适配黑暗模式，可以在不需要重启应用的情况下改变主题-->
 
         <activity
-                android:name="com.sibyl.sasukehomeDominator.MainActivity">
+                android:name="com.sibyl.sasukehomeDominator.MainActivity"
+                android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>
