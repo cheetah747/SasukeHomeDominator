@@ -18,10 +18,10 @@ class LockScreenTileService: TileService() {
 //        startService(Intent(this, SasukeAccessibilityService::class.java).apply {
 //            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_LOCKSCREEN)
 //        })
-        sendBroadcast(Intent().apply {
+        sendOrderedBroadcast(Intent().apply {
             setAction(StaticVar.TILE_BROADCAST)
             putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_LOCKSCREEN)
-        })
+        },null)
     }
 
 

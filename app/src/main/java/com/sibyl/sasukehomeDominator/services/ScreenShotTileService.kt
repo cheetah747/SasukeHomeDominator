@@ -20,10 +20,10 @@ class ScreenShotTileService: TileService() {
 //        startForegroundService(Intent(this, SasukeAccessibilityService::class.java).apply {
 //            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SCRSHOT)
 //        })
-        sendBroadcast(Intent().apply {
+        sendOrderedBroadcast(Intent().apply {
             setAction(StaticVar.TILE_BROADCAST)
-            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE,StaticVar.STRONG_SCRSHOT)
-        })
+            putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE, StaticVar.STRONG_SCRSHOT)
+        },null)
     }
 
 

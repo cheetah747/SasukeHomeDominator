@@ -42,7 +42,7 @@ class BridgeActivity: BaseActivity() {
         StaticVar.SHARINGAN -> StaticVar.STRONG_SHARINGAN
         StaticVar.NOTIFI -> StaticVar.STRONG_NOTIFI
         StaticVar.FUCKBRIGHTNESS -> StaticVar.STRONG_FUCK_BRIGHTNESS
-        else -> null
+        else -> tag
     }
 
     /**长按HOME键时的跳转服务*/

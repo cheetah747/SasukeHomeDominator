@@ -23,10 +23,10 @@ class AnyTileService : TileService() {
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
 //        jumpWrapper.jump()
 
-        sendBroadcast(Intent().apply {
+        sendOrderedBroadcast(Intent().apply {
             setAction(StaticVar.TILE_BROADCAST)
             putExtra(StaticVar.KEY_ACCESSIBILITY_TYPE, StaticVar.STRONG_SHARINGAN)
-        })
+        },null)
     }
 
 
